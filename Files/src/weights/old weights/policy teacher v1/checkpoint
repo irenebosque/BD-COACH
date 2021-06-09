@@ -1,0 +1,2 @@
+model_checkpoint_path: "trained_policy_weights_v2"
+all_model_checkpoint_paths: "trained_policy_weights_v2"
