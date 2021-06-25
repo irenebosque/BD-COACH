@@ -22,7 +22,6 @@ def postProcess(test_name):
     time_min_list = []
 
     for i in range(0, repetition_counter):
-        print('oliii')
 
         d_frame = pd.read_csv(path + test_name.format(str(
                                 i).zfill(2)))
@@ -30,7 +29,7 @@ def postProcess(test_name):
         frame_to_list = d_frame.values.tolist()
 
         del frame_to_list[0][0]
-        del frame_to_list[1][0]
+        del frame_to_list[11][0]
         del frame_to_list[2][0]
         del frame_to_list[4][0]
         e = frame_to_list[6][-1]
@@ -39,15 +38,17 @@ def postProcess(test_name):
             human_model = 'yes'
         else:
             human_model = 'no'
+        tau = frame_to_list[9][1]
+        print('tau: ', tau)
 
 
 
 
         timesteps_list.append(frame_to_list[0])
-        return_list.append(frame_to_list[1])
+        return_list.append(frame_to_list[11])
         feedback_list.append(frame_to_list[2])
         time_min_list.append(frame_to_list[4])
-        print( timesteps_list)
+
 
 
 
@@ -79,7 +80,7 @@ def postProcess(test_name):
 
     max_timestep = []
     for item in timesteps_list_crop_t:
-        print('item: ', item)
+
         max_timestep.append(max(item))
 
 
@@ -121,4 +122,4 @@ def postProcess(test_name):
 
 
 
-    return t_list_ok, mean_list, feedback_list, time_min_list, min_index_location, e, buffer_size, human_model
+    return t_list_ok, mean_list, feedback_list, time_min_list, min_index_location, e, buffer_size, human_model, tau

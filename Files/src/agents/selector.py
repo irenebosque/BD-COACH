@@ -8,6 +8,7 @@ Functions that selects the agent
 def agent_selector(agent_type, config_agent):
     if agent_type == 'DCOACH':
         return DCOACH(dim_a=config_agent.getint('dim_a'),
+                      dim_o=config_agent.getint('dim_o'),
                       action_upper_limits=config_agent['action_upper_limits'],
                       action_lower_limits=config_agent['action_lower_limits'],
                       buffer_min_size=config_agent.getint('buffer_min_size'),

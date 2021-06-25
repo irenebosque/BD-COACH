@@ -5,10 +5,10 @@ import tensorflow as tf
 import os
 import random
 import math
-import rospy
 
-from main_init import neural_network, transition_model_type, agent, agent_type, exp_num,count_down, human_feedback_joystick, \
-                        max_num_of_episodes, env, render, max_time_steps_episode, save_results, eval_save_path, \
+
+from main_init import neural_network, transition_model, transition_model_type, agent, agent_type, exp_num,count_down, \
+                        max_num_of_episodes, env, render, max_time_steps_episode, human_feedback_keyboard, save_results, eval_save_path, \
     render_delay, save_policy, save_transition_model, tau, alpha, theta
 save_results = True
 
@@ -16,22 +16,14 @@ save_results = True
 Main loop of the algorithm described in the paper 'Interactive Learning of Temporal Features for Control' 
 """
 
-"""
-rospy.init_node('spacemouse_subscriber')  # Initiate a Node called 'topic_subscriber'
-print('rospy.init_node')
-rate = rospy.Rate(10)
-rate.sleep()
-"""
+
 
 
 # Count-down before training if requested
-'''
 if count_down:
     for i in range(10):
         print(' ' + str(10 - i) + '...')
         time.sleep(1)
-'''
-
 
 
 
@@ -77,8 +69,7 @@ print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 agent.createModels(neural_network)
 
-#policy_teacher_weights = np.load('./weights/weights-teacher-policy.npy', allow_pickle=True)
-#agent.policy_model.set_weights(policy_teacher_weights)
+
 
 
 # Start training loop
@@ -104,12 +95,12 @@ for i_episode in range(max_num_of_episodes):
 
     # Iterate over the episode
     for t in range(int(max_time_steps_episode)):
-        print('t: ', t)
 
 
 
 
-
+        if (t % 10 == 0):
+            print("t this episode: ", t, " and t this repetition: ", t_total)
 
         h = None
 
@@ -119,25 +110,17 @@ for i_episode in range(max_num_of_episodes):
             time.sleep(render_delay)  # Add delay to rendering if necessary
 
         # Transform observation so you can pass them to the neural network model
-        observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
-        observation = [observation]
+        print('observation before: ', observation)
+        observation = np.reshape(observation, [1, 2])
+        print('observation after: ', observation)
         observation = tf.convert_to_tensor(observation, dtype=tf.float32)
 
-
-
-
         # Get feedback signal from real Human
+        h = human_feedback_keyboard.get_h()
 
-        #h = human_feedback_spacemouse.get_h()
+        evaluation = human_feedback_keyboard.evaluation
 
-        h = human_feedback_joystick.get_h()
 
-        #evaluation = human_feedback_keyboard.evaluation
-
-        if (t % 10 == 0):
-            print("t this episode: ", t, " and t this repetition: ", t_total)
-
-        print("h pal feed: ", h)
 
         # Feed h to agent
         agent.feed_h(h)
@@ -149,21 +132,12 @@ for i_episode in range(max_num_of_episodes):
 
 
 
-        print('action fed to the env: ', action)
         # Act
         observation, reward, environment_done, info = env.step(action)
-        if info['success'] == 0:
-            environment_done = False
-        else:
-            environment_done = True
-
-
-
 
 
         # Compute done
-        #done = human_feedback_spacemouse.ask_for_done() or environment_done
-        done = environment_done
+        done = human_feedback_keyboard.ask_for_done() or environment_done
 
 
 
@@ -181,9 +155,6 @@ for i_episode in range(max_num_of_episodes):
                 agent.TRAIN_Human_Model_included(neural_network, action, t_total, done, i_episode)
             else:
                 agent.TRAIN_Human_Model_NOT_included(neural_network, action, t_total, done, i_episode)
-       
-
-
 
 
 
@@ -206,10 +177,6 @@ for i_episode in range(max_num_of_episodes):
             print('Episode Reward:', '%.3f' % r)
             print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
             print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
-
-            agent.policy_model.get_weights()
-            policy_teacher_weights_np_array = np.array(agent.policy_model.get_weights())
-            np.save('./weights/weights-teacher-policy.npy', policy_teacher_weights_np_array)
 
 
 

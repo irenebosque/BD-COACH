@@ -2,6 +2,9 @@ import numpy as np
 from tools.functions import str_2_array
 from buffer import Buffer
 import tensorflow as tf # irene
+from metaworld.policies.action import Action
+from metaworld.policies.policy import Policy, assert_fully_parsed, move
+from tabulate import tabulate
 
 """
 D-COACH implementation
@@ -9,7 +12,7 @@ D-COACH implementation
 
 
 class DCOACH:
-    def __init__(self, dim_a, action_upper_limits, action_lower_limits, e, buffer_min_size, buffer_max_size,
+    def __init__(self, dim_a, dim_o, action_upper_limits, action_lower_limits, e, buffer_min_size, buffer_max_size,
                  buffer_sampling_rate, buffer_sampling_size, train_end_episode, policy_model_learning_rate, human_model_learning_rate, human_model_included):
         # Initialize variables
         self.h = None
@@ -17,7 +20,8 @@ class DCOACH:
         self.policy_action_label = None
         #self.e = np.array(str_2_array(e, type_n='float'))
         self.dim_a = dim_a
-        self.action_upper_limits = str_2_array(action_upper_limits, type_n='float')
+        self.dim_o = dim_o
+        self.action_upper_limits = [1,1,1,1]
         self.action_lower_limits = str_2_array(action_lower_limits, type_n='float')
         self.count = 0
         self.buffer_sampling_rate = buffer_sampling_rate
@@ -25,49 +29,39 @@ class DCOACH:
         self.train_end_episode = train_end_episode
         self.policy_model_learning_rate = policy_model_learning_rate
         self.human_model_learning_rate = human_model_learning_rate
-        #self.buffer_max_size = buffer_max_size
+        self.buffer_max_size = buffer_max_size
         self.buffer_min_size = buffer_min_size
         self.human_model_included = human_model_included
-        self.dim_a_plus = 4
-
-
-
-    def conditionTest(self, e, buffer_size):
-        self.e = e
-        self.buffer_max_size = buffer_size
-
-        # Initialize DCOACH buffer
+        self.e =  float(e)
         self.buffer = Buffer(min_size=self.buffer_min_size, max_size=self.buffer_max_size)
+
+
+
+
+
 
     def createModels(self, neural_network):
             print('CREATE MODELS')
             self.policy_model = neural_network.policy_model()
-
             if self.human_model_included:
                 self.Human_model = neural_network.Human_model()
 
 
     def _generate_policy_label(self, action):
-        print('generate policy label')
-        print('h: ', self.h)
         if np.any(self.h):
 
-            #[i * self.e for i in self.h]
-            error = np.array([i * self.e for i in self.h]).reshape(1, 4)
+            error = [self.h[0]*self.e, self.h[1]*self.e, self.h[2]*self.e]
 
+            error = np.array(error).reshape(1, self.dim_a)
             self.policy_action_label = []
 
             for i in range(self.dim_a):
-                #self.policy_action_label.append(np.clip(action[i] / self.action_upper_limits[i] + error[0, i], -1, 1))
-                self.policy_action_label.append(np.clip(action[i] + error[0, i], -1, 1))
+                self.policy_action_label.append(np.clip(action[i] / self.action_upper_limits[i] + error[0, i], -1, 1))
 
             self.policy_action_label = np.array(self.policy_action_label).reshape(1, self.dim_a)
-            print('policy label type: ', type(self.policy_action_label))
-            print('policy label: ', self.policy_action_label)
-            #self.policy_action_label = self.policy_action_label.append(1)
-            #print('policy label_out: ', self.policy_action_label)
         else:
-            self.policy_action_label = np.reshape(action, [1, self.dim_a_plus])
+
+            self.policy_action_label = np.reshape(action, [1, self.dim_a])
 
 
     def _generate_batch_policy_label(self, action_batch, h_predicted_batch):
@@ -95,12 +89,20 @@ class DCOACH:
     def _single_update(self, neural_network, state_representation, policy_label):
 
         # TRAIN policy model
-
         optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
 
         with tf.GradientTape() as tape_policy:
 
             policy_output = self.policy_model([state_representation])
+            '''
+            print("\n")
+            
+
+            data = [["action^*", policy_label[0][0], policy_label[0][1], policy_label[0][2], policy_label[0][3]],
+                    ["action_agent", policy_output[0][0], policy_output[0][1], policy_output[0][2], policy_output[0][3]]]
+
+            print(tabulate(data, headers=["what", "dx", "dy", "dz", "gripper"]))
+            '''
 
             policy_loss = 0.5 * tf.reduce_mean(tf.square(policy_output - policy_label))
             grads = tape_policy.gradient(policy_loss, self.policy_model.trainable_variables)
@@ -115,11 +117,8 @@ class DCOACH:
 
 
     def _batch_update(self, neural_network, batch, i_episode, t):
-        state_representation_batch = [np.array(pair[0]) for pair in batch]  # state(t) sequence
-
-
         observations_batch = [np.array(pair[0]) for pair in batch]  # state(t) sequence
-        observations_batch_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, 9]),
+        observations_batch_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, self.dim_o]),
                                                                   dtype=tf.float32)
         action_label_batch = [np.array(pair[1]) for pair in batch]
 
@@ -130,6 +129,8 @@ class DCOACH:
     def Human_single_update(self, observation, action, h_human):
 
 
+
+
         # TRAIN Human model
         optimizer_Human_model = tf.keras.optimizers.Adam(learning_rate=self.human_model_learning_rate)
 
@@ -137,6 +138,7 @@ class DCOACH:
 
 
             h_predicted = self.Human_model([observation, action])
+
 
 
             policy_loss = 0.5 * tf.reduce_mean(tf.square(h_predicted - h_human))
@@ -157,63 +159,50 @@ class DCOACH:
 
 
         # Reshape and transform to tensor so they can be pass to the model:
-        observation_reshaped_tensor = tf.convert_to_tensor(np.reshape(state_batch, [8, 9]), dtype=tf.float32)
-        action_reshaped_tensor      = tf.convert_to_tensor(np.reshape(action_batch, [8, 3]), dtype=tf.float32)
+        observation_reshaped_tensor = tf.convert_to_tensor(np.reshape(state_batch, [8, self.dim_o]), dtype=tf.float32)
+        action_reshaped_tensor      = tf.convert_to_tensor(np.reshape(action_batch, [8, self.dim_a]), dtype=tf.float32)
         h_human_reshaped_tensor     = tf.convert_to_tensor(np.reshape(h_human_batch, [8, 1]), dtype=tf.float32)
 
 
         self.Human_single_update(observation_reshaped_tensor, action_reshaped_tensor, h_human_reshaped_tensor)
 
+
+
+
     def feed_h(self, h):
-        if np.any(h):
-            self.h = [h[0], h[1], h[2], 1]  # The axis of the spacemouse are inverted
-        else:
-            self.h = None
-
-
+        self.h = h
 
         if np.any(self.h) and self.human_model_included:
-
             self.h_to_buffer = tf.convert_to_tensor(np.reshape(self.h[0], [1, 1]), dtype=tf.float32)
 
 
 
 
 
-
-
-    def action(self, neural_network, state_representation, i_episode, t):
-        self.count += 1
-
+    def action(self, state_representation):
         self.state_representation = state_representation
-
         action = self.policy_model([self.state_representation])
+
+
         if self.human_model_included:
             self.action_to_buffer = action
-
         action = action.numpy()
-        action = np.append(action, [1]) # fixed value for the gripper
-        action = np.reshape(action, (1, 4))
+
 
         out_action = []
 
         for i in range(self.dim_a):
-            #action[0, i] = np.clip(action[0, i], -1, 1) * self.action_upper_limits[i]
-
-            out_action.append(action[0, i]*0.6)
-
-        out_action.append(1)
+            action[0, i] = np.clip(action[0, i], -1, 1) * self.action_upper_limits[i]
+            out_action.append(action[0, i])
 
         return np.array(out_action)
 
     def TRAIN_Human_Model_NOT_included(self, neural_network, action, t, done, i_episode):
-
         self._generate_policy_label(action)
         # print('train agent')
         # Policy training
         if np.any(self.h):  # if any element is not 0
-            print('TRAIN_Human_Model_NOT_included!')
-
+            print('train!')
             self._single_update(neural_network, self.state_representation, self.policy_action_label)
             ###print('agent single update')
             ###print("feedback:", self.h)
@@ -225,35 +214,19 @@ class DCOACH:
             # if transition_model.last_step(self.policy_action_label) is not None:
             # self.buffer.add(transition_model.last_step(self.policy_action_label))
 
-
             # Train sampling from buffer
             if self.buffer.initialized():
                 ###print('Train sampling from buffer')
 
                 batch = self.buffer.sample(
                     batch_size=self.buffer_sampling_size)  # TODO: probably this config thing should not be here
-
                 self._batch_update(neural_network, batch, i_episode, t)
 
         # Train policy every k time steps from buffer
         if self.buffer.initialized() and t % self.buffer_sampling_rate == 0 or (self.train_end_episode and done):
-            ###print('Train policy every k time steps from buffer')
+            print('Train policy every k time steps from buffer')
             batch = self.buffer.sample(batch_size=self.buffer_sampling_size)
             self._batch_update(neural_network, batch, i_episode, t)
-
-
-
-
-
-
-        '''
-        # Train policy every k time steps from buffer
-        if self.buffer.initialized() and t % self.buffer_sampling_rate == 0 or (self.train_end_episode and done):
-            ###print('Train policy every k time steps from buffer')
-            batch = self.buffer.sample(batch_size=self.buffer_sampling_size)
-            self._batch_update(neural_network, batch, i_episode, t)
-        '''
-
 
     # If feedback is received: Do main loop
     def TRAIN_Human_Model_included(self, neural_network, action, t, done, i_episode):
@@ -262,7 +235,7 @@ class DCOACH:
             #print(self.h)
             # 8. Append last step to buffer
             #print('TRAIN')
-            print('TRAIN_Human_Model_included!')
+            print('train!')
             self.buffer.add([self.state_representation, self.action_to_buffer, self.h_to_buffer])
 
             # 1. Generate a_target
@@ -274,7 +247,6 @@ class DCOACH:
 
             # 3. Update Human model with a minibatch sampled from buffer D
             if self.buffer.initialized():
-                print('buffer HUman initialized!')
                 #print('Train sampling from buffer')
                 batch = self.buffer.sample(batch_size=self.buffer_sampling_size)  # TODO: probably this config thing should not be here
                 #self._batch_update(neural_network, batch, i_episode, t)
@@ -284,7 +256,7 @@ class DCOACH:
 
                 batch = self.buffer.sample(batch_size=self.buffer_sampling_size)
                 observations_batch = [np.array(pair[0]) for pair in batch]  # state(t) sequence
-                observations_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, 9]), dtype=tf.float32)
+                observations_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, self.dim_o]), dtype=tf.float32)
 
 
                 optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
@@ -321,7 +293,7 @@ class DCOACH:
 
             batch = self.buffer.sample(batch_size=self.buffer_sampling_size)
             observations_batch = [np.array(pair[0]) for pair in batch]  # state(t) sequence
-            observations_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, 9]),
+            observations_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, self.dim_o]),
                                                                 dtype=tf.float32)
             # update Policy model
             optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
@@ -332,19 +304,17 @@ class DCOACH:
 
                 # 5. Get bath of h predictions from Human model
                 h_predicted_batch = self.Human_model([observations_reshaped_tensor, actions_batch])
+
                 '''
                 h_predicted_discretized = []
                 for i in range(len(h_predicted_batch)):
                     if h_predicted_batch[i] < 0:
                         h_predicted_discretized.append(-1)
                     else:
-                        h_predicted_discretized.append(1)                
+                        h_predicted_discretized.append(1)               
                 '''
 
                 # 6. Get batch of a_target from batch of predicted h (error = h * e --> a_target = a + error)
-                #a_target_batch = self._generate_batch_policy_label(actions_batch, h_predicted_discretized)
-                print('actions_batch: ', actions_batch)
-                print('h_predicted_batch: ', h_predicted_batch)
                 a_target_batch = self._generate_batch_policy_label(actions_batch, h_predicted_batch)
 
                 # 7. Update policy indirectly from Human model
