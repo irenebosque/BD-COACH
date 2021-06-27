@@ -72,7 +72,7 @@ testmeta2 = 'DCOACH_Human_model_included-False_e-1_buffer-10000_Evaluation-False
 testmeta3 = 'DCOACH_Human_model_included-True_e-1_buffer-10000_Evaluation-False_tau-0.00016_lr-0.01_task-reach-v2-goal-observable_repetition-{}.csv'
 
 testmeta4 = 'DCOACH_Human_model_included-False_e-1_buffer-10000_Evaluation-False_tau-0.00016_lr-0.01_task-reach-v2-goal-observable_repetition-{}.csv'
-testprueba = 'DCOACH_HM-False_e-1.0_buffer-10000_Eval-False_tau-0.00016_lr-0.007_task-button-press-v2-goal-observable_repetition-{}.csv'
+testprueba = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-button_rep-{}.csv'
 #tests = [test1_hm, test2_hm, test3_hm, test4_hm, test1, test2, test3, test4]
 #tests = [test_hm_e_0_001_tau_0_0002, test_hm_e_0_001_tau_0_0003, test_hm_e_0_001_tau_0_00045, test_hm_e_0_001_tau_0_0007, test_hm_e_0_01_tau_0_0002, test_hm_e_0_01_tau_0_0003, test_hm_e_0_01_tau_0_00045, test_hm_e_0_01_tau_0_0007, test_hm_e_0_1_tau_0_0002, test_hm_e_0_1_tau_0_0003, test_hm_e_0_1_tau_0_00045, test_hm_e_0_1_tau_0_0007, test_hm_e_1_tau_0_0002, test_hm_e_1_tau_0_0003, test_hm_e_1_tau_0_00045, test_hm_e_1_tau_0_0007]
 #tests = [test_hm_e_0_001_tau_0_0002, test_hm_e_0_001_tau_0_0003, test_hm_e_0_001_tau_0_00045, test_hm_e_0_001_tau_0_0007, test_hm_e_0_01_tau_0_0002, test_hm_e_0_01_tau_0_0003, test_hm_e_0_01_tau_0_00045, test_hm_e_0_01_tau_0_0007]
