@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import time
+import datetime
 import tensorflow as tf
 import os
 import random
@@ -51,7 +52,7 @@ for i_repetition in range(number_of_repetitions):
 
 
     # Initialize variables
-    total_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes = [0.8], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0]
+    total_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes = [alpha], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0]
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, success_counter, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0, 0
     human_done, random_agent, evaluation_started = False, False, False
     repetition_list = []
@@ -173,6 +174,7 @@ for i_repetition in range(number_of_repetitions):
                 randomNumber = random.random()
 
                 P_h = alpha * math.exp(-1*tau * t_total)
+                print("P_h: ", P_h)
                 if randomNumber < P_h:
 
                     h = [0.0, 0.0, 0.0, 0.0]
@@ -199,8 +201,8 @@ for i_repetition in range(number_of_repetitions):
 
                 print(tabulate(data, headers=["what", "dx", "dy", "dz", "gripper"]))
 
-            if (t % 10 == 0):
-                print("Task: ", task_short, ", Repetition: ", i_repetition, ", episode: ", i_episode, ", t this rep: ", t_total, ", success: ", (success_counter / episode_counter*100), "%")
+            if (t % 10 == 0 and i_episode>0):
+                print("Task: ", task_short, ", Repetition: ", i_repetition, ", episode: ", i_episode, ", t this rep: ", t_total, ", success: ", (success_counter / episode_counter*100), "%", ", Total time: ", str(datetime.timedelta(seconds=total_secs)))
 
 
             # Feed h to agent
@@ -271,6 +273,7 @@ for i_repetition in range(number_of_repetitions):
                 print('Episode Reward:', '%.3f' % r)
                 print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
                 print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
+                print('Percentage of given feedback2:', '%.3f' % (h_counter*100 / t))
                 total_reward.append(r)
                 total_feedback.append(h_counter/(t + 1e-6))
                 total_success.append(success_counter)
@@ -334,15 +337,16 @@ for i_repetition in range(number_of_repetitions):
                                        '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) + '_task-' + task_short + '_rep-' + str(results_counter).zfill(2) + \
                                        '.csv', index=True)
 
-                    '''
+                    
                     if not evaluation:
                         repetition_list.append(agent.policy_model.get_weights())
                         repetition_list_np_array = np.array(repetition_list)
 
-                        path_weights = './weights/weights-learning-policy-' + 'HM-' + str(agent.human_model_included) +\
-                            '-e-' + str(e) + \
-                            '-buffer-size-' + str(buffer_size_max) + \
+                        path_weights = './weights/weights-DCOACH_' + 'HM-' + str(agent.human_model_included) +\
+                            '_e-' + str(e) + \
+                            '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
+                            '_lr-' + str(lr) + \
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy'
 
@@ -350,21 +354,23 @@ for i_repetition in range(number_of_repetitions):
                             while os.path.isfile(path_weights):
                                 weigths_counter += 1
                                 path_weights = './weights/weights-learning-policy-' + 'HM-' + str(agent.human_model_included) +\
-                            '-e-' + str(e) + \
-                            '-buffer-size-' + str(buffer_size_max) + \
+                            '_e-' + str(e) + \
+                            '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
+                            '_lr-' + str(lr) + \
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy'
 
                         np.save(
                             './weights/weights-learning-policy-' + 'HM-' + str(agent.human_model_included) +\
-                            '-e-' + str(e) + \
-                            '-buffer-size-' + str(buffer_size_max) + \
+                            '_e-' + str(e) + \
+                            '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
+                            '_lr-' + str(lr) + \
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
                     
-                    '''
+                    
 
 
 

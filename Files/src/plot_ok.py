@@ -72,7 +72,8 @@ testmeta2 = 'DCOACH_Human_model_included-False_e-1_buffer-10000_Evaluation-False
 testmeta3 = 'DCOACH_Human_model_included-True_e-1_buffer-10000_Evaluation-False_tau-0.00016_lr-0.01_task-reach-v2-goal-observable_repetition-{}.csv'
 
 testmeta4 = 'DCOACH_Human_model_included-False_e-1_buffer-10000_Evaluation-False_tau-0.00016_lr-0.01_task-reach-v2-goal-observable_repetition-{}.csv'
-testprueba = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-button_rep-{}.csv'
+testprueba = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-reach_rep-05.csv'
+testprueba2 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-reach_rep-{}.csv'
 #tests = [test1_hm, test2_hm, test3_hm, test4_hm, test1, test2, test3, test4]
 #tests = [test_hm_e_0_001_tau_0_0002, test_hm_e_0_001_tau_0_0003, test_hm_e_0_001_tau_0_00045, test_hm_e_0_001_tau_0_0007, test_hm_e_0_01_tau_0_0002, test_hm_e_0_01_tau_0_0003, test_hm_e_0_01_tau_0_00045, test_hm_e_0_01_tau_0_0007, test_hm_e_0_1_tau_0_0002, test_hm_e_0_1_tau_0_0003, test_hm_e_0_1_tau_0_00045, test_hm_e_0_1_tau_0_0007, test_hm_e_1_tau_0_0002, test_hm_e_1_tau_0_0003, test_hm_e_1_tau_0_00045, test_hm_e_1_tau_0_0007]
 #tests = [test_hm_e_0_001_tau_0_0002, test_hm_e_0_001_tau_0_0003, test_hm_e_0_001_tau_0_00045, test_hm_e_0_001_tau_0_0007, test_hm_e_0_01_tau_0_0002, test_hm_e_0_01_tau_0_0003, test_hm_e_0_01_tau_0_00045, test_hm_e_0_01_tau_0_0007]
@@ -157,11 +158,11 @@ for test in tests:
 
     plt.xlabel("Time steps")
     #plt.ylim(0, 0.02)
-    ax1.set_ylabel('Return')
-    #ax2.set_ylabel('% of feedback given by the teacher')
-    ax1.set_title('MountainCar-v0 (low dimension) Learning Curve')
+    ax1.set_ylabel('Success rate %')
+    ax2.set_ylabel('% of feedback given by the oracle')
+    ax1.set_title('"Reach" task - metaworld ')
 
-    #ax2.plot(timesteps_processed_list, feedback_mean, '--',color='gray', linewidth=1)
+    ax2.plot(timesteps_processed_list, feedback_mean, '--',color='gray', linewidth=1)
 
 
     ax3.plot(t_min_mean, feedback_mean, color='white', linewidth=0.1)
