@@ -40,12 +40,59 @@ weigths_counter = 0
 
 
 
-
-
 time.sleep(2)
 
 
 repetition_is_over = False
+
+if evaluation:
+
+    repF00 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-00.npy',
+        allow_pickle=True)
+    repF01 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-01.npy',
+        allow_pickle=True)
+    repF02 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-02.npy',
+        allow_pickle=True)
+    repF03 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-03.npy',
+        allow_pickle=True)
+    repF04 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-04.npy',
+        allow_pickle=True)
+    repF05 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-05.npy',
+        allow_pickle=True)
+
+
+
+
+
+    repT00 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-00.npy',
+        allow_pickle=True)
+    repT01 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-01.npy',
+        allow_pickle=True)
+    repT02 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-02.npy',
+        allow_pickle=True)
+    repT03 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-03.npy',
+        allow_pickle=True)
+    repT04 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-04.npy',
+        allow_pickle=True)
+    repT05 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-05.npy',
+        allow_pickle=True)
+
+    #tests = [repF00, repF01, repF02]
+    #tests = [repT00, repT01, repT02]
+    tests = [repF02]
+
 
 for i_repetition in range(number_of_repetitions):
 
@@ -101,17 +148,12 @@ for i_repetition in range(number_of_repetitions):
 
 
         observation = env.reset()
-        print("\n")
-        data = [["obs_hand", observation[:3][0], observation[:3][1], observation[:3][2]],
-                ["obs_target", observation[-3:][0], observation[-3:][1], observation[-3:][2]]]
 
 
-        print(tabulate(data, headers=["what", "dx", "dy", "dz"]))
-        print("\n")
 
         past_action, past_observation, episode_trajectory, r, h_counter= None, None, [], 0, 0 # reset variables for new episode
 
-        print('range(int(max_time_steps_episode)): ', range(int(max_time_steps_episode)))
+
         # Iterate over the episode
         for t in range(int(max_time_steps_episode + 1)):
 
@@ -145,6 +187,23 @@ for i_repetition in range(number_of_repetitions):
                 observation = np.hstack((observation[:3], observation[4:7]))
             elif task == "reach-v2-goal-observable":
                 observation = np.hstack((observation[:3], observation[-3:]))
+            elif task == "plate-slide-v2-goal-observable":
+                observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+
+            print('observation', observation)
+
+            if (t % 10 == 0 ):
+                print("\n")
+                data = [["obs_hand", observation[:3][0], observation[:3][1], observation[:3][2]],
+                        ["obs_target", observation[-3:][0], observation[-3:][1], observation[-3:][2]]]
+
+                print(tabulate(data, headers=["what", "dx", "dy", "dz"]))
+                print("\n")
+
+
+
+
+
 
 
 
@@ -158,14 +217,18 @@ for i_repetition in range(number_of_repetitions):
             #h = human_feedback.get_h()
             #evaluation = human_feedback.evaluation
 
+
+            # Get action from the agent
+            action = agent.action(observation)
+
+
             if evaluation == False:
                 # Get action from Oracle
                 action_teacher = policy_oracle.get_action(observation_original)
                 action_teacher = np.clip(action_teacher, -1, 1)
                 action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2]]
 
-                # Get action from the agent
-                action = agent.action(observation)
+
 
                 difference = action_teacher - action
                 difference = np.array(difference)
@@ -173,8 +236,9 @@ for i_repetition in range(number_of_repetitions):
 
                 randomNumber = random.random()
 
-                P_h = alpha * math.exp(-1*tau * t_total)
-                print("P_h: ", P_h)
+                #P_h = alpha * math.exp(-1*tau * t_total)
+                P_h = 0.6
+
                 if randomNumber < P_h:
 
                     h = [0.0, 0.0, 0.0, 0.0]
@@ -188,7 +252,7 @@ for i_repetition in range(number_of_repetitions):
                         h[2] = np.sign(difference[2])
 
 
-
+            '''
             if (t % 10 == 0 and np.any(h)):
                 print("\n")
                 print("t this episode: ", t, " and t this repetition: ", t_total)
@@ -200,6 +264,8 @@ for i_repetition in range(number_of_repetitions):
                         ["h", h[0], h[1], h[2]]]
 
                 print(tabulate(data, headers=["what", "dx", "dy", "dz", "gripper"]))
+            '''
+
 
             if (t % 10 == 0 and i_episode>0):
                 print("Task: ", task_short, ", Repetition: ", i_repetition, ", episode: ", i_episode, ", t this rep: ", t_total, ", success: ", (success_counter / episode_counter*100), "%", ", Total time: ", str(datetime.timedelta(seconds=total_secs)))
@@ -262,6 +328,7 @@ for i_repetition in range(number_of_repetitions):
 
             # End of episode
             if done:
+                print("\n")
                 print('%%% END OF EPISODE %%%')
                 #if evaluation:
 
@@ -273,7 +340,7 @@ for i_repetition in range(number_of_repetitions):
                 print('Episode Reward:', '%.3f' % r)
                 print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
                 print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
-                print('Percentage of given feedback2:', '%.3f' % (h_counter*100 / t))
+
                 total_reward.append(r)
                 total_feedback.append(h_counter/(t + 1e-6))
                 total_success.append(success_counter)
@@ -317,8 +384,7 @@ for i_repetition in range(number_of_repetitions):
                                    '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) + '_task-' + task_short +'_rep-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
-                    print('check this path: ', path_results)
-                    print('results_counter: ', results_counter)
+
 
                     if overwriteFiles == False:
                         while os.path.isfile(path_results):
@@ -328,8 +394,7 @@ for i_repetition in range(number_of_repetitions):
                                        '_B-' + str(buffer_size_max) + \
                                        '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) + '_task-' + task_short +'_rep-' + str(results_counter).zfill(2) + \
                                        '.csv'
-                            print('check this path in while: ', path_results)
-                            print('results counter in while: ', results_counter)
+
 
                     df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
@@ -342,6 +407,8 @@ for i_repetition in range(number_of_repetitions):
                         repetition_list.append(agent.policy_model.get_weights())
                         repetition_list_np_array = np.array(repetition_list)
 
+
+
                         path_weights = './weights/weights-DCOACH_' + 'HM-' + str(agent.human_model_included) +\
                             '_e-' + str(e) + \
                             '_B-' + str(buffer_size_max) + \
@@ -350,10 +417,14 @@ for i_repetition in range(number_of_repetitions):
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy'
 
+
+
                         if overwriteFiles == False:
+
                             while os.path.isfile(path_weights):
+
                                 weigths_counter += 1
-                                path_weights = './weights/weights-learning-policy-' + 'HM-' + str(agent.human_model_included) +\
+                                path_weights = './weights/weights-DCOACH_' + 'HM-' + str(agent.human_model_included) +\
                             '_e-' + str(e) + \
                             '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
@@ -361,8 +432,10 @@ for i_repetition in range(number_of_repetitions):
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy'
 
+
+
                         np.save(
-                            './weights/weights-learning-policy-' + 'HM-' + str(agent.human_model_included) +\
+                            './weights/weights-DCOACH_' + 'HM-' + str(agent.human_model_included) +\
                             '_e-' + str(e) + \
                             '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \

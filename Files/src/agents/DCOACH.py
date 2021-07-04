@@ -202,7 +202,7 @@ class DCOACH:
         # print('train agent')
         # Policy training
         if np.any(self.h):  # if any element is not 0
-            print('train!')
+
             self._single_update(neural_network, self.state_representation, self.policy_action_label)
             ###print('agent single update')
             ###print("feedback:", self.h)
@@ -224,7 +224,7 @@ class DCOACH:
 
         # Train policy every k time steps from buffer
         if self.buffer.initialized() and t % self.buffer_sampling_rate == 0 or (self.train_end_episode and done):
-            print('Train policy every k time steps from buffer')
+            #print('Train policy every k time steps from buffer')
             batch = self.buffer.sample(batch_size=self.buffer_sampling_size)
             self._batch_update(neural_network, batch, i_episode, t)
 
@@ -235,7 +235,7 @@ class DCOACH:
             #print(self.h)
             # 8. Append last step to buffer
             #print('TRAIN')
-            print('train!')
+
             self.buffer.add([self.state_representation, self.action_to_buffer, self.h_to_buffer])
 
             # 1. Generate a_target

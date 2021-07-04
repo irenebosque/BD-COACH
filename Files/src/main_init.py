@@ -91,6 +91,10 @@ elif task == "button-press-v2-goal-observable":
 elif task == "reach-v2-goal-observable":
     policy_oracle = SawyerReachV2Policy()
     task_short = "reach"
+elif task == "plate-slide-v2-goal-observable":
+    policy_oracle = SawyerReachV2Policy()
+    task_short = "hockey"
+
 
 
 
