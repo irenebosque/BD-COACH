@@ -128,8 +128,9 @@ class NeuralNetwork:
         '''
 
         state_representation_input = tf.keras.layers.Input(shape=(self.dim_o), batch_size=None, name='state_representation_input')
-        fc_5 = tf.keras.layers.Dense(128, activation="relu", name='fc_5')(state_representation_input)
-        fc_51 = tf.keras.layers.Dense(128, activation="relu", name='fc_51')(fc_5)
+        fc_5 = tf.keras.layers.Dense(256, activation="tanh", name='fc_5')(state_representation_input)
+        fc_51 = tf.keras.layers.Dense(256, activation="tanh", name='fc_51')(fc_5)
+
         fc_7 = tf.keras.layers.Dense(self.dim_a, activation="tanh", name='fc_7')(fc_51)
 
 
@@ -147,7 +148,7 @@ class NeuralNetwork:
         action_input = tf.keras.layers.Input(shape=(self.dim_a), batch_size=None, name='action_input')
 
         # Action branch
-        fc_8 = tf.keras.layers.Dense(64, activation="tanh", name='fc_8')(action_input)
+        fc_8 = tf.keras.layers.Dense(64, activation="relu", name='fc_8')(action_input)
 
         # State branch
         fc_5 = tf.keras.layers.Dense(128, activation="relu", name='fc_5')(state_input)
@@ -159,6 +160,7 @@ class NeuralNetwork:
         # Fully connected layers
         x = tf.keras.layers.Dense(32, activation="relu")(concat_3)
         x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(x)
+
         self.h_prediction = x
 
         # Model creation

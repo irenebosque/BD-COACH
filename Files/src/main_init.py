@@ -13,6 +13,8 @@ from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE)
 from metaworld.policies.sawyer_drawer_open_v2_policy import SawyerDrawerOpenV2Policy
 from metaworld.policies.sawyer_button_press_v2_policy import SawyerButtonPressV2Policy
 from metaworld.policies.sawyer_reach_v2_policy import SawyerReachV2Policy
+from metaworld.policies.sawyer_plate_slide_v2_policy import SawyerPlateSlideV2Policy
+from metaworld.policies.sawyer_button_press_topdown_v2_policy import SawyerButtonPressTopdownV2Policy
 
 
 
@@ -23,7 +25,7 @@ Script that initializes the variables used in the file main.py
 
 # Read program args
 parser = argparse.ArgumentParser()
-parser.add_argument('--config-file', default='metaworld-plate-slide-v2-goal-observable', help='select file in config_files folder')
+parser.add_argument('--config-file', default='metaworld_low-dim_DCOACH', help='select file in config_files folder')
 parser.add_argument('--exp-num', default='-1')
 args = parser.parse_args()
 
@@ -59,6 +61,9 @@ alpha = float(config_general['alpha'])
 theta = float(config_general['theta'])
 task = config_general['task']
 
+dim_a=config_agent.getint('dim_a')
+metaworld_env = config_general.getboolean('metaworld_env')
+mountaincar_env = config_general.getboolean('mountaincar_env')
 
 
 # Create Neural Network
@@ -72,36 +77,44 @@ neural_network = NeuralNetwork(transition_model_learning_rate=float(config_trans
                                network_loc=config_general['graph_folder_path'],
                                image_size=config_transition_model.getint('image_side_length'))
 
-
-# Create Environment
-task = task.strip('"')
-plate_slide_goal_observable_cls = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[task]
-env = plate_slide_goal_observable_cls()
-
 # Create Agent
 agent = agent_selector(agent_type, config_agent)
 
-# Create Oracle policy
-if task == "drawer-open-v2-goal-observable":
-    policy_oracle = SawyerDrawerOpenV2Policy()
-    task_short = "drawer"
-elif task == "button-press-v2-goal-observable":
-    policy_oracle = SawyerButtonPressV2Policy()
-    task_short = "button"
-elif task == "reach-v2-goal-observable":
-    policy_oracle = SawyerReachV2Policy()
-    task_short = "reach"
-elif task == "plate-slide-v2-goal-observable":
-    policy_oracle = SawyerReachV2Policy()
-    task_short = "hockey"
+if mountaincar_env:
+    # Create feedback object
+    env = gym.make(environment)  # create environment
+
+    # Instantiate model for the policy teacher
+    policy_oracle = neural_network.policy_model()
+    # Load the weights
+    policy_oracle.load_weights('./weights/teacher_policy_mountaincar')
+
+    task_short = "mountaincar"
+
+elif metaworld_env:
 
 
+    # Create Environment
+    task = task.strip('"')
+    plate_slide_goal_observable_cls = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[task]
+    env = plate_slide_goal_observable_cls()
 
-
-
-
-
-
+    # Create Oracle policy
+    if task == "drawer-open-v2-goal-observable":
+        policy_oracle = SawyerDrawerOpenV2Policy()
+        task_short = "drawer"
+    elif task == "button-press-v2-goal-observable":
+        policy_oracle = SawyerButtonPressV2Policy()
+        task_short = "button"
+    elif task == "reach-v2-goal-observable":
+        policy_oracle = SawyerReachV2Policy()
+        task_short = "reach"
+    elif task == "plate-slide-v2-goal-observable":
+        policy_oracle = SawyerPlateSlideV2Policy()
+        task_short = "hockey"
+    elif task == "button-press-topdown-v2-goal-observable":
+        policy_oracle = SawyerButtonPressTopdownV2Policy()
+        task_short = "button_topdpwn"
 
 # Create saving directory if it does no exist
 if save_results:

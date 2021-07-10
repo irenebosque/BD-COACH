@@ -15,11 +15,20 @@ test_reach_HM_false_ev_True =  'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00
 test_reach_HM_true_ev_True =  'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-reach_rep-07.csv'
 
 
-test_hockey_HM_false_ev_True =  'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-hockey_rep-{}.csv'
-test_hockey_HM_true_ev_True =  'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-hockey_rep-{}.csv'
+test_hockey_HM_false_ev_True =  'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
+test_hockey_HM_true_ev_True =  'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
 
+test_mountaincar_ev_True = 'DCOACH_HM-True_e-0.001_B-1000_Eval-True_tau-0.00045_lr-0.003_task-mountaincar_rep-{}.csv'
+test_mountaincar_ev_False = 'DCOACH_HM-True_e-0.001_B-1000_Eval-False_tau-0.00045_lr-0.003_task-mountaincar_rep-{}.csv'
 
-tests = [test_hockey_HM_false_ev_True, test_hockey_HM_true_ev_True]
+test_vertical_button_HM_true_ev_False = 'DCOACH_HM-True_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
+test_vertical_button_HM_true_ev_True = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-button_topdpwn_rep-{}.csv'
+
+test_vertical_button_HM_false_ev_False = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
+test_vertical_button_HM_false_ev_True = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
+
+prueba = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
+tests = [prueba]
 #tests = [test_reach_HM_false_ev_False, test_reach_HM_true_ev_False]
 
 
@@ -27,11 +36,19 @@ fig = plt.figure()
 ax1 = fig.add_subplot(111)
 
 
-#ax2 = ax1.twinx()
+ax2 = ax1.twinx()
 ax3 = ax1.twiny()
 
 counter_test = 0
 for test in tests:
+
+    if "Eval-True" in test:
+        evaluation = "True"
+    else:
+        evaluation = "False"
+
+    if "hockey" in test:
+        task = "hockey"
 
     timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau = postProcess(test)
 
@@ -88,7 +105,7 @@ for test in tests:
 
 
 
-    ax1.plot(timesteps_processed_list, return_mean, linewidth=2.5,  label='Human model: ' + human_model + ', B: ' + str(buffer_size) + ', e: ' + str(e) + ', tau: ' + str(tau))
+    ax1.plot(timesteps_processed_list, return_mean, linewidth=2.5,  label='Human model: ' + human_model + ', B: ' + str(buffer_size) + ', e: ' + str(e) + ', tau: ' + str(tau) + ', task: ' + task + ', Evaluation: ' + evaluation)
 
     ax1.fill_between(range(min_index), return_mean - return_std, return_mean + return_std, alpha = 0.1)
 
@@ -97,10 +114,10 @@ for test in tests:
     plt.xlabel("Time steps")
     #plt.ylim(0, 0.02)
     ax1.set_ylabel('Success rate %')
-    #ax2.set_ylabel('% of feedback given by the oracle')
-    ax1.set_title('"Reach" task - metaworld ')
+    ax2.set_ylabel('% of feedback given by the oracle')
+    ax1.set_title('Task')
 
-    #ax2.plot(timesteps_processed_list, feedback_mean, '--',color='gray', linewidth=1)
+    ax2.plot(timesteps_processed_list, feedback_mean, '--',color='gray', linewidth=1)
 
 
     ax3.plot(t_min_mean, feedback_mean, color='white', linewidth=0.1)

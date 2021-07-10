@@ -11,7 +11,7 @@ import math
 from main_init import neural_network, transition_model_type, agent, agent_type, exp_num,count_down, \
                         max_num_of_episodes, render, max_time_steps_episode, save_results, eval_save_path, \
     render_delay, save_policy, save_transition_model, tau, alpha, theta, task, max_time_steps_per_repetition, \
-number_of_repetitions, evaluation, save_results, env, policy_oracle, task_short
+number_of_repetitions, evaluation, save_results, env, policy_oracle, task_short, dim_a, mountaincar_env, metaworld_env
 
 e = agent.e
 buffer_size_max = agent.buffer_max_size
@@ -46,52 +46,78 @@ time.sleep(2)
 repetition_is_over = False
 
 if evaluation:
+    print('***Evaluation TRUE: Load weights***')
 
-    repF00 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-00.npy',
+    test00 = np.load(
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.001_task-hockey_rep-00.npy',
         allow_pickle=True)
-    repF01 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-01.npy',
+    test01 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.001_task-button_topdpwn_rep-01.npy',
         allow_pickle=True)
-    repF02 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-02.npy',
+    test02 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.001_task-button_topdpwn_rep-02.npy',
         allow_pickle=True)
-    repF03 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-03.npy',
+    test03 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-03.npy',
         allow_pickle=True)
-    repF04 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-04.npy',
+    test04 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.001_task-button_topdpwn_rep-04.npy',
         allow_pickle=True)
-    repF05 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-05.npy',
+    test05 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-05.npy',
+        allow_pickle=True)
+    test06 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-06.npy',
+        allow_pickle=True)
+    test07 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-07.npy',
+        allow_pickle=True)
+    test08 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-08.npy',
+        allow_pickle=True)
+    test09 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-09.npy',
+        allow_pickle=True)
+    test10 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-10.npy',
+        allow_pickle=True)
+    test11 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-11.npy',
+        allow_pickle=True)
+    test12 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-12.npy',
+        allow_pickle=True)
+    test13 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-13.npy',
+        allow_pickle=True)
+    test14 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-14.npy',
+        allow_pickle=True)
+    test15 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-15.npy',
+        allow_pickle=True)
+    test16 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-16.npy',
+        allow_pickle=True)
+    test17 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-17.npy',
+        allow_pickle=True)
+    test18 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-18.npy',
+        allow_pickle=True)
+    test19 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-19.npy',
+        allow_pickle=True)
+    test20 = np.load(
+        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-20.npy',
         allow_pickle=True)
 
 
 
 
 
-    repT00 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-00.npy',
-        allow_pickle=True)
-    repT01 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-01.npy',
-        allow_pickle=True)
-    repT02 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-02.npy',
-        allow_pickle=True)
-    repT03 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-03.npy',
-        allow_pickle=True)
-    repT04 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-04.npy',
-        allow_pickle=True)
-    repT05 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.007_task-hockey_rep-05.npy',
-        allow_pickle=True)
 
-    #tests = [repF00, repF01, repF02]
-    #tests = [repT00, repT01, repT02]
-    tests = [repF02]
+    tests = [test00]
 
 
 for i_repetition in range(number_of_repetitions):
@@ -99,7 +125,7 @@ for i_repetition in range(number_of_repetitions):
 
 
     # Initialize variables
-    total_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes = [alpha], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0]
+    total_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes, total_task = [alpha], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0], [task_short]
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, success_counter, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0, 0
     human_done, random_agent, evaluation_started = False, False, False
     repetition_list = []
@@ -122,6 +148,8 @@ for i_repetition in range(number_of_repetitions):
     agent.createModels(neural_network)
 
     if evaluation:
+        print('***Evaluation TRUE: weights of this repetition***')
+        #weigths_this_repetition = tests[i_repetition]
         weigths_this_repetition = tests[i_repetition]
 
 
@@ -132,6 +160,8 @@ for i_repetition in range(number_of_repetitions):
         if evaluation:
             print('\nHUman model included: ', str(agent.human_model_included) , ' buffer size: ', str(buffer_size_max) , ' e: ',  str(e), ' Repetition number:', i_repetition + 1, ' of ', len(tests), ' and episode ', i_episode + 1, ' of ', len(weigths_this_repetition))
             weigths_this_episode = weigths_this_repetition[i_episode]
+            #weigths_this_episode = weigths_this_repetition[-1]
+
             agent.policy_model.set_weights(weigths_this_episode)
 
 
@@ -180,32 +210,31 @@ for i_repetition in range(number_of_repetitions):
             # to the oracle i pass the full observation:
             observation_original = observation
 
-            # What is the useful part of the observation
-            if task == "drawer-open-v2-goal-observable":
-                observation = np.hstack((observation[:3], observation[4:7]))
-            elif task == "button-press-v2-goal-observable":
-                observation = np.hstack((observation[:3], observation[4:7]))
-            elif task == "reach-v2-goal-observable":
-                observation = np.hstack((observation[:3], observation[-3:]))
-            elif task == "plate-slide-v2-goal-observable":
-                observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
 
-            print('observation', observation)
+            if metaworld_env:
 
-            if (t % 10 == 0 ):
-                print("\n")
-                data = [["obs_hand", observation[:3][0], observation[:3][1], observation[:3][2]],
-                        ["obs_target", observation[-3:][0], observation[-3:][1], observation[-3:][2]]]
-
-                print(tabulate(data, headers=["what", "dx", "dy", "dz"]))
-                print("\n")
+                # What is the useful part of the observation
+                if task == "drawer-open-v2-goal-observable":
+                    observation = np.hstack((observation[:3], observation[4:7]))
+                elif task == "button-press-v2-goal-observable":
+                    observation = np.hstack((observation[:3], observation[4:7]))
+                elif task == "button-press-topdown-v2-goal-observable":
+                    observation = np.hstack((observation[:3], observation[3],observation[4:7]))
+                elif task == "reach-v2-goal-observable":
+                    observation = np.hstack((observation[:3], observation[-3:]))
+                elif task == "plate-slide-v2-goal-observable":
+                    observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
 
 
 
-
-
-
-
+                #if (t % 10 == 0):
+                # print("\n")
+                # data = [["obs_hand", observation[:3][0], observation[:3][1], observation[:3][2]],
+                #         ["obs_obj", observation[4:7][0], observation[4:7][1], observation[4:7][2]],
+                #         ["obs_target", observation[-3:][0], observation[-3:][1], observation[-3:][2]]]
+                #
+                # print(tabulate(data, headers=["what", "dx", "dy", "dz"]))
+                # print("\n")
 
 
             observation = [observation]
@@ -222,11 +251,17 @@ for i_repetition in range(number_of_repetitions):
             action = agent.action(observation)
 
 
+
             if evaluation == False:
                 # Get action from Oracle
-                action_teacher = policy_oracle.get_action(observation_original)
-                action_teacher = np.clip(action_teacher, -1, 1)
-                action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2]]
+                if mountaincar_env:
+                    action_teacher = policy_oracle([observation])
+                elif metaworld_env:
+
+                    action_teacher = policy_oracle.get_action(observation_original)
+                    action_teacher = np.clip(action_teacher, -1, 1)
+                    action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2]]
+
 
 
 
@@ -236,65 +271,54 @@ for i_repetition in range(number_of_repetitions):
 
                 randomNumber = random.random()
 
-                #P_h = alpha * math.exp(-1*tau * t_total)
-                P_h = 0.6
+                P_h = alpha * math.exp(-1*tau * t_total)
+
+
 
                 if randomNumber < P_h:
 
-                    h = [0.0, 0.0, 0.0, 0.0]
-                    if abs(difference[0]) > theta:
-                        h[0] = np.sign(difference[0])
+                    h = [0] * dim_a
+                    for i, name in enumerate(h):
+                        if abs(difference[i]) > theta:
+                            h[i] = np.sign(difference[i])
 
-                    if abs(difference[1]) > theta:
-                        h[1] = np.sign(difference[1])
+                    # h = [0.0, 0.0, 0.0]
+                    # if abs(difference[0]) > theta:
+                    #     h[0] = np.sign(difference[0])
+                    #
+                    # if abs(difference[1]) > theta:
+                    #     h[1] = np.sign(difference[1])
+                    #
+                    # if abs(difference[2]) > theta:
+                    #     h[2] = np.sign(difference[2])
 
-                    if abs(difference[2]) > theta:
-                        h[2] = np.sign(difference[2])
-
-
-            '''
-            if (t % 10 == 0 and np.any(h)):
-                print("\n")
-                print("t this episode: ", t, " and t this repetition: ", t_total)
-
-
-                data = [["action_teacher", action_teacher[0], action_teacher[1], action_teacher[2]],
-                        ["action_agent", action[0], action[1], action[2]],
-                        ["difference", difference[0], difference[1], difference[2]],
-                        ["h", h[0], h[1], h[2]]]
-
-                print(tabulate(data, headers=["what", "dx", "dy", "dz", "gripper"]))
-            '''
-
-
-            if (t % 10 == 0 and i_episode>0):
-                print("Task: ", task_short, ", Repetition: ", i_repetition, ", episode: ", i_episode, ", t this rep: ", t_total, ", success: ", (success_counter / episode_counter*100), "%", ", Total time: ", str(datetime.timedelta(seconds=total_secs)))
 
 
             # Feed h to agent
-            agent.feed_h(h)
+            #agent.feed_h(h)
 
 
 
 
 
-            # Map action from observation
-            #state_representation = transition_model.get_state_representation(neural_network, observation,  i_episode, t)
-            #action = agent.action(observation)
+            print('i_episode: ', i_episode, "t this ep: ", t, ' total timesteps: ', t_total, ' h: ', h)
 
 
 
 
             # Act
-            action_to_env = np.append(action, 0)
-            observation, reward, environment_done, info = env.step(action_to_env)
+            #action_to_env = np.append(action, 0)
+            observation, reward, environment_done, info = env.step(action)
 
 
-            if info['success'] == 0:
-                environment_done = False
-            else:
-                success_counter += 1
-                environment_done = True
+            if metaworld_env:
+                if info['success'] == 0:
+                    environment_done = False
+
+                else:
+                    success_counter += 1
+                    environment_done = True
+                    print('DONE')
 
 
             # Compute done
@@ -313,9 +337,9 @@ for i_repetition in range(number_of_repetitions):
 
 
                 if agent.human_model_included:
-                    agent.TRAIN_Human_Model_included(neural_network, action, t_total, done, i_episode)
+                    agent.TRAIN_Human_Model_included(neural_network, action, t_total, done, i_episode, h)
                 else:
-                    agent.TRAIN_Human_Model_NOT_included(neural_network, action, t_total, done, i_episode)
+                    agent.TRAIN_Human_Model_NOT_included(neural_network, action, t_total, done, i_episode, h)
 
 
 
@@ -337,9 +361,10 @@ for i_repetition in range(number_of_repetitions):
 
 
 
-                print('Episode Reward:', '%.3f' % r)
-                print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
+                #print('Episode Reward:', '%.3f' % r)
+                #print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
                 print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
+                print('Success rate: ', success_counter / episode_counter)
 
                 total_reward.append(r)
                 total_feedback.append(h_counter/(t + 1e-6))
@@ -355,6 +380,7 @@ for i_repetition in range(number_of_repetitions):
                 show_buffer_size.append(buffer_size_max)
                 show_human_model.append(agent.human_model_included)
                 show_tau.append(tau)
+                total_task.append(task_short)
 
 
 
@@ -375,7 +401,7 @@ for i_repetition in range(number_of_repetitions):
                     ############################################################
 
                     # Export data for plot
-                    numpy_data = np.array([total_time_steps, total_reward, total_feedback, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode])
+                    numpy_data = np.array([total_time_steps, total_reward, total_feedback, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode], dtype=object)
                     df = pd.DataFrame(data=numpy_data, index=["Accumulated time steps", "Episode reward", "Episode feedback", "total seconds", "total minutes", "cummulative feedback", "e", "buffer size", "human model", "tau", "total_success", "total_success_div_episode"])
 
                     path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \

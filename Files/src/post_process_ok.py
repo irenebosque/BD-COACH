@@ -14,7 +14,7 @@ def postProcess(test_name):
     for name in glob.glob(path + test_name_rep_counter):
         repetition_counter += 1
         print('name: ', name)
-    print(repetition_counter)
+    print('repetition_counter', repetition_counter)
     print('pruebita')
     timesteps_list = []
     return_list = []
@@ -39,12 +39,15 @@ def postProcess(test_name):
         else:
             human_model = 'no'
         tau = frame_to_list[9][1]
-        print('tau: ', tau)
+        #task = frame_to_list[12][1]
+        #print('task: ', task)
+
 
 
 
 
         timesteps_list.append(frame_to_list[0])
+        print('timesteps_list0', timesteps_list)
         return_list.append(frame_to_list[11])
         feedback_list.append(frame_to_list[2])
         time_min_list.append(frame_to_list[4])
@@ -76,8 +79,7 @@ def postProcess(test_name):
         feedback_list_crop_t.append(fun_f(xnew))
         time_min_list_crop_t.append(fun_t_min(xnew))
 
-
-
+    print('timesteps_list_crop_t',timesteps_list_crop_t)
     max_timestep = []
     for item in timesteps_list_crop_t:
 

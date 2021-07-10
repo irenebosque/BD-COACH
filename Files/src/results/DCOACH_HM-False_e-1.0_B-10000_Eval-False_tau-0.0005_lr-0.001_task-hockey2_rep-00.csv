@@ -1,0 +1,14 @@
+,0,1,2
+Accumulated time steps,0,73,233
+Episode reward,0,170.3560554396857,285.51979738411706
+Episode feedback,0.8,0.7887323832572904,0.8553459065701515
+total seconds,0,6.293610095977783,21.514740467071533
+total minutes,0,0.10489350159962972,0.35857900778452556
+cummulative feedback,0,56,192
+e,1.0,1.0,1.0
+buffer size,10000,10000,10000
+human model,False,False,False
+tau,0.0005,0.0005,0.0005
+total_success,0,1,2
+total_success_div_episode,0,1.0,1.0
+task,hockey,hockey,hockey
