@@ -1,0 +1,4 @@
+Estos parametros del learning rate fueron obtenidos utilizando tanh en la policy_model y 256 neuronas.
+Al final el mejor learning rate a sido 0.005. Para futuras comparaciones, he renombrado estos ficheros como:
+
+DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_256_rep-00

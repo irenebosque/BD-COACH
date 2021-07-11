@@ -27,9 +27,21 @@ test_vertical_button_HM_true_ev_True = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_t
 test_vertical_button_HM_false_ev_False = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
 test_vertical_button_HM_false_ev_True = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
 
-prueba = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
-tests = [prueba]
-#tests = [test_reach_HM_false_ev_False, test_reach_HM_true_ev_False]
+prueba0_0002 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.0002_task-hockey_rep-{}.csv'
+prueba0_001 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
+prueba0_003 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.003_task-hockey_rep-{}.csv'
+prueba0_005 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_rep-{}.csv'
+prueba0_007 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.007_task-hockey_rep-{}.csv'
+prueba0_01 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.01_task-hockey_rep-{}.csv'
+prueba0_025 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.025_task-hockey_rep-{}.csv'
+prueba0_001_hm = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
+prueba0_003_hm = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.003_task-hockey_rep-{}.csv'
+prueba0_005_hm = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_rep-{}.csv'
+
+
+
+tests = [prueba0_001, prueba0_003, prueba0_005,  prueba0_001_hm, prueba0_003_hm, prueba0_005_hm]
+#tests = [prueba]
 
 
 fig = plt.figure()
@@ -126,7 +138,7 @@ for test in tests:
     ax3.spines['bottom'].set_position(('outward', 28))
     ax3.set_xlabel('Time (min)')
 
-    ax1.legend(loc="lower right")
+    ax1.legend(loc="upper right")
     counter_test += 1
 
 

@@ -75,7 +75,8 @@ neural_network = NeuralNetwork(transition_model_learning_rate=float(config_trans
                                dim_a_used=config_agent.getint('dim_a_used'),
                                dim_o=config_agent.getint('dim_o'),
                                network_loc=config_general['graph_folder_path'],
-                               image_size=config_transition_model.getint('image_side_length'))
+                               image_size=config_transition_model.getint('image_side_length'),
+                               act_func_agent = config_general['act_func_agent'])
 
 # Create Agent
 agent = agent_selector(agent_type, config_agent)

@@ -49,10 +49,10 @@ if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
     test00 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.001_task-hockey_rep-00.npy',
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_task-hockey_rep-02.npy',
         allow_pickle=True)
     test01 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.001_task-button_topdpwn_rep-01.npy',
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_task-hockey_rep-03.npy',
         allow_pickle=True)
     test02 = np.load(
         './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.001_task-button_topdpwn_rep-02.npy',
@@ -117,7 +117,7 @@ if evaluation:
 
 
 
-    tests = [test00]
+    tests = [test00, test01]
 
 
 for i_repetition in range(number_of_repetitions):
@@ -401,7 +401,7 @@ for i_repetition in range(number_of_repetitions):
                     ############################################################
 
                     # Export data for plot
-                    numpy_data = np.array([total_time_steps, total_reward, total_feedback, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode], dtype=object)
+                    numpy_data = np.array([total_time_steps, total_reward, total_feedback, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode])
                     df = pd.DataFrame(data=numpy_data, index=["Accumulated time steps", "Episode reward", "Episode feedback", "total seconds", "total minutes", "cummulative feedback", "e", "buffer size", "human model", "tau", "total_success", "total_success_div_episode"])
 
                     path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
