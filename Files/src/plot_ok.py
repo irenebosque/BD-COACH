@@ -27,20 +27,18 @@ test_vertical_button_HM_true_ev_True = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_t
 test_vertical_button_HM_false_ev_False = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
 test_vertical_button_HM_false_ev_True = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
 
-prueba0_0002 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.0002_task-hockey_rep-{}.csv'
-prueba0_001 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
-prueba0_003 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.003_task-hockey_rep-{}.csv'
-prueba0_005 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_rep-{}.csv'
-prueba0_007 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.007_task-hockey_rep-{}.csv'
-prueba0_01 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.01_task-hockey_rep-{}.csv'
-prueba0_025 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.025_task-hockey_rep-{}.csv'
-prueba0_001_hm = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
-prueba0_003_hm = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.003_task-hockey_rep-{}.csv'
-prueba0_005_hm = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_rep-{}.csv'
+
+prueba0_005_256 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_256_rep-{}.csv'
+prueba0_005_hm_256 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_256_rep-{}.csv'
+prueba0_005_128 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
+prueba0_005_hm_128 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
+
+prueba0_001 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-button_topdown_rep-{}.csv'
+prueba0_004 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.0011_task-button_topdown_rep-{}.csv'
 
 
 
-tests = [prueba0_001, prueba0_003, prueba0_005,  prueba0_001_hm, prueba0_003_hm, prueba0_005_hm]
+tests = [prueba0_001,  prueba0_004]
 #tests = [prueba]
 
 
@@ -116,7 +114,7 @@ for test in tests:
     buffer_size = '{:,g}'.format(buffer_size)
 
 
-
+    task = "vertical button"
     ax1.plot(timesteps_processed_list, return_mean, linewidth=2.5,  label='Human model: ' + human_model + ', B: ' + str(buffer_size) + ', e: ' + str(e) + ', tau: ' + str(tau) + ', task: ' + task + ', Evaluation: ' + evaluation)
 
     ax1.fill_between(range(min_index), return_mean - return_std, return_mean + return_std, alpha = 0.1)

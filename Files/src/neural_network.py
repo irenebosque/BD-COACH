@@ -5,7 +5,7 @@ import numpy
 
 class NeuralNetwork:
     def __init__(self, transition_model_learning_rate, lstm_hidden_state_size,
-                 load_transition_model, load_policy, dim_a, dim_a_used, dim_o,  network_loc, image_size, act_func_agent):
+                 load_transition_model, load_policy, dim_a, dim_a_used, dim_o,  network_loc, image_size, act_func_agent,n_neurons_agent):
         self.lstm_hidden_state_size = lstm_hidden_state_size
         self.image_width = image_size  # we assume that the image is a square
         self.dim_a = dim_a
@@ -15,6 +15,7 @@ class NeuralNetwork:
         self.transition_model_learning_rate = transition_model_learning_rate
         self.act_func_agent = act_func_agent
         self.act_func_agent = self.act_func_agent.strip('"')
+        self.n_neurons_agent = n_neurons_agent
 
 
 
@@ -137,17 +138,17 @@ class NeuralNetwork:
         action_input = tf.keras.layers.Input(shape=(self.dim_a), batch_size=None, name='action_input')
 
         # Action branch
-        fc_8 = tf.keras.layers.Dense(64, activation="relu", name='fc_8')(action_input)
+        fc_8 = tf.keras.layers.Dense(64, activation="tanh", name='fc_8')(action_input)
 
         # State branch
-        fc_5 = tf.keras.layers.Dense(128, activation="relu", name='fc_5')(state_input)
-        fc_6 = tf.keras.layers.Dense(64, activation="relu", name='fc_6')(fc_5)
+        fc_5 = tf.keras.layers.Dense(128, activation="tanh", name='fc_5')(state_input)
+        fc_6 = tf.keras.layers.Dense(64, activation="tanh", name='fc_6')(fc_5)
 
         # Concatenate branches
         concat_3 = tf.concat([fc_8, fc_6], axis=1, name='concat_0')
 
         # Fully connected layers
-        x = tf.keras.layers.Dense(32, activation="relu")(concat_3)
+        x = tf.keras.layers.Dense(32, activation="tanh")(concat_3)
         x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(x)
 
         self.h_prediction = x

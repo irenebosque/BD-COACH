@@ -16,6 +16,7 @@ number_of_repetitions, evaluation, save_results, env, policy_oracle, task_short,
 e = agent.e
 buffer_size_max = agent.buffer_max_size
 lr = agent.policy_model_learning_rate
+HM_lr = agent.human_model_learning_rate
 
 
 
@@ -48,68 +49,14 @@ repetition_is_over = False
 if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
-    test00 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_task-hockey_rep-02.npy',
-        allow_pickle=True)
     test01 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_task-hockey_rep-03.npy',
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-01.npy',
         allow_pickle=True)
     test02 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.00016_lr-0.001_task-button_topdpwn_rep-02.npy',
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
         allow_pickle=True)
     test03 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-03.npy',
-        allow_pickle=True)
-    test04 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.001_task-button_topdpwn_rep-04.npy',
-        allow_pickle=True)
-    test05 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-05.npy',
-        allow_pickle=True)
-    test06 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-06.npy',
-        allow_pickle=True)
-    test07 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-07.npy',
-        allow_pickle=True)
-    test08 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-08.npy',
-        allow_pickle=True)
-    test09 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-09.npy',
-        allow_pickle=True)
-    test10 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-10.npy',
-        allow_pickle=True)
-    test11 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-11.npy',
-        allow_pickle=True)
-    test12 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-12.npy',
-        allow_pickle=True)
-    test13 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-13.npy',
-        allow_pickle=True)
-    test14 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-14.npy',
-        allow_pickle=True)
-    test15 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-15.npy',
-        allow_pickle=True)
-    test16 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-16.npy',
-        allow_pickle=True)
-    test17 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-17.npy',
-        allow_pickle=True)
-    test18 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-18.npy',
-        allow_pickle=True)
-    test19 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-19.npy',
-        allow_pickle=True)
-    test20 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.001_B-1000_tau-0.00045_lr-0.003_task-mountaincar_rep-20.npy',
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-03.npy',
         allow_pickle=True)
 
 
@@ -117,7 +64,9 @@ if evaluation:
 
 
 
-    tests = [test00, test01]
+
+
+    tests = [test01, test02, test03]
 
 
 for i_repetition in range(number_of_repetitions):
@@ -217,13 +166,13 @@ for i_repetition in range(number_of_repetitions):
                 if task == "drawer-open-v2-goal-observable":
                     observation = np.hstack((observation[:3], observation[4:7]))
                 elif task == "button-press-v2-goal-observable":
-                    observation = np.hstack((observation[:3], observation[4:7]))
+                    observation = np.hstack((observation[:3], observation[3], observation[4:7]))
                 elif task == "button-press-topdown-v2-goal-observable":
                     observation = np.hstack((observation[:3], observation[3],observation[4:7]))
                 elif task == "reach-v2-goal-observable":
                     observation = np.hstack((observation[:3], observation[-3:]))
                 elif task == "plate-slide-v2-goal-observable":
-                    observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+                    observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
 
 
 
@@ -407,9 +356,8 @@ for i_repetition in range(number_of_repetitions):
                     path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) + '_task-' + task_short +'_rep-' + str(results_counter).zfill(2) + \
+                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep-' + str(results_counter).zfill(2) + \
                                        '.csv'
-
 
 
                     if overwriteFiles == False:
@@ -418,14 +366,14 @@ for i_repetition in range(number_of_repetitions):
                             path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) + '_task-' + task_short +'_rep-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
                     df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) + '_task-' + task_short + '_rep-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-' + str(results_counter).zfill(2) + \
                                        '.csv', index=True)
 
                     
@@ -440,6 +388,7 @@ for i_repetition in range(number_of_repetitions):
                             '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
                             '_lr-' + str(lr) + \
+                            '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy'
 
@@ -455,6 +404,7 @@ for i_repetition in range(number_of_repetitions):
                             '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
                             '_lr-' + str(lr) + \
+                            '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy'
 
@@ -466,6 +416,7 @@ for i_repetition in range(number_of_repetitions):
                             '_B-' + str(buffer_size_max) + \
                             '_tau-' + str(tau) + \
                             '_lr-' + str(lr) + \
+                            '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
                             '_rep-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
                     

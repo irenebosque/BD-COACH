@@ -76,7 +76,9 @@ neural_network = NeuralNetwork(transition_model_learning_rate=float(config_trans
                                dim_o=config_agent.getint('dim_o'),
                                network_loc=config_general['graph_folder_path'],
                                image_size=config_transition_model.getint('image_side_length'),
-                               act_func_agent = config_general['act_func_agent'])
+                               act_func_agent = config_general['act_func_agent'],
+                               n_neurons_agent=config_transition_model.getint('n_neurons_agent'))
+
 
 # Create Agent
 agent = agent_selector(agent_type, config_agent)
@@ -115,7 +117,7 @@ elif metaworld_env:
         task_short = "hockey"
     elif task == "button-press-topdown-v2-goal-observable":
         policy_oracle = SawyerButtonPressTopdownV2Policy()
-        task_short = "button_topdpwn"
+        task_short = "button_topdown"
 
 # Create saving directory if it does no exist
 if save_results:
