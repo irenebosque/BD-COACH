@@ -49,11 +49,14 @@ repetition_is_over = False
 if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
+    test00 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-00.npy',
+        allow_pickle=True)
     test01 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-01.npy',
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-01.npy',
         allow_pickle=True)
     test02 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
         allow_pickle=True)
     test03 = np.load(
         './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-03.npy',
@@ -66,7 +69,7 @@ if evaluation:
 
 
 
-    tests = [test01, test02, test03]
+    tests = [test03]
 
 
 for i_repetition in range(number_of_repetitions):
