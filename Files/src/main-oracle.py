@@ -50,26 +50,13 @@ if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
     test00 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-00.npy',
-        allow_pickle=True)
-    test01 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-01.npy',
-        allow_pickle=True)
-    test02 = np.load(
-        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
-        allow_pickle=True)
-    test03 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-03.npy',
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.002_task-button_topdown_rep-00.npy',
         allow_pickle=True)
 
 
 
 
-
-
-
-
-    tests = [test03]
+    tests = [test00]
 
 
 for i_repetition in range(number_of_repetitions):
@@ -173,7 +160,7 @@ for i_repetition in range(number_of_repetitions):
                 elif task == "button-press-topdown-v2-goal-observable":
                     observation = np.hstack((observation[:3], observation[3],observation[4:7]))
                 elif task == "reach-v2-goal-observable":
-                    observation = np.hstack((observation[:3], observation[-3:]))
+                    observation = np.hstack((observation[:3], observation[3], observation[-3:]))
                 elif task == "plate-slide-v2-goal-observable":
                     observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
 
@@ -212,9 +199,9 @@ for i_repetition in range(number_of_repetitions):
 
                     action_teacher = policy_oracle.get_action(observation_original)
                     action_teacher = np.clip(action_teacher, -1, 1)
-                    action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2]]
-
-
+                    action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2], action_teacher[3]]
+                    action_teacher2 = [action_teacher[0], action_teacher[1], action_teacher[2], action_teacher[3]]
+                print('action_teacher', action_teacher)
 
 
                 difference = action_teacher - action
@@ -224,6 +211,7 @@ for i_repetition in range(number_of_repetitions):
                 randomNumber = random.random()
 
                 P_h = alpha * math.exp(-1*tau * t_total)
+                #P_h = alpha
 
 
 
@@ -248,12 +236,12 @@ for i_repetition in range(number_of_repetitions):
 
             # Feed h to agent
             #agent.feed_h(h)
+            secs = time.time() - init_time
+
+            time_plot = str(datetime.timedelta(seconds=secs))
 
 
-
-
-
-            print('i_episode: ', i_episode, "t this ep: ", t, ' total timesteps: ', t_total, ' h: ', h)
+            print('Repetition: ', i_repetition, 'Episode: ', i_episode, "t this ep: ", t, ' total timesteps: ', t_total, 'time: ', time_plot, ' h: ', h)
 
 
 

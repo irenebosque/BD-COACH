@@ -33,12 +33,13 @@ prueba0_005_hm_256 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005
 prueba0_005_128 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
 prueba0_005_hm_128 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
 
-prueba0_001 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
-prueba0_004 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test_HM = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test003 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-reach_rep-00.csv'
 
 
 
-tests = [prueba0_001,  prueba0_004]
+tests = [test, test_HM]
 #tests = [prueba]
 
 
@@ -58,7 +59,11 @@ for test in tests:
         evaluation = "False"
 
     if "hockey" in test:
-        task = "hockey"
+        task = "Hockey"
+    if "button-press" in test:
+        task = "Button-press"
+    if "reach" in test:
+        task = "Reach"
 
     timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau = postProcess(test)
 
@@ -114,7 +119,7 @@ for test in tests:
     buffer_size = '{:,g}'.format(buffer_size)
 
 
-    task = "hockey"
+
     ax1.plot(timesteps_processed_list, return_mean, linewidth=2.5,  label='Human model: ' + human_model + ', B: ' + str(buffer_size) + ', e: ' + str(e) + ', tau: ' + str(tau) + ', task: ' + task + ', Evaluation: ' + evaluation)
 
     ax1.fill_between(range(min_index), return_mean - return_std, return_mean + return_std, alpha = 0.1)

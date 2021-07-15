@@ -71,13 +71,12 @@ class DCOACH:
 
     def _generate_policy_label(self, action, h):
 
-        print('MIRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-        print(h)
+
 
         error = [0] * self.dim_a
         for i, name in enumerate(h):
             error[i] = h[i]*self.e
-        print('error: ', error)
+
 
         #error = [h[0]*self.e, h[1]*self.e, h[2]*self.e]
 
