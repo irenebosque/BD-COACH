@@ -33,9 +33,9 @@ prueba0_005_hm_256 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005
 prueba0_005_128 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
 prueba0_005_hm_128 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
 
-test = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
-test_HM = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
-test003 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-reach_rep-00.csv'
+test = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-button_rep-{}.csv'
+test_HM = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-button_rep-{}.csv'
+test_HM003  = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-reach_rep-{}.csv'
 
 
 
@@ -60,8 +60,8 @@ for test in tests:
 
     if "hockey" in test:
         task = "Hockey"
-    if "button-press" in test:
-        task = "Button-press"
+    if "button" in test:
+        task = "Button"
     if "reach" in test:
         task = "Reach"
 

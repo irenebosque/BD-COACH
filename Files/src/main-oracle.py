@@ -50,7 +50,7 @@ if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
     test00 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.002_task-button_topdown_rep-00.npy',
+        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.003_task-button_rep-03.npy',
         allow_pickle=True)
 
 
@@ -201,7 +201,7 @@ for i_repetition in range(number_of_repetitions):
                     action_teacher = np.clip(action_teacher, -1, 1)
                     action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2], action_teacher[3]]
                     action_teacher2 = [action_teacher[0], action_teacher[1], action_teacher[2], action_teacher[3]]
-                print('action_teacher', action_teacher)
+
 
 
                 difference = action_teacher - action
