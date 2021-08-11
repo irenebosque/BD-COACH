@@ -50,13 +50,22 @@ if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
     test00 = np.load(
-        './weights/weights-DCOACH_HM-False_e-1.0_B-10000_tau-0.0005_lr-0.005_HMlr-0.003_task-button_rep-03.npy',
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.000101_lr-0.005_HMlr-0.002_task-reach_rep-00.npy',
+        allow_pickle=True)
+    test01 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.000101_lr-0.005_HMlr-0.002_task-reach_rep-01.npy',
+        allow_pickle=True)
+    test02 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.000101_lr-0.005_HMlr-0.002_task-reach_rep-02.npy',
+        allow_pickle=True)
+    test03 = np.load(
+        './weights/weights-DCOACH_HM-True_e-1.0_B-10000_tau-0.000101_lr-0.005_HMlr-0.002_task-reach_rep-03.npy',
         allow_pickle=True)
 
 
 
 
-    tests = [test00]
+    tests = [test03]
 
 
 for i_repetition in range(number_of_repetitions):
@@ -200,8 +209,6 @@ for i_repetition in range(number_of_repetitions):
                     action_teacher = policy_oracle.get_action(observation_original)
                     action_teacher = np.clip(action_teacher, -1, 1)
                     action_teacher = [action_teacher[0], action_teacher[1], action_teacher[2], action_teacher[3]]
-                    action_teacher2 = [action_teacher[0], action_teacher[1], action_teacher[2], action_teacher[3]]
-
 
 
                 difference = action_teacher - action

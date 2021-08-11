@@ -122,7 +122,7 @@ class NeuralNetwork:
 
         state_representation_input = tf.keras.layers.Input(shape=(self.dim_o), batch_size=None, name='state_representation_input')
         fc_5 = tf.keras.layers.Dense(256, activation=self.act_func_agent, name='fc_5')(state_representation_input)
-        fc_51 = tf.keras.layers.Dense(256, activation=self.act_func_agent, name='fc_51')(fc_5)
+        fc_51 = tf.keras.layers.Dense(128, activation=self.act_func_agent, name='fc_51')(fc_5)
         fc_7 = tf.keras.layers.Dense(self.dim_a, activation="tanh", name='fc_7')(fc_51)
         self.policy_output = fc_7
 
@@ -131,25 +131,48 @@ class NeuralNetwork:
         #model_policy.summary()
         return model_policy
 
+    # def Human_model(self):
+    #
+    #     # Inputs
+    #     state_input  = tf.keras.layers.Input(shape=(self.dim_o), batch_size=None, name='state_input')
+    #     action_input = tf.keras.layers.Input(shape=(self.dim_a), batch_size=None, name='action_input')
+    #
+    #     # Action branch
+    #     fc_8 = tf.keras.layers.Dense(256, activation="tanh", name='fc_8')(action_input)
+    #
+    #     # State branch
+    #     fc_5 = tf.keras.layers.Dense(256, activation="tanh", name='fc_5')(state_input)
+    #     fc_6 = tf.keras.layers.Dense(256, activation="tanh", name='fc_6')(fc_5)
+    #
+    #     # Concatenate branches
+    #     concat_3 = tf.concat([fc_8, fc_6], axis=1, name='concat_0')
+    #
+    #     # Fully connected layers
+    #     x = tf.keras.layers.Dense(256, activation="tanh")(concat_3)
+    #     x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(x)
+    #
+    #     self.h_prediction = x
+    #
+    #     # Model creation
+    #     model_Human = tf.keras.Model(inputs=[state_input, action_input], outputs=[self.h_prediction], name="Human model")
+    #     #model_Human.summary()
+    #     return model_Human
+
     def Human_model(self):
 
         # Inputs
         state_input  = tf.keras.layers.Input(shape=(self.dim_o), batch_size=None, name='state_input')
         action_input = tf.keras.layers.Input(shape=(self.dim_a), batch_size=None, name='action_input')
 
-        # Action branch
-        fc_8 = tf.keras.layers.Dense(64, activation="tanh", name='fc_8')(action_input)
-
-        # State branch
-        fc_5 = tf.keras.layers.Dense(128, activation="tanh", name='fc_5')(state_input)
-        fc_6 = tf.keras.layers.Dense(64, activation="tanh", name='fc_6')(fc_5)
-
         # Concatenate branches
-        concat_3 = tf.concat([fc_8, fc_6], axis=1, name='concat_0')
-
+        concat_0 = tf.concat([state_input , action_input], axis=1, name='concat_0')
         # Fully connected layers
-        x = tf.keras.layers.Dense(32, activation="tanh")(concat_3)
-        x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(x)
+
+        fc_1 = tf.keras.layers.Dense(256, activation="tanh", name='fc_1')(concat_0)
+        fc_2 = tf.keras.layers.Dense(128, activation="tanh", name='fc_2')(fc_1)
+
+
+        x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(fc_2)
 
         self.h_prediction = x
 

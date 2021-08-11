@@ -1,0 +1,13 @@
+,0,1,2
+Accumulated time steps,0.0,201.0,401.0
+Episode reward,0.0,-1082.9174525507708,-1511.9461861274735
+Episode feedback,0.8,0.0,0.0
+total seconds,0.0,3.422574520111084,7.684316635131836
+total minutes,0.0,0.057042908668518064,0.12807194391886392
+cummulative feedback,0.0,0.0,0.0
+e,1.0,1.0,1.0
+buffer size,1000.0,1000.0,1000.0
+human model,0.0,0.0,0.0
+tau,0.00045,0.00045,0.00045
+total_success,0.0,0.0,0.0
+total_success_div_episode,0.0,0.0,0.0

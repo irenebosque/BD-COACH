@@ -19,6 +19,7 @@ def agent_selector(agent_type, config_agent):
                       human_model_learning_rate=config_agent.getfloat('human_model_learning_rate'),
                       human_model_included=config_agent.getboolean('human_model_included'),
                       e = config_agent['e'],
+                      action_limit = config_agent['action_limit'],
                       buffer_max_size = config_agent.getint('buffer_max_size')
                       )
 

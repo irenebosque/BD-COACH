@@ -2,56 +2,43 @@ from post_process_ok import postProcess
 import matplotlib.pyplot as plt
 import numpy as np
 
-test_button_HM_false_ev_False = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-button_rep-{}.csv'
-test_button_HM_true_ev_False =  'DCOACH_HM-True_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-button_rep-{}.csv'
-
-test_reach_HM_false_ev_False =  'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-reach_rep-{}.csv'
-test_reach_HM_true_ev_False =  'DCOACH_HM-True_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.007_task-reach_rep-{}.csv'
-
-test_button_HM_false_ev_True =  'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-button_rep-{}.csv'
-test_button_HM_true_ev_True =  'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-button_rep-{}.csv'
-
-test_reach_HM_false_ev_True =  'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-reach_rep-07.csv'
-test_reach_HM_true_ev_True =  'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.007_task-reach_rep-07.csv'
-
-
-test_hockey_HM_false_ev_True =  'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
-test_hockey_HM_true_ev_True =  'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-hockey_rep-{}.csv'
-
-test_mountaincar_ev_True = 'DCOACH_HM-True_e-0.001_B-1000_Eval-True_tau-0.00045_lr-0.003_task-mountaincar_rep-{}.csv'
-test_mountaincar_ev_False = 'DCOACH_HM-True_e-0.001_B-1000_Eval-False_tau-0.00045_lr-0.003_task-mountaincar_rep-{}.csv'
-
-test_vertical_button_HM_true_ev_False = 'DCOACH_HM-True_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
-test_vertical_button_HM_true_ev_True = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.001_task-button_topdpwn_rep-{}.csv'
-
-test_vertical_button_HM_false_ev_False = 'DCOACH_HM-False_e-1.0_B-10000_Eval-False_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
-test_vertical_button_HM_false_ev_True = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.00016_lr-0.001_task-button_topdpwn_rep-{}.csv'
-
-
-prueba0_005_256 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_256_rep-{}.csv'
-prueba0_005_hm_256 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_256_rep-{}.csv'
-prueba0_005_128 = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
-prueba0_005_hm_128 = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_task-hockey_tanh_128_rep-{}.csv'
-
-test = 'DCOACH_HM-False_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-button_rep-{}.csv'
-test_HM = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-button_rep-{}.csv'
-test_HM003  = 'DCOACH_HM-True_e-1.0_B-10000_Eval-True_tau-0.0005_lr-0.005_HMlr-0.003_task-reach_rep-{}.csv'
 
 
 
-tests = [test, test_HM]
+test3 = 'DCOACH_HM-True_e-0.01_B-3000_Eval-True_tau-0.0003_lr-0.005_HMlr-0.005_task-hockey_rep-{}.csv'
+test4 = 'DCOACH_HM-True_e-0.01_B-3000_Eval-True_tau-0.000301_lr-0.005_HMlr-0.005_task-hockey_rep-{}.csv'
+test5 = 'DCOACH_HM-True_e-0.01_B-3000_Eval-True_tau-0.0003011_lr-0.005_HMlr-0.005_task-hockey_rep-{}.csv' # HM comesinto action after 150 h signals
+test6 = 'DCOACH_HM-True_e-0.01_B-3000_Eval-True_tau-0.0003011_lr-0.005_HMlr-0.001_task-hockey_rep-00.csv'
+test7 = 'DCOACH_HM-False_e-0.1_B-3000_Eval-True_tau-0.0003011_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test8 = 'DCOACH_HM-True_e-0.1_B-3000_Eval-True_tau-0.0003011_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test9 = 'DCOACH_HM-False_e-0.1_B-3000_Eval-True_tau-0.0003012_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test10 = 'DCOACH_HM-True_e-0.1_B-3000_Eval-True_tau-0.0003012_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test11 = 'DCOACH_HM-True_e-0.1_B-3000_Eval-False_tau-0.0003012_lr-0.005_HMlr-0.001_task-hockey_rep-12.csv'
+test11 = 'DCOACH_HM-True_e-0.1_B-3000_Eval-False_tau-0.0003012_lr-0.005_HMlr-0.001_task-hockey_rep-12.csv'
+
+test12 = 'DCOACH_HM-True_e-0.1_B-3000_Eval-False_tau-0.0003013_lr-0.005_HMlr-0.001_task-hockey_rep-00.csv'
+test12ev = 'DCOACH_HM-True_e-0.1_B-3000_Eval-True_tau-0.0003013_lr-0.005_HMlr-0.001_task-hockey_rep-00.csv'
+#tests = [test1, test2, test3, test4, test5, test6]
+#tests = [test9, test10]
+tests_Evaluation = [test12ev]
+tests_Train = [test12]
+
 #tests = [prueba]
 
 
-fig = plt.figure()
-ax1 = fig.add_subplot(111)
+#fig = plt.figure()
+#ax1 = fig.add_subplot(111)
+
+
+fig, (ax1, axt)  = plt.subplots(2)
 
 
 ax2 = ax1.twinx()
+ax4 = ax1.twinx()
 ax3 = ax1.twiny()
 
 counter_test = 0
-for test in tests:
+for test_ev in tests_Evaluation:
 
     if "Eval-True" in test:
         evaluation = "True"
@@ -65,12 +52,22 @@ for test in tests:
     if "reach" in test:
         task = "Reach"
 
-    timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau = postProcess(test)
+
+    #timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau = postProcess(test)
+    timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau, pl_ag_processed_list, pl_hm_processed_list = postProcess(test_ev)
+    timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau, pl_ag_processed_list, pl_hm_processed_list = postProcess(
+        test_tr)
+
 
     return_mean = np.average(return_processed_list, axis=0)
     return_std = np.std(return_processed_list, axis=0)
     feedback_mean = np.mean(feedback_processed_list, axis=0)
     t_min_mean = np.mean(t_min_processed_list, axis=0)
+
+    # NEW ####
+    pl_ag_mean = np.average(pl_ag_processed_list, axis=0)
+    pl_hm_mean = np.average(pl_hm_processed_list, axis=0)
+    ##########
 
 
 
@@ -133,6 +130,11 @@ for test in tests:
     ax1.set_title('Task')
 
     ax2.plot(timesteps_processed_list, feedback_mean, '--',color='gray', linewidth=1)
+
+    ax4.plot(timesteps_processed_list, pl_ag_mean, '--', color='gray', linewidth=1)
+    # NEW ####
+    ax4.plot(timesteps_processed_list, pl_ag_mean, '--', color='gray', linewidth=1)
+    ##########
 
 
     ax3.plot(t_min_mean, feedback_mean, color='white', linewidth=0.1)

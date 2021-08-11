@@ -1,6 +1,15 @@
 import gym
 from feedback import Feedback
+
+
+
+#Position Controller:
+#from kuka_env import KUKAenv
+# Cartesian Controller:
+from kukaenv import KUKAenv
+
 import os
+import numpy as np
 import argparse
 #os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # switch to CPU
 from buffer import Buffer
@@ -59,12 +68,18 @@ render_delay = float(config_general['render_delay'])
 tau = float(config_general['tau'])
 alpha = float(config_general['alpha'])
 theta = float(config_general['theta'])
+action_factor = float(config_general['action_factor'])
 task = config_general['task']
+human_teacher = config_general.getboolean('human_teacher')
+oracle_teacher = config_general.getboolean('oracle_teacher')
 
 dim_a=config_agent.getint('dim_a')
 metaworld_env = config_general.getboolean('metaworld_env')
 mountaincar_env = config_general.getboolean('mountaincar_env')
-
+cartpole_env = config_general.getboolean('cartpole_env')
+kuka_env = config_general.getboolean('kuka_env')
+pendulum_env = config_general.getboolean('pendulum_env')
+h_threshold = float(config_general['h_threshold'])
 
 # Create Neural Network
 neural_network = NeuralNetwork(transition_model_learning_rate=float(config_transition_model['learning_rate']),
@@ -83,16 +98,72 @@ neural_network = NeuralNetwork(transition_model_learning_rate=float(config_trans
 # Create Agent
 agent = agent_selector(agent_type, config_agent)
 
+
+# Joystick
+# feedback_joystick_ROS = feedbackJoystickROS()
+
+
+
+if kuka_env:
+    env = KUKAenv()
+    #env.init_varaibles()
+    task_short = "kuka-park-cardboard"
+
+
+if pendulum_env:
+
+    env = gym.make(environment)  # create environment
+    task_short = "pendulum"
+    if render:
+        env.render()
+    feedback = Feedback(env=env,
+                        key_type=config_feedback['key_type'],
+                        h_up=config_feedback['h_up'],
+                        h_down=config_feedback['h_down'],
+                        h_right=config_feedback['h_right'],
+                        h_left=config_feedback['h_left'],
+                        h_null=config_feedback['h_null'])
+    # # Instantiate model for the policy teacher
+    # policy_oracle = neural_network.policy_model()
+    # # Load the weights
+    # weights = np.load('./weights/weights_oracle_policy_pendulum.npy', allow_pickle=True)
+    # policy_oracle.set_weights(weights[-1])
+
+if cartpole_env:
+
+    env = gym.make(environment)  # create environment
+    task_short = "cartpole"
+    if render:
+        env.render()
+    feedback = Feedback(env=env,
+                        key_type=config_feedback['key_type'],
+                        h_up=config_feedback['h_up'],
+                        h_down=config_feedback['h_down'],
+                        h_right=config_feedback['h_right'],
+                        h_left=config_feedback['h_left'],
+                        h_null=config_feedback['h_null'])
+
+
+
+
+
 if mountaincar_env:
-    # Create feedback object
+
     env = gym.make(environment)  # create environment
 
-    # Instantiate model for the policy teacher
-    policy_oracle = neural_network.policy_model()
-    # Load the weights
-    policy_oracle.load_weights('./weights/teacher_policy_mountaincar')
+    # # Instantiate model for the policy teacher
+    # policy_oracle = neural_network.policy_model()
+    # # Load the weights
+    # policy_oracle.load_weights('./weights/teacher_policy_mountaincar')
 
     task_short = "mountaincar"
+    feedback = Feedback(env=env,
+                        key_type=config_feedback['key_type'],
+                        h_up=config_feedback['h_up'],
+                        h_down=config_feedback['h_down'],
+                        h_right=config_feedback['h_right'],
+                        h_left=config_feedback['h_left'],
+                        h_null=config_feedback['h_null'])
 
 elif metaworld_env:
 

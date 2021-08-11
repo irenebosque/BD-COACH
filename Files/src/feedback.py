@@ -71,7 +71,7 @@ class Feedback:
             self.h = self.h_null
 
     def get_h(self):
-        return self.h
+        return [self.h]
 
     def ask_for_done(self):
         done = self.restart
