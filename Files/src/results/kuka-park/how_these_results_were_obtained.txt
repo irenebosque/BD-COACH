@@ -1,0 +1,6 @@
+In order to obtain these results I did the following:
+1. Train the task to obtain the file: DCOACH_HM-True_e-0.3_B-10000_Eval-False_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_COMPLETE_rep-00
+2. From the last episodes of the training, pick the one that seems to show the last best performance, in this case, the episode number 63
+3. Perform the evaluations, evaluating every 5 episodes. For this task I did 5 evaluations
+4. Take the file DCOACH_HM-True_e-0.3_B-10000_Eval-False_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_COMPLETE_rep-00 and manually remove the episodes that are not every 5 episodes. The result is the file: DCOACH_HM-True_e-0.3_B-10000_Eval-False_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_rep-00
+5. Then, and in order to match the number of timesteps of the original training to the evaluations, I made 5 copies of the file DCOACH_HM-True_e-0.3_B-10000_Eval-False_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_rep-00 and I paste the results of the success of each evaluation in row 16, and I give them the names: DCOACH_HM-True_e-0.3_B-10000_Eval-True_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_rep-{}.csv

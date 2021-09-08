@@ -47,15 +47,17 @@ test01ev = 'DCOACH_HM-True_e-0.1_B-10004_Eval-True_tau-0.0001_lr-0.005_HMlr-0.00
 
 
 
-test02ev = 'DCOACH_HM-True_e-0.3_B-10000_Eval-True_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_rep-{}.csv'
+test02 =   'DCOACH_HM-True_e-0.1_B-10005_Eval-False_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
+test02ev = 'DCOACH_HM-True_e-0.1_B-10006_Eval-True_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-{}.csv'
 
-tests_Train = [test02ev]
+tests_Train = [test02]
 tests_Evaluation = [test02ev]
 
 
 
 
-fig, ax1 = plt.subplots(1)
+fig, (ax1, ax2, axt2) = plt.subplots(3)
+
 
 
 #ax2 = axt.twinx()
@@ -123,7 +125,7 @@ for test_ev in tests_Evaluation:
     #plt.ylim(0, 0.02)
     ax1.set_ylabel('Success rate %')
 
-    ax1.set_title('Task')
+    ax1.set_title('Task: KUKA park')
     ax1.legend(loc="upper right")
 
 
@@ -137,53 +139,58 @@ for test_ev in tests_Evaluation:
     # ax3.spines['bottom'].set_position(('outward', 28))
     # ax3.set_xlabel('Time (min)')
 
-# for test_tr in tests_Train:
-#
-#     if "Eval-True" in test_tr :
-#         evaluation = "True"
-#     else:
-#         evaluation = "False"
-#
-#     if "hockey" in test_tr :
-#         task = "Hockey"
-#     if "button" in test_tr :
-#         task = "Button"
-#     if "reach" in test_tr :
-#         task = "Reach"
-#
-#
-#     timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau, pl_ag_processed_list, pl_hm_processed_list = postProcess(test_tr)
-#
-#     feedback_mean = np.mean(feedback_processed_list, axis=0)
-#     t_min_mean = np.mean(t_min_processed_list, axis=0)
-#
-#     # NEW ####
-#     pl_ag_mean = np.average(pl_ag_processed_list, axis=0)
-#     pl_hm_mean = np.average(pl_hm_processed_list, axis=0)
-#     pl_ag_std = np.average(pl_ag_processed_list, axis=0)
-#     pl_hm_std = np.std(pl_hm_processed_list, axis=0)
-#
-#     feedback_std = np.average(feedback_processed_list, axis=0)
-#
-#     ##########
-#     axf.set_ylabel('% of feedback given by the oracle')
-#     axf.plot(timesteps_processed_list, feedback_mean, '--', linewidth=1)
-#     axf.fill_between(range(min_index), feedback_mean - feedback_std, feedback_mean + feedback_std, alpha=0.1)
-#
-#     axt2 = axt.twinx()
-#     # axt.plot(timesteps_processed_list, pl_ag_mean, '--',color='red', linewidth=1)
-#     # axt.fill_between(range(min_index), pl_ag_mean - pl_ag_std, pl_ag_mean + pl_ag_std, color='red',alpha=0.1)
-#
-#     # NEW ####
-#     axt2.plot(timesteps_processed_list, pl_hm_mean, '--', linewidth=1)
-#     axt2.fill_between(range(min_index), pl_hm_mean - pl_hm_std, pl_hm_mean + pl_hm_std, alpha=0.1)
-#     ##########
-#
-#
+for test_tr in tests_Train:
+
+    if "Eval-True" in test_tr :
+        evaluation = "True"
+    else:
+        evaluation = "False"
+
+    if "hockey" in test_tr :
+        task = "Hockey"
+    if "button" in test_tr :
+        task = "Button"
+    if "reach" in test_tr :
+        task = "Reach"
+
+
+    timesteps_processed_list, return_processed_list, feedback_processed_list, t_min_processed_list, min_index, e, buffer_size, human_model, tau, pl_ag_processed_list, pl_hm_processed_list = postProcess(test_tr)
+
+    feedback_mean = np.mean(feedback_processed_list, axis=0)
+
+    ax2.plot(timesteps_processed_list, feedback_mean)
+
+    t_min_mean = np.mean(t_min_processed_list, axis=0)
+
+    # NEW ####
+    pl_ag_mean = np.average(pl_ag_processed_list, axis=0)
+    pl_hm_mean = np.average(pl_hm_processed_list, axis=0)
+    pl_ag_std = np.average(pl_ag_processed_list, axis=0)
+    pl_hm_std = np.std(pl_hm_processed_list, axis=0)
+
+    feedback_std = np.average(feedback_processed_list, axis=0)
+
+    # ##########
+    # axf.set_ylabel('% of feedback given by the oracle')
+    # axf.plot(timesteps_processed_list, feedback_mean, '--', linewidth=1)
+    # axf.fill_between(range(min_index), feedback_mean - feedback_std, feedback_mean + feedback_std, alpha=0.1)
+
+    #axt2 = axt.twinx()
+    # axt.plot(timesteps_processed_list, pl_ag_mean, '--',color='red', linewidth=1)
+    # axt.fill_between(range(min_index), pl_ag_mean - pl_ag_std, pl_ag_mean + pl_ag_std, color='red',alpha=0.1)
+
+    # NEW ####
+    axt2.plot(timesteps_processed_list, pl_hm_mean, '--', linewidth=1)
+    axt2.fill_between(range(min_index), pl_hm_mean - pl_hm_std, pl_hm_mean + pl_hm_std, alpha=0.1)
+    ##########
+
+
 
 
 
 ax1.grid(linestyle='--')
+ax2.grid(linestyle='--')
+axt2.grid(linestyle='--')
 #axf.grid(linestyle='--')
 #axt.grid(linestyle='--')
 plt.show()

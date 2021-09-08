@@ -6,7 +6,7 @@ from collections import Counter
 import glob
 
 def postProcess(test_name):
-    path = './results/kuka-park/'
+    path = './results/'
     repetition_counter = 0
 
     test_name_rep_counter = test_name.replace("{}", "??")

@@ -14,7 +14,7 @@ D-COACH implementation
 
 class DCOACH:
     def __init__(self, dim_a, dim_o, action_upper_limits, action_lower_limits, e, buffer_min_size, buffer_max_size,
-                 buffer_sampling_rate, buffer_sampling_size, train_end_episode, policy_model_learning_rate, human_model_learning_rate, human_model_included, action_limit):
+                 buffer_sampling_rate, buffer_sampling_size, train_end_episode, policy_model_learning_rate, human_model_learning_rate, human_model_included, action_limit, agent_with_hm_learning_rate):
         # Initialize variables
         self.h = None
         self.state_representation = None
@@ -30,6 +30,7 @@ class DCOACH:
         self.train_end_episode = train_end_episode
         self.policy_model_learning_rate = policy_model_learning_rate
         self.human_model_learning_rate = human_model_learning_rate
+        self.agent_with_hm_learning_rate = agent_with_hm_learning_rate
         self.buffer_max_size = buffer_max_size
         self.buffer_min_size = buffer_min_size
         self.human_model_included = human_model_included
@@ -356,7 +357,7 @@ class DCOACH:
                 if cummulative_feedback > 100:
                     print("Update policy with HM 1")
                     #optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
-                    optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.human_model_learning_rate)
+                    optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.agent_with_hm_learning_rate)
 
                     with tf.GradientTape() as tape_policy:
 
@@ -377,14 +378,14 @@ class DCOACH:
                         #
 
 
-                        # for i in range(len(h_predicted_batch)):
-                        #     for j in range(len(h_predicted_batch[i])):
-                        #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
-                        #             h_predicted_batch[i][j] = -1
-                        #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
-                        #             h_predicted_batch[i][j] = 1
-                        #         else:
-                        #             h_predicted_batch[i][j] = 0
+                        for i in range(len(h_predicted_batch)):
+                            for j in range(len(h_predicted_batch[i])):
+                                if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                                    h_predicted_batch[i][j] = -1
+                                elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                                    h_predicted_batch[i][j] = 1
+                                else:
+                                    h_predicted_batch[i][j] = 0
 
 
 
@@ -411,7 +412,14 @@ class DCOACH:
 
 
 
-
+# for i in range(len(h_predicted_batch)):
+                    #     for j in range(len(h_predicted_batch[i])):
+                    #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                    #             h_predicted_batch[i][j] = -1
+                    #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                    #             h_predicted_batch[i][j] = 1
+                    #         else:
+                    #             h_predicted_batch[i][j] = 0
         # Train policy every k time steps from buffer
         if self.buffer.initialized() and t % self.buffer_sampling_rate == 0 or (self.train_end_episode and done):
             #print('Train policy every k time steps from buffer')
@@ -429,7 +437,7 @@ class DCOACH:
                 print("Update policy with HM 2")
                 # update Policy model
                 #optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
-                optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.human_model_learning_rate)
+                optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.agent_with_hm_learning_rate)
 
                 with tf.GradientTape() as tape_policy:
                     # policy_output = self.policy_model([state_representation])
@@ -443,14 +451,14 @@ class DCOACH:
                     h_predicted_batch = h_predicted_batch.tolist()
 
 
-                    # for i in range(len(h_predicted_batch)):
-                    #     for j in range(len(h_predicted_batch[i])):
-                    #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
-                    #             h_predicted_batch[i][j] = -1
-                    #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
-                    #             h_predicted_batch[i][j] = 1
-                    #         else:
-                    #             h_predicted_batch[i][j] = 0
+                    for i in range(len(h_predicted_batch)):
+                        for j in range(len(h_predicted_batch[i])):
+                            if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                                h_predicted_batch[i][j] = -1
+                            elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                                h_predicted_batch[i][j] = 1
+                            else:
+                                h_predicted_batch[i][j] = 0
 
 
 

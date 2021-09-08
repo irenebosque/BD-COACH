@@ -17,6 +17,7 @@ def agent_selector(agent_type, config_agent):
                       train_end_episode=config_agent.getboolean('train_end_episode'),
                       policy_model_learning_rate=config_agent.getfloat('policy_model_learning_rate'),
                       human_model_learning_rate=config_agent.getfloat('human_model_learning_rate'),
+                      agent_with_hm_learning_rate=config_agent.getfloat('agent_with_hm_learning_rate'),
                       human_model_included=config_agent.getboolean('human_model_included'),
                       e = config_agent['e'],
                       action_limit = config_agent['action_limit'],
