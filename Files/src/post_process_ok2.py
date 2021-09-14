@@ -18,6 +18,7 @@ def postProcess(test_name, path):
     print('pruebita')
     timesteps_list = []
     return_list = []
+    minutes_list = []
     policy_loss_agent_list = []
     policy_loss_hm_list = []
     feedback_list = []
@@ -30,10 +31,10 @@ def postProcess(test_name, path):
 
         frame_to_list = d_frame.values.tolist()
 
-        del frame_to_list[0][0]
-        del frame_to_list[14][0]
-        del frame_to_list[2][0]
-        del frame_to_list[4][0]
+        del frame_to_list[0][0] # timesteps
+        del frame_to_list[14][0] # success / return
+        del frame_to_list[5][0] # feedback
+        del frame_to_list[4][0] # minutes
         # NEW ####
         del frame_to_list[12][0]
         del frame_to_list[13][0]
@@ -54,24 +55,28 @@ def postProcess(test_name, path):
 
         timesteps_list.append(frame_to_list[0])
         return_list.append(frame_to_list[14])
-        feedback_list.append(frame_to_list[2])
+        feedback_list.append(frame_to_list[5])
+        minutes_list.append(frame_to_list[4])
+        policy_loss_agent_list.append(frame_to_list[12])
+        policy_loss_hm_list.append(frame_to_list[13])
 
-    print("return_list: ", return_list)
-    a = np.array(return_list)
-    return_list = np.mean(a, axis =0)
-    a = np.array(timesteps_list)
-    timesteps_list = np.mean(a, axis=0)
-    print("return_list: ", len(return_list))
-    print("timesteps_list: ", len(timesteps_list))
 
-    z = np.polyfit(timesteps_list, return_list, 6)
-
-    p = np.poly1d(z)
-    print("---------")
-    print("p: ", z)
-    # ,
+    # print("return_list: ", return_list)
+    # a = np.array(return_list)
+    # return_list = np.mean(a, axis =0)
+    # a = np.array(timesteps_list)
+    # timesteps_list = np.mean(a, axis=0)
+    # print("return_list: ", len(return_list))
+    # print("timesteps_list: ", len(timesteps_list))
+    #
+    # z = np.polyfit(timesteps_list, return_list, 6)
+    #
+    # p = np.poly1d(z)
+    # print("---------")
+    # print("p: ", z)
+    # # ,
 
     #return t_list_ok, mean_list, feedback_list, time_min_list, min_index_location, e, buffer_size, human_model, tau
     #return timesteps_list, p(timesteps_list), feedback_list[0], tau, e, human_model
-    return timesteps_list, return_list, feedback_list[0], tau, e, human_model
+    return timesteps_list, return_list, minutes_list, feedback_list, tau, e, human_model, policy_loss_agent_list, policy_loss_hm_list, buffer_size
 

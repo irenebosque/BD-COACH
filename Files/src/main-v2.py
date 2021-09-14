@@ -9,7 +9,7 @@ from tabulate import tabulate
 import rospy
 import matplotlib.pyplot as plt
 from load_weights import loadWeights
-
+from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE)
 import math
 from main_init import neural_network, transition_model_type, agent, agent_type, exp_num,count_down, \
                         max_num_of_episodes, render, max_time_steps_episode, save_results, eval_save_path, \
@@ -29,6 +29,7 @@ HM_lr = agent.human_model_learning_rate
 
 if kuka_env:
     rospy.init_node('agent_control')
+
 
 
 """
@@ -51,7 +52,7 @@ weigths_counter = 0
 
 
 
-time.sleep(2)
+
 
 
 repetition_is_over = False
@@ -166,9 +167,14 @@ if evaluation:
     #tests = [testmeta00, testmeta20]
 
     path = './weights/'
-    generic_name = 'weights-DCOACH_HM-False_e-0.01_B-15000_tau-1e-05_lr-0.005_HMlr-0.001_task-button_topdown_rep-'
+    generic_name = 'weights-DCOACH_HM-True_e-1.0_B-500_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep3-'
     #tests_numbers = ["15", "16", "17", "18", "19", "20", "21", "22"]
-    tests_numbers = ["15", "16", "17", "18", "19"]
+    # tests_numbers = ["00", "01", "02", "03", "04"]
+    # tests_numbers = ["05", "06", "07", "08", "09"]
+    # tests_numbers = ["10", "11", "12", "13", "14"]
+    # tests_numbers = ["15", "16", "17", "18", "19"]
+    # tests_numbers = ["20", "21", "22", "23", "24"]
+    tests_numbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"]#, "19", "20", "21", "22", "23", "24",  "25", "26", "27", "28", "29"]
     tests = loadWeights(path, generic_name, tests_numbers)
 
 if evaluation:
@@ -252,6 +258,8 @@ for i_repetition in range(number_of_repetitions):
 
         doneButton = False
 
+        plate_slide_goal_observable_cls = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE["plate-slide-v2-goal-observable"]
+        env = plate_slide_goal_observable_cls()
         observation = env.reset()
 
 
@@ -274,19 +282,19 @@ for i_repetition in range(number_of_repetitions):
                     print('shutdown')
                     break
 
-            # if kuka_env == False:
-            #     if render:
-            #         #env.render()  # Make the environment visible
-            #
-            #         # obs_array = env.render(mode='rgb_array')
-            #         # print("obs: ", obs_array.shape)
-            #         # plt.imshow(obs_array)
-            #         # #plt.figimage(image_to_show)
-            #         # plt.draw()
-            #         # plt.pause(0.00001)
-            #
-            #         env.render(mode='human')
-            #         time.sleep(render_delay)  # Add delay to rendering if necessary
+            if kuka_env == False:
+                if render:
+                    #env.render()  # Make the environment visible
+
+                    # obs_array = env.render(mode='rgb_array')
+                    # print("obs: ", obs_array.shape)
+                    # plt.imshow(obs_array)
+                    # #plt.figimage(image_to_show)
+                    # plt.draw()
+                    # plt.pause(0.00001)
+
+                    env.render(mode='human')
+                    #time.sleep(render_delay)  # Add delay to rendering if necessary
 
 
             h = None
@@ -569,7 +577,7 @@ for i_repetition in range(number_of_repetitions):
                     path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep-' + str(results_counter).zfill(2) + \
+                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep3-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
@@ -579,14 +587,14 @@ for i_repetition in range(number_of_repetitions):
                             path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep3-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
                     df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep3-' + str(results_counter).zfill(2) + \
                                        '.csv', index=True)
 
 
@@ -603,7 +611,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep-' + str(weigths_counter).zfill(2) + '.npy'
+                            '_rep3-' + str(weigths_counter).zfill(2) + '.npy'
 
 
 
@@ -619,7 +627,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep-' + str(weigths_counter).zfill(2) + '.npy'
+                            '_rep3-' + str(weigths_counter).zfill(2) + '.npy'
 
 
 
@@ -631,7 +639,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
+                            '_rep3-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
 
 
 
@@ -639,8 +647,8 @@ for i_repetition in range(number_of_repetitions):
 
 
 
-                if render:
-                    time.sleep(1)
+                # if render:
+                #     time.sleep(1)
 
                 print('Total time (s):', '%.3f' % (time.time() - init_time))
 
