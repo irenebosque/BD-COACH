@@ -1,4 +1,4 @@
-from post_process_ok2 import postProcess
+from post_process_ok3 import postProcess
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -83,14 +83,17 @@ testNOHM_ev_0_1_B_500_rand  = 'DCOACH_HM-False_e-0.1_B-500_Eval-True_tau-1e-05_l
 
 testHM_ev_1_B_500_rand  = 'DCOACH_HM-True_e-1.0_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
 
+testHM_ev_0_1_B_500_rand = 'DCOACH_HM-True_e-0.1_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testHM_tr_0_1_B_500_rand = 'DCOACH_HM-True_e-0.1_B-500_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+
 path_ev = './results/'
 path_tr = './results/'
 #tests_Evaluation = [testNOHM_ev3_0_01_100, testNOHM_ev3_0_01_500, testNOHM_ev3_0_01_1000, testNOHM_ev3_0_01_5000, testNOHM_ev3_0_01_10000, testNOHM_ev3_0_01_15000]
 #tests_Evaluation = [testHM_ev3_1_500, testHM_ev3_0_1_500, testHM_ev3_0_01_500, testNOHM_ev3_1_500, testNOHM_ev3_0_1_500, testNOHM_ev3_0_01_500]
-tests_Evaluation = [testNOHM_ev_0_01_B_500_rand, testNOHM_ev_0_1_B_500_rand, testHM_ev_1_B_500_rand, testHM_ev3_1_500]
+tests_Evaluation = [testHM_ev_0_1_B_500_rand]
 
 
-tests_Training =   [testNOHM_tr3_0_01_100]
+tests_Training =   [testHM_tr_0_1_B_500_rand]
 
 # # KUKA park results
 # path_ev = './results/kuka-park/'
@@ -152,19 +155,14 @@ mujoco_timestep = 0.0125
 for test_tr in tests_Training:
 
 
-    timesteps_processed_list, return_processed_list,  minutes_processed_list, feedback_processed_list, tau, e, human_model, pl_ag_processed_list, pl_hm_processed_list, buffer_size = postProcess(test_tr, path_tr)
+    timesteps_processed_list, return_processed_list, feedback_processed_list, tau, e, human_model, pl_ag_processed_list, pl_hm_processed_list, buffer_size = postProcess(test_tr, path_tr)
 
     a = np.array(feedback_processed_list)
     feedback_mean = np.mean(a, axis=0)
 
-    a = np.array(minutes_processed_list)
-    minutes_list = np.mean(a, axis=0)
 
-    a = np.array(pl_ag_processed_list)
-    pl_ag_list = np.mean(a, axis=0)
 
-    a = np.array(pl_hm_processed_list)
-    pl_hm_list = np.mean(a, axis=0)
+
 
     a = np.array(timesteps_processed_list)
     timesteps_list = np.mean(a, axis=0)
@@ -172,7 +170,7 @@ for test_tr in tests_Training:
 
 
     print('feedback_mean', feedback_mean)
-    print('minutes_list ', minutes_list )
+
 
     if human_model == "yes" and e == 0.01:
         colorPlot = '#150E56'  # blue
@@ -257,10 +255,11 @@ for test_ev in tests_Evaluation:
 
 
 
-    timesteps_processed_list, return_processed_list, minutes_processed_list, feedback_processed_list, tau, e, human_model, pl_ag_processed_list, pl_hm_processed_list, buffer_size = postProcess(test_ev, path_ev)
+    timesteps_processed_list, return_processed_list, feedback_processed_list, tau, e, human_model, pl_ag_processed_list, pl_hm_processed_list, buffer_size = postProcess(test_ev, path_ev)
 
 
     a = np.array(return_processed_list)
+    print('a',a)
     return_mean = np.mean(a, axis =0)
     return_std = np.std(a, axis=0)
 
@@ -268,17 +267,12 @@ for test_ev in tests_Evaluation:
     timesteps_list = np.mean(a, axis=0)
     simulated_time = timesteps_list * mujoco_timestep /60
 
-    a = np.array(minutes_processed_list)
-    minutes_list = np.mean(a, axis=0)
+    print('return mean:', return_mean)
 
 
 
 
 
-    print('minutes list: ', len(minutes_list))
-    print("return_mean len: ", len(return_mean))
-    print("return_mean : ",return_mean)
-    print("timesteps_list: ", len(timesteps_list))
 
     z = np.polyfit(simulated_time, return_mean, 20)
 

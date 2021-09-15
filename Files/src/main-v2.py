@@ -9,7 +9,8 @@ from tabulate import tabulate
 import rospy
 import matplotlib.pyplot as plt
 from load_weights import loadWeights
-from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE)
+
+from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE) # needed to random init tasks
 import math
 from main_init import neural_network, transition_model_type, agent, agent_type, exp_num,count_down, \
                         max_num_of_episodes, render, max_time_steps_episode, save_results, eval_save_path, \
@@ -60,102 +61,6 @@ repetition_is_over = False
 if evaluation:
     print('***Evaluation TRUE: Load weights***')
 
-    # test00 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-00.npy',
-    #     allow_pickle=True)
-    # test01 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-01.npy',
-    #     allow_pickle=True)
-    # test02 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
-    #     allow_pickle=True)
-    #
-    # test03 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-03.npy',
-    #     allow_pickle=True)
-    # test04 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-04.npy',
-    #     allow_pickle=True)
-    # test05 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-05.npy',
-    #     allow_pickle=True)
-    #
-    # test06 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-06.npy',
-    #     allow_pickle=True)
-    # test07 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-07.npy',
-    #     allow_pickle=True)
-    # test08 = np.load(
-    #     './weights/weights-DCOACH_HM-False_e-0.1_B-10004_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-08.npy',
-    #     allow_pickle=True)
-
-    # testkuka00 = np.load(
-    #     './weights/weights-DCOACH_HM-True_e-0.3_B-10000_tau-0.0001_lr-0.003_HMlr-0.0003_task-kuka-park-cardboard_rep-05.npy',
-    #     allow_pickle=True)
-    testmeta00 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.01_B-15000_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
-        allow_pickle=True)
-    testmeta01 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10009_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-01.npy',
-        allow_pickle=True)
-    testmeta02 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10009_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-02.npy',
-        allow_pickle=True)
-    testmeta03 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10009_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-03.npy',
-        allow_pickle=True)
-    testmeta04 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10009_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-04.npy',
-        allow_pickle=True)
-    testmeta05 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10009_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-05.npy',
-        allow_pickle=True)
-    testmeta06 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-06.npy',
-        allow_pickle=True)
-    testmeta07 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-07.npy',
-        allow_pickle=True)
-    testmeta08 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-08.npy',
-        allow_pickle=True)
-    testmeta09 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-09.npy',
-        allow_pickle=True)
-    testmeta10 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-10.npy',
-        allow_pickle=True)
-    testmeta11 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-11.npy',
-        allow_pickle=True)
-    testmeta12 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-12.npy',
-        allow_pickle=True)
-    testmeta13 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-13.npy',
-        allow_pickle=True)
-    testmeta14 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-14.npy',
-        allow_pickle=True)
-    testmeta15 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-15.npy',
-        allow_pickle=True)
-    testmeta16 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-16.npy',
-        allow_pickle=True)
-    testmeta17 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-17.npy',
-        allow_pickle=True)
-    testmeta18 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-18.npy',
-        allow_pickle=True)
-    testmeta19 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-19.npy',
-        allow_pickle=True)
-    testmeta20 = np.load(
-        './weights/weights-DCOACH_HM-True_e-0.1_B-10007_tau-0.0001_lr-0.005_HMlr-0.001_task-hockey_rep-20.npy',
-        allow_pickle=True)
 
 
 
@@ -167,15 +72,16 @@ if evaluation:
     #tests = [testmeta00, testmeta20]
 
     path = './weights/'
-    generic_name = 'weights-DCOACH_HM-True_e-1.0_B-500_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep3-'
+    generic_name = 'weights-DCOACH_HM-True_e-0.1_B-500_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-'
     #tests_numbers = ["15", "16", "17", "18", "19", "20", "21", "22"]
     # tests_numbers = ["00", "01", "02", "03", "04"]
     # tests_numbers = ["05", "06", "07", "08", "09"]
     # tests_numbers = ["10", "11", "12", "13", "14"]
     # tests_numbers = ["15", "16", "17", "18", "19"]
     # tests_numbers = ["20", "21", "22", "23", "24"]
-    tests_numbers = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"]#, "19", "20", "21", "22", "23", "24",  "25", "26", "27", "28", "29"]
+    tests_numbers = ["05"]#, "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",  "25", "26", "27", "28", "29"]
     tests = loadWeights(path, generic_name, tests_numbers)
+
 
 if evaluation:
     number_of_repetitions = len(tests)
@@ -220,8 +126,16 @@ for i_repetition in range(number_of_repetitions):
         weigths_this_repetition = tests[i_repetition]
 
     episode_counter_5 = 0
+
+    episode_range = max_time_steps_per_repetition / max_time_steps_episode - 1
+    print('max_time_steps_per_repetition: ', max_time_steps_per_repetition)
+    print('max_time_steps_episode: ', max_time_steps_episode)
+    episode_range = int(episode_range)
+    print(episode_range)
+    #time.sleep(10)
+    max_num_of_episodes
     # Start training loop
-    for i_episode in range(0, 399):
+    for i_episode in range(0, max_num_of_episodes):
         print('range(max_num_of_episodes): ', range(max_num_of_episodes))
         success_this_episode = 0
         episode_counter += 1
@@ -272,6 +186,7 @@ for i_repetition in range(number_of_repetitions):
         for t in range(1, max_time_steps_episode+1):
 
 
+
             # if t_total == 1:
             #     print("Load initial weights!")
             #     agent.policy_model.set_weights(testkuka00[-1])
@@ -282,19 +197,19 @@ for i_repetition in range(number_of_repetitions):
                     print('shutdown')
                     break
 
-            if kuka_env == False:
-                if render:
-                    #env.render()  # Make the environment visible
-
-                    # obs_array = env.render(mode='rgb_array')
-                    # print("obs: ", obs_array.shape)
-                    # plt.imshow(obs_array)
-                    # #plt.figimage(image_to_show)
-                    # plt.draw()
-                    # plt.pause(0.00001)
-
-                    env.render(mode='human')
-                    #time.sleep(render_delay)  # Add delay to rendering if necessary
+            # if kuka_env == False:
+            #     if render:
+            #         #env.render()  # Make the environment visible
+            #
+            #         # obs_array = env.render(mode='rgb_array')
+            #         # print("obs: ", obs_array.shape)
+            #         # plt.imshow(obs_array)
+            #         # #plt.figimage(image_to_show)
+            #         # plt.draw()
+            #         # plt.pause(0.00001)
+            #
+            #         env.render(mode='human')
+            #         #time.sleep(render_delay)  # Add delay to rendering if necessary
 
 
             h = None
@@ -304,14 +219,15 @@ for i_repetition in range(number_of_repetitions):
             time_plot = str(datetime.timedelta(seconds=secs))
 
             # Print info
-            print("\n")
-            print('Rep: ', i_repetition, 'Episode: ', i_episode, "t this ep: ", t, ' total timesteps: ', t_total, 'time: ', time_plot)
+            if t % 100 == 0:
+                print("\n")
+                print('Rep: ', i_repetition, 'Episode: ', i_episode, "t this ep: ", t, ' total timesteps: ', t_total, 'time: ', time_plot)
 
             # Finish repetition if the maximum number of steps per repetition is reached
             if t_total == (max_time_steps_per_repetition):
                 print('repetition is over!')
                 repetition_is_over = True
-                break
+                #break
 
             if metaworld_env:
                 observation_original = observation
@@ -343,7 +259,7 @@ for i_repetition in range(number_of_repetitions):
 
                 # Get action from the agent
             action = agent.action(observation1)
-            print("action: ", action)
+
 
             # For the pressing button topdown task:
             action_append_gripper = np.append(action, [1])
@@ -448,11 +364,11 @@ for i_repetition in range(number_of_repetitions):
             #     done = True
 
             # Compute done
-            done = environment_done or t == max_time_steps_episode or doneButton #or feedback_joystick.ask_for_done()
+            done = environment_done or repetition_is_over or t == max_time_steps_episode or doneButton #or feedback_joystick.ask_for_done()
             # force it to do the max steps of a episode
-            done =  t == max_time_steps_episode or doneButton  # or feedback_joystick.ask_for_done()
+            #done =  t == max_time_steps_episode or doneButton  # or feedback_joystick.ask_for_done()
             # During evaluation of real kuka you can terminate an episode:
-            print('doneeeeeeeeeeeeeeeeeeeeeeee: ', done)
+            #print('doneeeeeeeeeeeeeeeeeeeeeeee: ', done)
 
 
 
@@ -485,7 +401,7 @@ for i_repetition in range(number_of_repetitions):
                 rate.sleep()
                 print("sleep rate: ", rate)
             timee = time.time() - init_time_timestep
-            print('timestepp: ', timee)
+            #print('timestepp: ', timee)
 
             # End of episode
             if done:
@@ -497,7 +413,7 @@ for i_repetition in range(number_of_repetitions):
                 total_r += r
                 cummulative_feedback = cummulative_feedback + h_counter
                 if not evaluation:
-                    print("cummulative fedback:", cummulative_feedback)
+                    #print("cummulative fedback:", cummulative_feedback)
                     policy_loss_hm = 0
                     if cummulative_feedback > 20:
 
@@ -512,7 +428,8 @@ for i_repetition in range(number_of_repetitions):
                 #print('Episode Reward:', '%.3f' % r)
                 #print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
                 print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
-                print('Success rate: ', success_counter / episode_counter)
+                print('Successful episodes: ', success_counter, 'of total episodes: ', episode_counter)
+                print('Timesteps of this repetition: ', t_total)
 
                 total_reward.append(r)
                 total_feedback.append(h_counter/(t + 1e-6))
@@ -577,7 +494,7 @@ for i_repetition in range(number_of_repetitions):
                     path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep3-' + str(results_counter).zfill(2) + \
+                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep-rand-init-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
@@ -587,14 +504,14 @@ for i_repetition in range(number_of_repetitions):
                             path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep3-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep-rand-init-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
                     df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep3-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-rand-init-' + str(results_counter).zfill(2) + \
                                        '.csv', index=True)
 
 
@@ -611,7 +528,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep3-' + str(weigths_counter).zfill(2) + '.npy'
+                            '_rep-rand-init-' + str(weigths_counter).zfill(2) + '.npy'
 
 
 
@@ -627,7 +544,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep3-' + str(weigths_counter).zfill(2) + '.npy'
+                            '_rep-rand-init-' + str(weigths_counter).zfill(2) + '.npy'
 
 
 
@@ -639,7 +556,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep3-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
+                            '_rep-rand-init-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
 
 
 

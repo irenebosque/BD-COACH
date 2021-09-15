@@ -1,0 +1,136 @@
+
+Rep:  1 Episode:  1 t this ep:  329  total timesteps:  829 time:  0:00:33.657703
+action:  [ 0.02655847  0.34693393 -0.47197518]
+Success!!!
+DONE
+doneeeeeeeeeeeeeeeeeeeeeeee:  False
+cummulative_feedback:  322
+Update policy with HM 1
+Traceback (most recent call last):
+  File "main-v2.py", line 376, in <module>
+    agent.TRAIN_Human_Model_included(neural_network, action, t_total, done, i_episode, h, observation1, cummulative_feedback, t_total)
+  File "/home/irene/Desktop/metaworld-DCOACH/Files/src/agents/DCOACH.py", line 404, in TRAIN_Human_Model_included
+    policy_loss = 0.5 * tf.reduce_mean(tf.square(actions_batch - a_target_batch))
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 1234, in binary_op_wrapper
+    return func(x, y, name=name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/util/dispatch.py", line 206, in wrapper
+    return target(*args, **kwargs)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 548, in subtract
+    return gen_math_ops.sub(x, y, name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 10557, in sub
+    x, y, name=name, ctx=_ctx)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 10576, in sub_eager_fallback
+    _attr_T, _inputs_T = _execute.args_to_matching_eager([x, y], ctx, [_dtypes.bfloat16, _dtypes.half, _dtypes.float32, _dtypes.float64, _dtypes.uint8, _dtypes.int8, _dtypes.uint16, _dtypes.int16, _dtypes.int32, _dtypes.int64, _dtypes.complex64, _dtypes.complex128, _dtypes.uint32, _dtypes.uint64, ])
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/eager/execute.py", line 280, in args_to_matching_eager
+    ret = [ops.convert_to_tensor(t, dtype, ctx=ctx) for t in l]
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/eager/execute.py", line 280, in <listcomp>
+    ret = [ops.convert_to_tensor(t, dtype, ctx=ctx) for t in l]
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/profiler/trace.py", line 163, in wrapped
+    return func(*args, **kwargs)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1566, in convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 339, in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 265, in constant
+    allow_broadcast=True)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 276, in _constant_impl
+    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 301, in _constant_eager_impl
+    t = convert_to_eager_tensor(value, ctx, dtype)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 98, in convert_to_eager_tensor
+    return ops.EagerTensor(value, ctx.device_name, dtype)
+ValueError: Attempt to convert a value (None) with an unsupported type (<class 'NoneType'>) to a Tensor.
+
+-----
+
+
+ERROR 2 (I guess is the same:
+
+Rep:  12 Episode:  1 t this ep:  268  total timesteps:  768 time:  0:00:24.893808
+action:  [ 0.03248372 -0.54622155  0.7399478 ]
+Success!!!
+DONE
+doneeeeeeeeeeeeeeeeeeeeeeee:  False
+cummulative_feedback:  389
+Update policy with HM 1
+Traceback (most recent call last):
+  File "main-v2.py", line 376, in <module>
+    agent.TRAIN_Human_Model_included(neural_network, action, t_total, done, i_episode, h, observation1, cummulative_feedback, t_total)
+  File "/home/irene/Desktop/metaworld-DCOACH/Files/src/agents/DCOACH.py", line 404, in TRAIN_Human_Model_included
+    policy_loss = 0.5 * tf.reduce_mean(tf.square(actions_batch - a_target_batch))
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 1234, in binary_op_wrapper
+    return func(x, y, name=name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/util/dispatch.py", line 206, in wrapper
+    return target(*args, **kwargs)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 548, in subtract
+    return gen_math_ops.sub(x, y, name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 10557, in sub
+    x, y, name=name, ctx=_ctx)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 10576, in sub_eager_fallback
+    _attr_T, _inputs_T = _execute.args_to_matching_eager([x, y], ctx, [_dtypes.bfloat16, _dtypes.half, _dtypes.float32, _dtypes.float64, _dtypes.uint8, _dtypes.int8, _dtypes.uint16, _dtypes.int16, _dtypes.int32, _dtypes.int64, _dtypes.complex64, _dtypes.complex128, _dtypes.uint32, _dtypes.uint64, ])
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/eager/execute.py", line 280, in args_to_matching_eager
+    ret = [ops.convert_to_tensor(t, dtype, ctx=ctx) for t in l]
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/eager/execute.py", line 280, in <listcomp>
+    ret = [ops.convert_to_tensor(t, dtype, ctx=ctx) for t in l]
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/profiler/trace.py", line 163, in wrapped
+    return func(*args, **kwargs)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1566, in convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 339, in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 265, in constant
+    allow_broadcast=True)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 276, in _constant_impl
+    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 301, in _constant_eager_impl
+    t = convert_to_eager_tensor(value, ctx, dtype)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 98, in convert_to_eager_tensor
+    return ops.EagerTensor(value, ctx.device_name, dtype)
+ValueError: Attempt to convert a value (None) with an unsupported type (<class 'NoneType'>) to a Tensor.
+(metaworld_task) irene@irene-msi:~/Desktop/metaworld-DCOACH/Files/src$ 
+
+
+Rep:  12 Episode:  1 t this ep:  268  total timesteps:  768 time:  0:00:24.893808
+action:  [ 0.03248372 -0.54622155  0.7399478 ]
+Success!!!
+DONE
+doneeeeeeeeeeeeeeeeeeeeeeee:  False
+cummulative_feedback:  389
+Update policy with HM 1
+Traceback (most recent call last):
+  File "main-v2.py", line 376, in <module>
+    agent.TRAIN_Human_Model_included(neural_network, action, t_total, done, i_episode, h, observation1, cummulative_feedback, t_total)
+  File "/home/irene/Desktop/metaworld-DCOACH/Files/src/agents/DCOACH.py", line 404, in TRAIN_Human_Model_included
+    policy_loss = 0.5 * tf.reduce_mean(tf.square(actions_batch - a_target_batch))
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 1234, in binary_op_wrapper
+    return func(x, y, name=name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/util/dispatch.py", line 206, in wrapper
+    return target(*args, **kwargs)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py", line 548, in subtract
+    return gen_math_ops.sub(x, y, name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 10557, in sub
+    x, y, name=name, ctx=_ctx)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/ops/gen_math_ops.py", line 10576, in sub_eager_fallback
+    _attr_T, _inputs_T = _execute.args_to_matching_eager([x, y], ctx, [_dtypes.bfloat16, _dtypes.half, _dtypes.float32, _dtypes.float64, _dtypes.uint8, _dtypes.int8, _dtypes.uint16, _dtypes.int16, _dtypes.int32, _dtypes.int64, _dtypes.complex64, _dtypes.complex128, _dtypes.uint32, _dtypes.uint64, ])
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/eager/execute.py", line 280, in args_to_matching_eager
+    ret = [ops.convert_to_tensor(t, dtype, ctx=ctx) for t in l]
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/eager/execute.py", line 280, in <listcomp>
+    ret = [ops.convert_to_tensor(t, dtype, ctx=ctx) for t in l]
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/profiler/trace.py", line 163, in wrapped
+    return func(*args, **kwargs)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 1566, in convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 339, in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 265, in constant
+    allow_broadcast=True)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 276, in _constant_impl
+    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 301, in _constant_eager_impl
+    t = convert_to_eager_tensor(value, ctx, dtype)
+  File "/home/irene/metaworld_task/lib/python3.6/site-packages/tensorflow/python/framework/constant_op.py", line 98, in convert_to_eager_tensor
+    return ops.EagerTensor(value, ctx.device_name, dtype)
+ValueError: Attempt to convert a value (None) with an unsupported type (<class 'NoneType'>) to a Tensor.
+(metaworld_task) irene@irene-msi:~/Desktop/metaworld-DCOACH/Files/src$ 
+
+

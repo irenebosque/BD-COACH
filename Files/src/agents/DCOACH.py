@@ -318,7 +318,7 @@ class DCOACH:
 
     # If feedback is received: Do main loop
     def TRAIN_Human_Model_included(self, neural_network, action, t, done, i_episode, h, observation, cummulative_feedback, t_total):
-        print("cummulative_feedback: ", cummulative_feedback)
+        #print("cummulative_feedback: ", cummulative_feedback)
 
         if np.any(h):  # if any element is not 0
 
@@ -355,7 +355,7 @@ class DCOACH:
                 observations_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, self.dim_o]), dtype=tf.float32)
 
                 if cummulative_feedback > 100:
-                    print("Update policy with HM 1")
+                    #print("Update policy with HM 1")
                     #optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
                     optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.agent_with_hm_learning_rate)
 
@@ -378,14 +378,14 @@ class DCOACH:
                         #
 
 
-                        for i in range(len(h_predicted_batch)):
-                            for j in range(len(h_predicted_batch[i])):
-                                if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
-                                    h_predicted_batch[i][j] = -1
-                                elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
-                                    h_predicted_batch[i][j] = 1
-                                else:
-                                    h_predicted_batch[i][j] = 0
+                        # for i in range(len(h_predicted_batch)):
+                        #     for j in range(len(h_predicted_batch[i])):
+                        #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                        #             h_predicted_batch[i][j] = -1
+                        #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                        #             h_predicted_batch[i][j] = 1
+                        #         else:
+                        #             h_predicted_batch[i][j] = 0
 
 
 
@@ -400,6 +400,7 @@ class DCOACH:
                         a_target_batch = self._generate_batch_policy_label(actions_batch, h_predicted_batch)
 
                         # 7. Update policy indirectly from Human model
+
 
                         policy_loss = 0.5 * tf.reduce_mean(tf.square(actions_batch - a_target_batch))
                         #print("policy_loss", policy_loss)
@@ -434,7 +435,7 @@ class DCOACH:
             observations_reshaped_tensor = tf.convert_to_tensor(np.reshape(observations_batch, [8, self.dim_o]),
                                                                 dtype=tf.float32)
             if cummulative_feedback > 100:
-                print("Update policy with HM 2")
+                #print("Update policy with HM 2")
                 # update Policy model
                 #optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.policy_model_learning_rate)
                 optimizer_policy_model = tf.keras.optimizers.Adam(learning_rate=self.agent_with_hm_learning_rate)
@@ -451,14 +452,14 @@ class DCOACH:
                     h_predicted_batch = h_predicted_batch.tolist()
 
 
-                    for i in range(len(h_predicted_batch)):
-                        for j in range(len(h_predicted_batch[i])):
-                            if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
-                                h_predicted_batch[i][j] = -1
-                            elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
-                                h_predicted_batch[i][j] = 1
-                            else:
-                                h_predicted_batch[i][j] = 0
+                    # for i in range(len(h_predicted_batch)):
+                    #     for j in range(len(h_predicted_batch[i])):
+                    #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                    #             h_predicted_batch[i][j] = -1
+                    #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                    #             h_predicted_batch[i][j] = 1
+                    #         else:
+                    #             h_predicted_batch[i][j] = 0
 
 
 
