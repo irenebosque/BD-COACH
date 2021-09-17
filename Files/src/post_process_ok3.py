@@ -28,21 +28,21 @@ def postProcess(test_name, path):
 
         d_frame = pd.read_csv(path + test_name.format(str(
                                 i).zfill(2)))
+        d_frame.iloc[1, -1] = 60500
 
 
         frame_to_list = d_frame.values.tolist()
 
-        del frame_to_list[0][0] # timesteps
-        del frame_to_list[14][0] # success / return
-        del frame_to_list[5][0] # feedback
-        del frame_to_list[4][0] # minutes
+        del frame_to_list[1][0] # timesteps
+        del frame_to_list[13][0] # success / return
+        del frame_to_list[3][0] # feedback
+        del frame_to_list[5][0] # minutes
         # NEW ####
-        del frame_to_list[12][0]
-        del frame_to_list[13][0]
+
         ##########
-        e = frame_to_list[6][-1]
-        buffer_size = frame_to_list[7][-1]
-        if frame_to_list[8][-1] == 1:
+        e = frame_to_list[7][-1]
+        buffer_size = frame_to_list[8][-1]
+        if frame_to_list[9][-1] == 1:
             human_model = 'yes'
         else:
             human_model = 'no'
@@ -51,15 +51,14 @@ def postProcess(test_name, path):
 
 
 
+        print('frame_to_list[0]', frame_to_list[0])
 
+        timesteps_list.append(frame_to_list[1])
 
-        timesteps_list.append(frame_to_list[0])
+        return_list.append(frame_to_list[13])
+        feedback_list.append(frame_to_list[3])
+        minutes_list.append(frame_to_list[5])
 
-        return_list.append(frame_to_list[14])
-        feedback_list.append(frame_to_list[5])
-        minutes_list.append(frame_to_list[4])
-        policy_loss_agent_list.append(frame_to_list[12])
-        policy_loss_hm_list.append(frame_to_list[13])
 
     #print('timesteps_list.append(frame_to_list[0])', timesteps_list)
 
@@ -78,9 +77,16 @@ def postProcess(test_name, path):
         xnew = np.linspace(0, timesteps_last_episode, num=timesteps_last_episode, endpoint=False)
         xnew = xnew.astype(int)
 
+        success = fun_s(xnew)
+        feedback = fun_f(xnew)
+
+        # xnew = xnew[: len(xnew) - 1000]
+        # success = success[: len(success) - 1000]
+        # feedback  = feedback [: len(feedback ) - 1000]
+
         timesteps_list_ok.append(xnew)
-        success_list_ok.append(fun_s(xnew))
-        feedback_list_ok.append(fun_f(xnew))
+        success_list_ok.append(success)
+        feedback_list_ok.append(feedback )
 
 
     # timesteps_list_ok = timesteps_list_ok[0]
@@ -89,6 +95,9 @@ def postProcess(test_name, path):
 
     # timesteps_list_ok = timesteps_list_ok.tolist()
     # success_list_ok = success_list_ok.tolist()
+    print('timesteps: ', timesteps_list_ok[0])
+    print('timesteps len : ', len(timesteps_list_ok[0]))
+
 
 
 

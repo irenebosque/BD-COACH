@@ -78,22 +78,44 @@ testHM_tr_1    = 'DCOACH_HM-True_e-0.1_B-15000_Eval-False_tau-1e-05_lr-0.005_HMl
 
 # 15-09-2021
 # Results with small buffer and random initialization.
-testNOHM_ev_0_01_B_500_rand = 'DCOACH_HM-False_e-0.01_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
-testNOHM_ev_0_1_B_500_rand  = 'DCOACH_HM-False_e-0.1_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
-
-testHM_ev_1_B_500_rand  = 'DCOACH_HM-True_e-1.0_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
 
 testHM_ev_0_1_B_500_rand = 'DCOACH_HM-True_e-0.1_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
-testHM_tr_0_1_B_500_rand = 'DCOACH_HM-True_e-0.1_B-500_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testHM_ev_0_1_B_5000_rand = 'DCOACH_HM-True_e-0.1_B-5000_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testHM_ev_0_1_B_10000_rand = 'DCOACH_HM-True_e-0.1_B-10000_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
 
+testHM_ev_0_1_B_500_rand_long = 'DCOACH_HM-True_e-0.1_B-500_Eval-True_tau-5e-06_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+
+testNOHM_ev_0_1_B_500_rand = 'DCOACH_HM-False_e-0.1_B-500_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testNOHM_ev_0_1_B_5000_rand = 'DCOACH_HM-False_e-0.1_B-5000_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testNOHM_ev_0_1_B_10000_rand = 'DCOACH_HM-False_e-0.1_B-10000_Eval-True_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+
+testHM_tr_0_1_B_500_rand = 'DCOACH_HM-True_e-0.1_B-500_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testHM_tr_0_1_B_5000_rand = 'DCOACH_HM-True_e-0.1_B-5000_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testHM_tr_0_1_B_10000_rand = 'DCOACH_HM-True_e-0.1_B-10000_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+
+testNOHM_tr_0_1_B_500_rand = 'DCOACH_HM-False_e-0.1_B-500_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testNOHM_tr_0_1_B_5000_rand = 'DCOACH_HM-False_e-0.1_B-5000_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+testNOHM_tr_0_1_B_10000_rand = 'DCOACH_HM-False_e-0.1_B-10000_Eval-False_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-{}.csv'
+
+
+
+testHM_0_1_B_500_rand =  'DCOACH_HM-True_e-0.1_B-500_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+testHM_0_1_B_5000_rand =  'DCOACH_HM-True_e-0.1_B-5000_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+testHM_0_1_B_10000_rand = 'DCOACH_HM-True_e-0.1_B-10000_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+
+testNOHM_0_1_B_500_rand =  'DCOACH_HM-False_e-0.1_B-500_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+testNOHM_0_1_B_5000_rand =  'DCOACH_HM-False_e-0.1_B-5000_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+testNOHM_0_1_B_10000_rand =  'DCOACH_HM-False_e-0.1_B-10000_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
+
+
+ei = 'DCOACH_HM-True_e-0.1_B-500_tau-5e-06_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-{}.csv'
 path_ev = './results/'
 path_tr = './results/'
 #tests_Evaluation = [testNOHM_ev3_0_01_100, testNOHM_ev3_0_01_500, testNOHM_ev3_0_01_1000, testNOHM_ev3_0_01_5000, testNOHM_ev3_0_01_10000, testNOHM_ev3_0_01_15000]
 #tests_Evaluation = [testHM_ev3_1_500, testHM_ev3_0_1_500, testHM_ev3_0_01_500, testNOHM_ev3_1_500, testNOHM_ev3_0_1_500, testNOHM_ev3_0_01_500]
-tests_Evaluation = [testHM_ev_0_1_B_500_rand]
+tests_Evaluation = [testHM_0_1_B_500_rand, testHM_0_1_B_5000_rand, testHM_0_1_B_10000_rand, testNOHM_0_1_B_500_rand, testNOHM_0_1_B_5000_rand, testNOHM_0_1_B_10000_rand]
 
-
-tests_Training =   [testHM_tr_0_1_B_500_rand]
+tests_Training = [testHM_0_1_B_500_rand, testHM_0_1_B_5000_rand, testHM_0_1_B_10000_rand, testNOHM_0_1_B_500_rand, testNOHM_0_1_B_5000_rand, testNOHM_0_1_B_10000_rand]
 
 # # KUKA park results
 # path_ev = './results/kuka-park/'
@@ -148,94 +170,6 @@ mujoco_timestep = 0.0125
 
 
 
-# %%%%%%%%%%%%%%%%%%%%%%%%
-# TRAINING PLOT: FEEDBACK
-# %%%%%%%%%%%%%%%%%%%%%%%%
-
-for test_tr in tests_Training:
-
-
-    timesteps_processed_list, return_processed_list, feedback_processed_list, tau, e, human_model, pl_ag_processed_list, pl_hm_processed_list, buffer_size = postProcess(test_tr, path_tr)
-
-    a = np.array(feedback_processed_list)
-    feedback_mean = np.mean(a, axis=0)
-
-
-
-
-
-    a = np.array(timesteps_processed_list)
-    timesteps_list = np.mean(a, axis=0)
-    simulated_time = timesteps_list * mujoco_timestep / 60
-
-
-    print('feedback_mean', feedback_mean)
-
-
-    if human_model == "yes" and e == 0.01:
-        colorPlot = '#150E56'  # blue
-    if human_model == "yes" and e == 0.1:
-        colorPlot = '#2978B5'  # green
-    if human_model == "yes" and e == 1:
-        colorPlot = '#8AB6D6'  # violet
-
-    if human_model == "no" and e == 0.01:
-        colorPlot = '#BE0000'  # orange
-    if human_model == "no" and e == 0.1:
-        colorPlot = '#FF6B6B'  # red
-    if human_model == "no" and e == 1:
-        colorPlot = '#FDD2BF'  # brown
-
-    axs[1].plot(simulated_time, feedback_mean, linewidth=2.0, color=colorPlot, zorder=0)
-    axs[1].set_ylabel('Accumulated feedback')
-    axs[1].set_xlabel('min')
-    axs[1].set_title('Training of task: Meta-World hockey')
-
-    ax3.xaxis.set_ticks_position('bottom')
-    ax3.xaxis.set_label_position('bottom')
-    ax3.spines['bottom'].set_position(('outward', 40))
-    ax3.set_xlabel('time steps')
-
-    if e == 0.01 and buffer_size == 100:
-
-        feedback_100 = np.interp(100, feedback_mean, timesteps_list)
-        feedback_500 = np.interp(500, feedback_mean, timesteps_list)
-        feedback_1000 = np.interp(1000, feedback_mean, timesteps_list)
-        feedback_5000 = np.interp(5000, feedback_mean, timesteps_list)
-        feedback_10000 = np.interp(10000, feedback_mean, timesteps_list)
-        feedback_15000 = np.interp(15000, feedback_mean, timesteps_list)
-
-
-
-        ax3.axvline(x=feedback_100, linestyle='--', color='#150E56', label="100")
-        ax3.axvline(x=feedback_500, linestyle='--', color='#2978B5', label="500")
-        ax3.axvline(x=feedback_1000, linestyle='--', color='#8AB6D6', label="1000")
-        ax3.axvline(x=feedback_5000, linestyle='--', color='#BE0000', label="5000")
-        ax3.axvline(x=feedback_10000, linestyle='--', color='#FF6B6B', label="10000")
-        ax3.axvline(x=feedback_15000, linestyle='--', color='#FDD2BF', label="15000")
-
-        ax2.axvline(x=feedback_100, linestyle='--', color='#150E56', label="100")
-        ax2.axvline(x=feedback_500, linestyle='--', color='#2978B5', label="500")
-        ax2.axvline(x=feedback_1000, linestyle='--', color='#8AB6D6', label="1000")
-        ax2.axvline(x=feedback_5000, linestyle='--', color='#BE0000', label="5000")
-        ax2.axvline(x=feedback_10000, linestyle='--', color='#FF6B6B', label="10000")
-        ax2.axvline(x=feedback_15000, linestyle='--', color='#FDD2BF', label="15000")
-
-
-
-
-    ax3.plot(timesteps_list, feedback_mean, color=colorPlot, alpha=0)
-    ax3.legend(loc='lower right', title="Accumulated feedback: ", bbox_to_anchor=(1.5, 0.2),
-                  ncol=1)
-    plt.xticks(rotation=5)
-
-
-
-
-# %%%%%%%%%%%%%%%%%%%%%%%%
-# EVALUATION PLOT: SUCCESS
-# %%%%%%%%%%%%%%%%%%%%%%%%
-
 for test_ev in tests_Evaluation:
 
     if "Eval-True" in test_ev :
@@ -251,6 +185,8 @@ for test_ev in tests_Evaluation:
         task = "Reach"
     if "kuka" in test_ev :
         task = "kuka"
+    if "rand" in test_ev :
+        random = "yes"
 
 
 
@@ -262,6 +198,11 @@ for test_ev in tests_Evaluation:
     print('a',a)
     return_mean = np.mean(a, axis =0)
     return_std = np.std(a, axis=0)
+
+    a = np.array(feedback_processed_list)
+    print('a', a)
+    feedback_mean = np.mean(a, axis=0)
+
 
     a = np.array(timesteps_processed_list)
     timesteps_list = np.mean(a, axis=0)
@@ -300,33 +241,47 @@ for test_ev in tests_Evaluation:
     #     colorPlot = '#FDD2BF'  # brown
 
 
-    if human_model == "yes" and e == 0.01 and buffer_size == 500:
-        colorPlot = '#150E56'  # blue
-    if human_model == "yes" and e == 0.1 and buffer_size == 500:
-        colorPlot = '#2978B5'  # green
-    if human_model == "yes" and e == 1 and buffer_size == 500:
-        colorPlot = '#8AB6D6'  # violet
-
-    if human_model == "no" and e == 0.01 and buffer_size == 500:
-        colorPlot = '#BE0000'  # orange
-    if human_model == "no" and e == 0.1 and buffer_size == 500:
-        colorPlot = '#FF6B6B'  # red
-    if human_model == "no" and e == 1 and buffer_size == 500:
-        colorPlot = '#FDD2BF'  # brown
-
-    # if human_model == "no" and e == 0.01 and buffer_size == 100:
-    #     colorPlot = '#72956c'  # blue
+    # if human_model == "yes" and e == 0.01 and buffer_size == 500:
+    #     colorPlot = '#150E56'  # blue
+    # if human_model == "yes" and e == 0.1 and buffer_size == 500:
+    #     colorPlot = '#2978B5'  # green
+    # if human_model == "yes" and e == 1 and buffer_size == 500:
+    #     colorPlot = '#8AB6D6'  # violet
+    #
     # if human_model == "no" and e == 0.01 and buffer_size == 500:
+    #     colorPlot = '#BE0000'  # orange
+    # if human_model == "no" and e == 0.1 and buffer_size == 500:
+    #     colorPlot = '#FF6B6B'  # red
+    # if human_model == "no" and e == 1 and buffer_size == 500:
+    #     colorPlot = '#FDD2BF'  # brown
+
+    # if human_model == "no" and e == 0.1 and buffer_size == 500:
+    #     colorPlot = '#72956c'  # blue
+    # if human_model == "no" and e == 0.1 and buffer_size == 5000:
     #     colorPlot = '#517b5c'  # green
-    # if human_model == "no" and e == 0.01 and buffer_size == 1000:
+    # if human_model == "no" and e == 0.1 and buffer_size == 10000:
     #     colorPlot = '#2f604b'  # violet
     #
-    # if human_model == "no" and e == 0.01 and buffer_size == 5000:
+    # if human_model == "yes" and e == 0.1 and buffer_size == 500:
     #     colorPlot = '#ffb600'  # orange
-    # if human_model == "no" and e == 0.01 and buffer_size == 10000:
+    # if human_model == "yes" and e == 0.1 and buffer_size == 5000:
     #     colorPlot = '#ff7900'  # red
-    # if human_model == "no" and e == 0.01 and buffer_size == 15000:
+    # if human_model == "yes" and e == 0.1 and buffer_size == 10000:
     #     colorPlot = '#ff4800'  # brown
+
+    if human_model == "yes" and e == 0.1 and buffer_size == 500:
+        colorPlot = '#150E56'  # blue
+    if human_model == "yes" and e == 0.1 and buffer_size == 5000:
+        colorPlot = '#2978B5'  # green
+    if human_model == "yes" and e == 0.1 and buffer_size == 10000:
+        colorPlot = '#8AB6D6'  # violet
+
+    if human_model == "no" and e == 0.1 and buffer_size == 500:
+        colorPlot = '#BE0000'  # orange
+    if human_model == "no" and e == 0.1 and buffer_size == 5000:
+        colorPlot = '#FF6B6B'  # red
+    if human_model == "no" and e == 0.1 and buffer_size == 10000:
+        colorPlot = '#FDD2BF'  # brown
 
 
 
@@ -347,7 +302,7 @@ for test_ev in tests_Evaluation:
 
 
     axs[0].plot(simulated_time, return_mean, linewidth=0.1, zorder=0, color=colorPlot)
-    axs[0].plot(simulated_time, p(simulated_time), linewidth=2.0, color=colorPlot, zorder=1, label='H: ' + human_model + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
+    axs[0].plot(simulated_time, p(simulated_time), linewidth=2.0, color=colorPlot, zorder=1, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
     #axs[0].fill_between(minutes_list, return_mean - return_std, return_mean + return_std, alpha=0.02, color=colorPlot)
 
 
@@ -357,9 +312,8 @@ for test_ev in tests_Evaluation:
     axs[0].set_xlabel('min')
 
     axs[0].set_title('Evaluation of task: Meta-World hockey')
-    axs[0].legend(loc="lower right")
-    axs[0].legend(loc='lower right', bbox_to_anchor=(1.5, 0.2),
-              ncol=1)
+
+    axs[0].legend(loc='lower right')
 
 
 
@@ -378,6 +332,33 @@ for test_ev in tests_Evaluation:
     ax2.plot(timesteps_list, p(simulated_time), color=colorPlot, alpha=0)
     plt.xticks(rotation=5)
 
+    #axs[1].set_xlim([0, 50000])
+
+    axs[1].plot(simulated_time, feedback_mean, linewidth=2.0, color=colorPlot, zorder=0, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
+    axs[1].set_ylabel('% of feedback per episode')
+    axs[1].set_xlabel('min')
+    axs[1].set_title('Training of task: Meta-World hockey')
+
+    ax3.xaxis.set_ticks_position('bottom')
+    ax3.xaxis.set_label_position('bottom')
+    ax3.spines['bottom'].set_position(('outward', 40))
+    ax3.set_xlabel('time steps')
+
+
+
+
+
+
+    ax3.plot(timesteps_list, feedback_mean, color=colorPlot, alpha=0)
+    axs[1].legend(loc='upper right')
+    plt.xticks(rotation=5)
+
+    ax2.set_xlim([0, 60000])
+    ax3.set_xlim([0, 60000])
+    ax2.set_ylim([0, 1])
+    ax3.set_ylim([0, 1])
+
+
 
 
 
@@ -387,6 +368,6 @@ axs[1].grid(linestyle='--')
 
 
 #fig.subplots_adjust(hspace=0.2, top=0.95, bottom=0.075) # Space between the subplots
-fig.subplots_adjust(hspace=0.65, bottom=0.15,  top=0.96, right=0.6) # Space between the subplots
+fig.subplots_adjust(hspace=0.4, bottom=0.15,  top=0.96, right=0.6) # Space between the subplots
 
 plt.show()

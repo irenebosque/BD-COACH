@@ -72,14 +72,14 @@ if evaluation:
     #tests = [testmeta00, testmeta20]
 
     path = './weights/'
-    generic_name = 'weights-DCOACH_HM-True_e-0.1_B-500_tau-1e-05_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-'
+    generic_name = 'weights-DCOACH_HM-True_e-0.1_B-500_tau-5e-06_lr-0.005_HMlr-0.001_task-hockey_rep-rand-init-long-'
     #tests_numbers = ["15", "16", "17", "18", "19", "20", "21", "22"]
     # tests_numbers = ["00", "01", "02", "03", "04"]
     # tests_numbers = ["05", "06", "07", "08", "09"]
     # tests_numbers = ["10", "11", "12", "13", "14"]
     # tests_numbers = ["15", "16", "17", "18", "19"]
     # tests_numbers = ["20", "21", "22", "23", "24"]
-    tests_numbers = ["05"]#, "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",  "25", "26", "27", "28", "29"]
+    tests_numbers = ["05"]#, "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16"]#, "17", "18", "19", "20", "21", "22", "23", "24",  "25", "26", "27", "28", "29"]
     tests = loadWeights(path, generic_name, tests_numbers)
 
 
@@ -136,7 +136,9 @@ for i_repetition in range(number_of_repetitions):
     max_num_of_episodes
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
-        print('range(max_num_of_episodes): ', range(max_num_of_episodes))
+        if i_episode % 5 == 0:
+            print('episode!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ', i_episode)
+
         success_this_episode = 0
         episode_counter += 1
 
@@ -184,6 +186,8 @@ for i_repetition in range(number_of_repetitions):
 
         # Iterate over the episode
         for t in range(1, max_time_steps_episode+1):
+
+
 
 
 
@@ -325,7 +329,7 @@ for i_repetition in range(number_of_repetitions):
                     difference = np.array(difference)
 
                     randomNumber = random.random()
-                    if t_total < 25000:
+                    if t_total < 80500:
 
                         P_h = alpha * math.exp(-1 * tau * t_total)
                     else:
@@ -428,7 +432,8 @@ for i_repetition in range(number_of_repetitions):
                 #print('Episode Reward:', '%.3f' % r)
                 #print('\n', i_episode, 'avg reward:', '%.3f' % (total_r / (i_episode + 1)), '\n')
                 print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
-                print('Successful episodes: ', success_counter, 'of total episodes: ', episode_counter)
+                print('Successful episodes/total episodes: ', success_counter / episode_counter*100, '%')
+                print('Timesteps of this episode: ', t)
                 print('Timesteps of this repetition: ', t_total)
 
                 total_reward.append(r)
@@ -494,7 +499,7 @@ for i_repetition in range(number_of_repetitions):
                     path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep-rand-init-' + str(results_counter).zfill(2) + \
+                                   '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep-rand-init-long-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
@@ -504,14 +509,14 @@ for i_repetition in range(number_of_repetitions):
                             path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep-rand-init-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) +  '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep-rand-init-long-' + str(results_counter).zfill(2) + \
                                        '.csv'
 
 
                     df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                        '_e-' + str(e) + \
                                        '_B-' + str(buffer_size_max) + \
-                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-rand-init-' + str(results_counter).zfill(2) + \
+                                       '_Eval-'+ str(evaluation) + '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-rand-init-long-' + str(results_counter).zfill(2) + \
                                        '.csv', index=True)
 
 
@@ -528,7 +533,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep-rand-init-' + str(weigths_counter).zfill(2) + '.npy'
+                            '_rep-rand-init-long-' + str(weigths_counter).zfill(2) + '.npy'
 
 
 
@@ -544,7 +549,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep-rand-init-' + str(weigths_counter).zfill(2) + '.npy'
+                            '_rep-rand-init-long-' + str(weigths_counter).zfill(2) + '.npy'
 
 
 
@@ -556,7 +561,7 @@ for i_repetition in range(number_of_repetitions):
                             '_lr-' + str(lr) + \
                             '_HMlr-' + str(HM_lr) + \
                             '_task-' + task_short + \
-                            '_rep-rand-init-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
+                            '_rep-rand-init-long-' + str(weigths_counter).zfill(2) + '.npy', repetition_list_np_array)
 
 
 
@@ -568,7 +573,7 @@ for i_repetition in range(number_of_repetitions):
                 #     time.sleep(1)
 
                 print('Total time (s):', '%.3f' % (time.time() - init_time))
-
+                print('BREAAAAAAAAAAAAAAAAAAAAAAAK')
                 #env.close()
                 break
 

@@ -159,6 +159,7 @@ class DCOACH:
             grads = tape_policy.gradient(policy_loss, self.policy_model.trainable_variables)
 
         optimizer_policy_model.apply_gradients(zip(grads, self.policy_model.trainable_variables))
+
         return self.policy_loss_agent
 
 
@@ -185,7 +186,7 @@ class DCOACH:
 
 
 
-
+        print('call single update from batch update')
         self.policy_loss_agent_batch =  self._single_update(neural_network, observations_batch_reshaped_tensor, action_label_batch)
 
 
@@ -227,6 +228,7 @@ class DCOACH:
 
 
         optimizer_Human_model.apply_gradients(zip(grads, self.Human_model.trainable_variables))
+
         return self.policy_loss_hm
 
     def Human_batch_update(self, batch):
@@ -413,6 +415,7 @@ class DCOACH:
 
 
 
+
 # for i in range(len(h_predicted_batch)):
                     #     for j in range(len(h_predicted_batch[i])):
                     #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
@@ -480,7 +483,7 @@ class DCOACH:
     def TRAIN_Human_Model_NOT_included(self, neural_network, action, t, done, i_episode, h, observation):
 
         if np.any(h):  # if any element is not 0
-            print('TRAINN')
+
 
             if h[0] == 10: # Button A pressed to reduce speed
                 print("Slow down!")
@@ -505,6 +508,7 @@ class DCOACH:
 
 
             # 3. Update policy with current observation and a_target
+            print('call normal single update ')
             self._single_update(neural_network, observation, action_label)
 
             # 4. Update Human model with a minibatch sampled from buffer D
@@ -516,3 +520,5 @@ class DCOACH:
         if self.buffer.initialized() and t % self.buffer_sampling_rate == 0 or (self.train_end_episode and done):
             batch = self.buffer.sample(batch_size=self.buffer_sampling_size)
             self._batch_update(neural_network, batch, i_episode, t)
+
+
