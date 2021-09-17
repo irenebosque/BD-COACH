@@ -186,7 +186,7 @@ class DCOACH:
 
 
 
-        print('call single update from batch update')
+
         self.policy_loss_agent_batch =  self._single_update(neural_network, observations_batch_reshaped_tensor, action_label_batch)
 
 
@@ -508,7 +508,7 @@ class DCOACH:
 
 
             # 3. Update policy with current observation and a_target
-            print('call normal single update ')
+
             self._single_update(neural_network, observation, action_label)
 
             # 4. Update Human model with a minibatch sampled from buffer D

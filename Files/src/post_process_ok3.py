@@ -4,6 +4,7 @@ from scipy.interpolate import interp1d
 import pandas as pd
 from collections import Counter
 import glob
+from main_init import max_time_steps_per_repetition
 
 def postProcess(test_name, path):
 
@@ -15,92 +16,90 @@ def postProcess(test_name, path):
         repetition_counter += 1
         print('name: ', name)
     print('repetition_counter', repetition_counter)
-    print('pruebita')
-    timesteps_list = []
-    return_list = []
-    minutes_list = []
-    policy_loss_agent_list = []
-    policy_loss_hm_list = []
-    feedback_list = []
-    time_min_list = []
+
+
+
+    timesteps_list    = []
+    success_list      = []
+    feedback_list     = []
+    pct_feedback_list = []
+
 
     for i in range(0, repetition_counter):
 
-        d_frame = pd.read_csv(path + test_name.format(str(
-                                i).zfill(2)))
-        d_frame.iloc[1, -1] = 60500
+        df = pd.read_csv(path + test_name.format(str(i).zfill(2)))
 
 
-        frame_to_list = d_frame.values.tolist()
+        df.at[df.tail(1).index.item(), 'Timesteps'] = max_time_steps_per_repetition
 
-        del frame_to_list[1][0] # timesteps
-        del frame_to_list[13][0] # success / return
-        del frame_to_list[3][0] # feedback
-        del frame_to_list[5][0] # minutes
-        # NEW ####
 
-        ##########
-        e = frame_to_list[7][-1]
-        buffer_size = frame_to_list[8][-1]
-        if frame_to_list[9][-1] == 1:
+        timesteps    = df['Timesteps'].values.tolist()
+        success      = df['Success'].values.tolist()
+        feedback     = df['Feedback'].values.tolist()
+        pct_feedback = df['Percentage_feedback'].values.tolist()
+        e            = df.at[0,'e'].tolist()
+        buffer_size  = df.at[0,'Buffer_size'].tolist()
+        human_model  = df.at[0,'Human_model'].tolist()
+        tau          = df.at[0,'Tau'].tolist()
+
+
+
+
+        print("timesteps: ", timesteps)
+        # print("success: ", success)
+        # print("feedback: ", feedback)
+        # print("pct_feedback: ", pct_feedback)
+        # print("e: ", e)
+        # print("buffer_size: ", buffer_size)
+        # print("human_model: ", human_model)
+        # print("tau: ", tau)
+
+
+
+        if human_model == True:
             human_model = 'yes'
         else:
             human_model = 'no'
-        tau = frame_to_list[9][1]
+
+
+        timesteps_list.append(timesteps)
+        success_list.append(success)
+        feedback_list.append(feedback)
+        pct_feedback_list.append(pct_feedback)
 
 
 
+    timesteps_list_ok    = []
+    success_list_ok      = []
+    feedback_list_ok     = []
+    pct_feedback_list_ok = []
 
-        print('frame_to_list[0]', frame_to_list[0])
-
-        timesteps_list.append(frame_to_list[1])
-
-        return_list.append(frame_to_list[13])
-        feedback_list.append(frame_to_list[3])
-        minutes_list.append(frame_to_list[5])
-
-
-    #print('timesteps_list.append(frame_to_list[0])', timesteps_list)
-
-    timesteps_list_ok = []
-    success_list_ok = []
-    feedback_list_ok = []
-
-    for t, s, f in zip(timesteps_list, return_list, feedback_list):
+    for t, s, f, pct_f in zip(timesteps_list, success_list, feedback_list, pct_feedback_list):
 
         fun_s = interp1d(t, s)
         fun_f = interp1d(t, f)
+        fun_pct_f = interp1d(t, pct_f)
 
         timesteps_last_episode = t[-1]
         timesteps_last_episode = np.int64(timesteps_last_episode)
 
-        xnew = np.linspace(0, timesteps_last_episode, num=timesteps_last_episode, endpoint=False)
-        xnew = xnew.astype(int)
+        timesteps_discretized = np.linspace(0, timesteps_last_episode, num=timesteps_last_episode, endpoint=False)
+        timesteps_discretized = timesteps_discretized.astype(int)
 
-        success = fun_s(xnew)
-        feedback = fun_f(xnew)
+        success = fun_s(timesteps_discretized)
+        feedback = fun_f(timesteps_discretized)
+        pct_feedback = fun_pct_f(timesteps_discretized)
 
-        # xnew = xnew[: len(xnew) - 1000]
-        # success = success[: len(success) - 1000]
-        # feedback  = feedback [: len(feedback ) - 1000]
-
-        timesteps_list_ok.append(xnew)
+        timesteps_list_ok.append(timesteps_discretized)
         success_list_ok.append(success)
         feedback_list_ok.append(feedback )
-
-
-    # timesteps_list_ok = timesteps_list_ok[0]
-    # success_list_ok = success_list_ok[0]
-    # feedback_list_ok = feedback_list_ok[0]
-
-    # timesteps_list_ok = timesteps_list_ok.tolist()
-    # success_list_ok = success_list_ok.tolist()
-    print('timesteps: ', timesteps_list_ok[0])
-    print('timesteps len : ', len(timesteps_list_ok[0]))
+        pct_feedback_list_ok.append(pct_feedback)
 
 
 
 
 
-    return timesteps_list_ok, success_list_ok, feedback_list_ok, tau, e, human_model, policy_loss_agent_list, policy_loss_hm_list, buffer_size
+
+
+    return timesteps_list_ok, success_list_ok, feedback_list_ok, pct_feedback_list_ok, tau, e, human_model, buffer_size
 

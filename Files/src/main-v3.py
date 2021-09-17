@@ -8,7 +8,10 @@ import random
 from tabulate import tabulate
 import rospy
 import matplotlib.pyplot as plt
-from load_weights import loadWeights
+
+
+import cProfile
+cProfile.run('foo()')
 
 from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE) # needed to random init tasks
 import math
@@ -74,6 +77,7 @@ for i_repetition in range(number_of_repetitions):
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, success_counter, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0, 0
     human_done, random_agent, evaluation_started = False, False, False
     repetition_list = []
+    previous_time, time_this_t , time_this_rep = 0, 0, 0
 
 
     init_time = time.time()
@@ -97,8 +101,6 @@ for i_repetition in range(number_of_repetitions):
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
 
-        if i_episode % 5 == 0:
-            print('episode!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ', i_episode)
 
         success_this_episode = 0
         episode_counter += 1
@@ -116,7 +118,10 @@ for i_repetition in range(number_of_repetitions):
         if i_episode != 0:
             overwriteFiles = True
         print("\n")
-        print('Starting episode number: ', i_episode)
+        print('Rep:', i_repetition, ', Episode:', i_episode, ', Rep timesteps:', t_total, "Computation time rep: ", str(time_this_rep)[:-5])
+
+
+
 
         doneButton = False
 
@@ -139,13 +144,10 @@ for i_repetition in range(number_of_repetitions):
 
             h = None
             secs = time.time() - init_time
-            time_plot = str(datetime.timedelta(seconds=secs))
 
 
-            # Print info
-            if t % 100 == 0:
-                print("\n")
-                print('Rep: ', i_repetition, 'Episode: ', i_episode, "t this ep: ", t, ' total timesteps: ', t_total, 'time: ', time_plot)
+
+            time_this_rep = str(datetime.timedelta(seconds=secs))
 
             # Finish repetition if the maximum number of steps per repetition is reached
             if t_total == (max_time_steps_per_repetition):
@@ -250,18 +252,17 @@ for i_repetition in range(number_of_repetitions):
             #if metaworld_env:
             if info['success'] == 0:
                 environment_done = False
-                if t % 10 == 0:
-                    print('fail!')
-
-
 
             else:
                 success_counter += 1
 
                 success_this_episode = 1
                 environment_done = True
-                if t % 10 == 0:
-                    print('success!')
+
+
+
+
+
 
 
             # Compute done
@@ -299,12 +300,16 @@ for i_repetition in range(number_of_repetitions):
             # End of episode
 
             if done and (i_episode % 5 != 0):
+
+
+
                 break
 
             if done and (i_episode % 5 == 0):
 
-                print('HELLOOOOOOO')
-                print('t total', t_total)
+                print("\n")
+                print("%%%%%%%%%%%%%%")
+                print('Evaluating ...')
 
                 success_this_episode = 0
 
@@ -317,8 +322,7 @@ for i_repetition in range(number_of_repetitions):
 
 
 
-                    if t_ev % 10 == 0:
-                        print('t_ev: ', t_ev)
+
 
 
                     #env.render(mode='human')
@@ -374,12 +378,19 @@ for i_repetition in range(number_of_repetitions):
                     done_evaluation = environment_done or repetition_is_over or t_ev == 498 or doneButton  # or feedback_joystick.ask_for_done()
 
                     if done_evaluation:
+                        if environment_done == True:
+                            print('Evaluation was successful :D')
+                            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                        else:
+                            print('Evaluation was a fail :(')
+                            print("%%%%%%%%%%%%%%%%%%%%%%%%")
+
 
 
 
 
                         print("\n")
-                        print('%%% END OF EPISODE %%%')
+                        print('%%% END OF EVALUATION EPISODE %%%')
 
 
                         total_r += r
@@ -389,10 +400,10 @@ for i_repetition in range(number_of_repetitions):
 
 
 
-                        print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
-                        print('Successful episodes/total episodes: ', success_counter / episode_counter*100, '%')
-                        print('Timesteps of this episode: ', t)
-                        print('Timesteps of this repetition: ', t_total)
+                        # print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
+                        # print('Successful episodes/total episodes: ', success_counter / episode_counter*100, '%')
+                        # print('Timesteps of this episode: ', t)
+                        # print('Timesteps of this repetition: ', t_total)
 
                         total_reward.append(r)
                         total_feedback.append(h_counter/(t + 1e-6))
@@ -423,7 +434,17 @@ for i_repetition in range(number_of_repetitions):
 
                             # Export data for plot
                             numpy_data = np.array([total_episodes, total_time_steps, total_reward, total_feedback, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_success_per_episode, total_t])
-                            df = pd.DataFrame(data=numpy_data, index=["Episode", "Accumulated time steps", "Episode reward", "Episode feedback", "total seconds", "total minutes", "cummulative feedback", "e", "buffer size", "human model", "tau", "total_success", "total_success_div_episode", "success_this_episode", "timesteps_this_episode"])
+                            df = pd.DataFrame(data=numpy_data, index=["Episodes", "Accumulated time steps", "Episode reward", "Episode feedback", "total seconds", "total minutes", "cummulative feedback", "e", "buffer size", "human model", "tau", "total_success", "total_success_div_episode", "success_this_episode", "timesteps_this_episode"])
+
+                            df = pd.DataFrame({'Episode': total_episodes,
+                                               'Timesteps': total_time_steps,
+                                               'Success': total_success_per_episode,
+                                               'Feedback': total_cummulative_feedback,
+                                               'Percentage_feedback': total_feedback,
+                                               'e': show_e,
+                                               'Buffer_size': show_buffer_size,
+                                               'Human_model': show_human_model,
+                                               'Tau': show_tau})
 
 
 
@@ -449,13 +470,11 @@ for i_repetition in range(number_of_repetitions):
                                                '_e-' + str(e) + \
                                                '_B-' + str(buffer_size_max) + \
                                                '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-rand-init-long-' + str(results_counter).zfill(2) + \
-                                               '.csv', index=True)
+                                               '.csv', index=False)
 
 
-                        env.close()
-                        print('BREAAAAAAAAAAAAAAAAAAAAAAAK IIIIIIIIII')
+
                         break
-                env.close()
-                print('BREAAAAAAAAAAAAAAAAAAAAAAAK OOOOOOOOOOOOOO')
+
                 break
 
