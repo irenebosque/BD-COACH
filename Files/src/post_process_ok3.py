@@ -25,12 +25,24 @@ def postProcess(test_name, path):
     pct_feedback_list = []
 
 
+    list_max_timestep = []
+    for i in range(0, repetition_counter):
+
+        df = pd.read_csv(path + test_name.format(str(i).zfill(2)))
+        last_timestep = df.iloc[-1]['Timesteps']
+        list_max_timestep.append(last_timestep)
+    average_max_timestep = sum(list_max_timestep) / len(list_max_timestep)
+    average_max_timestep = int(average_max_timestep)
+    print(average_max_timestep)
+
+
+
     for i in range(0, repetition_counter):
 
         df = pd.read_csv(path + test_name.format(str(i).zfill(2)))
 
 
-        df.at[df.tail(1).index.item(), 'Timesteps'] = max_time_steps_per_repetition
+        df.at[df.tail(1).index.item(), 'Timesteps'] = average_max_timestep#max_time_steps_per_repetition
 
 
         timesteps    = df['Timesteps'].values.tolist()
@@ -45,7 +57,7 @@ def postProcess(test_name, path):
 
 
 
-        print("timesteps: ", timesteps)
+        # print("timesteps: ", timesteps)
         # print("success: ", success)
         # print("feedback: ", feedback)
         # print("pct_feedback: ", pct_feedback)
@@ -90,10 +102,14 @@ def postProcess(test_name, path):
         feedback = fun_f(timesteps_discretized)
         pct_feedback = fun_pct_f(timesteps_discretized)
 
+
+
         timesteps_list_ok.append(timesteps_discretized)
         success_list_ok.append(success)
         feedback_list_ok.append(feedback )
         pct_feedback_list_ok.append(pct_feedback)
+
+
 
 
 

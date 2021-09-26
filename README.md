@@ -133,3 +133,35 @@ Thanks for this awesome benchmark!
 ```python
 max_episode_steps=env.max_path_length
 ```
+
+# Meta-World observation
+
+An observation is the sum of:
+`obs = np.hstack((curr_obs, self._prev_obs, pos_goal))`
+### Example observation
+```
+obs [-0.01423575  0.56735747  0.15540215  0.26406011  0.          0.6
+  0.015       0.          0.          0.          1.          0.
+  0.          0.          0.          0.          0.          0.
+ -0.01246431  0.57015151  0.15802904  0.2835925   0.          0.6
+  0.015       0.          0.          0.          1.          0.
+  0.          0.          0.          0.          0.          0.
+ -0.0017014   0.88267895  0.        ]
+```
+The first 3 elements are the position of the hand, and the fourth, the gripper. From 4 to 7, it is the position of the object.
+```
+curr_obs [-0.01423575  0.56735747  0.15540215  0.26406011  0.          0.6
+  0.015       0.          0.          0.          1.          0.
+  0.          0.          0.          0.          0.          0.        ]
+```
+
+```
+self._prev_obs [-0.01246431  0.57015151  0.15802904  0.2835925   0.          0.6
+  0.015       0.          0.          0.          1.          0.
+  0.          0.          0.          0.          0.          0.        ]
+```
+
+The last 3 elements are the goal position
+```
+pos_goal [-0.0017014   0.88267895  0.        ]
+```

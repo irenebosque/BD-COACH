@@ -1,0 +1,4 @@
+Episode,Timesteps,Success,Feedback,Percentage_feedback,e,Buffer_size,Human_model,Tau
+0,0,0,0,0.8,0.1,15002,True,4e-06
+1,238,0,0,0.7721518954761524,0.1,15002,True,4e-06
+6,1727,0,795,0.781999998436,0.1,15002,True,4e-06

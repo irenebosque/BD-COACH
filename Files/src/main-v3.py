@@ -10,8 +10,6 @@ import rospy
 import matplotlib.pyplot as plt
 
 
-import cProfile
-cProfile.run('foo()')
 
 from metaworld.envs import (ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE) # needed to random init tasks
 import math
@@ -19,6 +17,8 @@ from main_init import neural_network, transition_model_type, agent, agent_type, 
                         max_num_of_episodes, render, max_time_steps_episode, save_results, eval_save_path, \
     render_delay, save_policy, save_transition_model, tau, alpha, theta, task, max_time_steps_per_repetition, \
 number_of_repetitions, evaluation, save_results, env, task_short, dim_a, mountaincar_env, pendulum_env, metaworld_env, human_teacher, oracle_teacher, action_factor, kuka_env, h_threshold, cartpole_env
+
+
 print('evaluation: ', evaluation)
 if oracle_teacher:
     from main_init import policy_oracle
@@ -30,6 +30,7 @@ action_limit = agent.action_limit
 buffer_size_max = agent.buffer_max_size
 lr = agent.policy_model_learning_rate
 HM_lr = agent.human_model_learning_rate
+agent_with_hm_learning_rate = agent.agent_with_hm_learning_rate
 
 if kuka_env:
     rospy.init_node('agent_control')
@@ -52,12 +53,15 @@ if count_down:
 
 
 results_counter = 0
+
 weigths_counter = 0
 
 
 
 
 
+task_env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[task]
+env = task_env()
 
 repetition_is_over = False
 
@@ -66,6 +70,9 @@ repetition_is_over = False
 
 
 for i_repetition in range(number_of_repetitions):
+
+    results_counter_list = []
+
     if kuka_env:
         if rospy.is_shutdown():
             print('shutdown')
@@ -73,7 +80,8 @@ for i_repetition in range(number_of_repetitions):
 
 
     # Initialize variables
-    total_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes, total_task, total_policy_loss_agent, total_policy_loss_hm, total_success_per_episode, total_t = [alpha], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0], [task_short], [0], [0], [0], [0]
+    total_pct_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes, total_task, total_policy_loss_agent, total_policy_loss_hm, total_t = [alpha], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0], [task_short], [0], [0], [0]
+    total_success_per_episode = [[0], [0], [0]]
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, success_counter, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0, 0
     human_done, random_agent, evaluation_started = False, False, False
     repetition_list = []
@@ -98,8 +106,11 @@ for i_repetition in range(number_of_repetitions):
     agent.createModels(neural_network)
 
 
+
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
+        env = task_env()
+        observation = env.reset()
 
 
         success_this_episode = 0
@@ -117,17 +128,19 @@ for i_repetition in range(number_of_repetitions):
             overwriteFiles = False
         if i_episode != 0:
             overwriteFiles = True
-        print("\n")
-        print('Rep:', i_repetition, ', Episode:', i_episode, ', Rep timesteps:', t_total, "Computation time rep: ", str(time_this_rep)[:-5])
+
+
+
+
+        print('Rep:', i_repetition, ', Episode:', i_episode, ', Rep timesteps:', t_total, "Computation time rep: ", str(time_this_rep)[:-5], 'Amount of feedback:', cummulative_feedback)
 
 
 
 
         doneButton = False
 
-        plate_slide_goal_observable_cls = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE["plate-slide-v2-goal-observable"]
-        env = plate_slide_goal_observable_cls()
-        observation = env.reset()
+
+
 
 
 
@@ -138,7 +151,9 @@ for i_repetition in range(number_of_repetitions):
         # Iterate over the episode
         for t in range(1, max_time_steps_episode+1):
 
+
             #env.render(mode='human')
+
 
 
 
@@ -169,26 +184,38 @@ for i_repetition in range(number_of_repetitions):
                     observation = np.hstack((observation[:3], observation[3], observation[-3:]))
                 elif task == "plate-slide-v2-goal-observable":
                     observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
-
-
+                elif task == "push-v2-goal-observable":
+                    observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
+                elif task == "door-open-v2-goal-observable":
+                    #observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+                    observation = np.hstack((observation[4:7]- observation[:3],  observation[-3:]-observation[4:7]))
+                elif task == "assembly-v2-goal-observable":
+                    observation = np.hstack(
+                        (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
+                elif task == "basketball-v2-goal-observable":
+                    observation = np.hstack(
+                        (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
 
             # Prepare observation
 
             observation = [observation]
+            #print('observation: ', observation)
             observation1 = tf.convert_to_tensor(observation, dtype=tf.float32)
 
-            if kuka_env:
-                observation1 = tf.reshape( observation1, [1, agent.dim_o])
-            else:
-                observation1 = observation1
 
 
-                # Get action from the agent
+
+
+
+            # Get action from the agent
             action = agent.action(observation1)
-
+            action_scaled = action * action_factor
+            #print("action: ", action)
 
             # For the pressing button topdown task:
-            action_append_gripper = np.append(action, [1])
+            #action_append_gripper = np.append(action_scaled, [1])
+
+
 
 
 
@@ -196,7 +223,7 @@ for i_repetition in range(number_of_repetitions):
 
 
             # Act
-            observation, reward, environment_done, info = env.step(action_append_gripper)
+            observation, reward, environment_done, info = env.step(action_scaled) #gripper
 
 
 
@@ -219,16 +246,19 @@ for i_repetition in range(number_of_repetitions):
                 elif oracle_teacher:
 
                     action_teacher = policy_oracle.get_action(observation_original)
-                    action_teacher = np.clip(action_teacher, -1, 1)
+                    #print("action_teacher: ", action_teacher)
+                    #action_teacher = np.clip(action_teacher, -1, 1)
                     #print("action_teacherl",action_teacher)
                     action_teacher2 = []
                     for i in range(len(action_teacher)):
                         action_teacher2.append(action_teacher[i])
-                    action_teacher2.pop()
+                    #action_teacher2.pop() #gripper
 
                     #action_teacher = [action_teacher[0]]
 
-                    difference = action_teacher2 - action
+                    difference = action_teacher2 - action_scaled
+                    #print("action_teacher", action_teacher2)
+                    #print("action_agent", action_append_gripper)
                     difference = np.array(difference)
 
                     randomNumber = random.random()
@@ -246,7 +276,7 @@ for i_repetition in range(number_of_repetitions):
                             if abs(difference[i]) > theta:
                                 h[i] = np.sign(difference[i])
 
-
+            #print('h', h)
 
 
             #if metaworld_env:
@@ -300,181 +330,194 @@ for i_repetition in range(number_of_repetitions):
             # End of episode
 
             if done and (i_episode % 5 != 0):
-
-
+                cummulative_feedback = cummulative_feedback + h_counter
 
                 break
-
+            evaluations_per_training = 3
             if done and (i_episode % 5 == 0):
+                for i_ev in range(0, evaluations_per_training):
 
-                print("\n")
-                print("%%%%%%%%%%%%%%")
-                print('Evaluating ...')
+                    print("\n")
+                    print("%%%%%%%%%%%%%%")
+                    print('Evaluating', str(i_ev+1), 'of', str(evaluations_per_training), '...')
 
-                success_this_episode = 0
+                    success_this_episode = 0
 
-                plate_slide_goal_observable_cls = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE["plate-slide-v2-goal-observable"]
-                env = plate_slide_goal_observable_cls()
-                observation = env.reset()
+                    env = task_env()
+                    observation = env.reset()
 
-                # Iterate over the episode
-                for t_ev in range(0, max_time_steps_episode):
-
-
+                    # Iterate over the episode
+                    for t_ev in range(0, max_time_steps_episode):
 
 
 
 
-                    #env.render(mode='human')
+                        #env.render(mode='human')
 
-                    if metaworld_env:
-                        observation_original = observation
-                        # print("observation_original", observation_original)
-                        # What is the useful part of the observation
-                        if task == "drawer-open-v2-goal-observable":
-                            observation = np.hstack((observation[:3], observation[4:7]))
-                        elif task == "button-press-v2-goal-observable":
-                            observation = np.hstack((observation[:3], observation[3], observation[4:7]))
-                        elif task == "button-press-topdown-v2-goal-observable":
-                            observation = np.hstack((observation[:3], observation[3], observation[4:7]))
-                        elif task == "reach-v2-goal-observable":
-                            observation = np.hstack((observation[:3], observation[3], observation[-3:]))
-                        elif task == "plate-slide-v2-goal-observable":
-                            observation = np.hstack(
-                                (observation[:3], observation[3], observation[4:7], observation[-3:]))
+                        if metaworld_env:
+                            observation_original = observation
+                            # print("observation_original", observation_original)
+                            # What is the useful part of the observation
+                            if task == "drawer-open-v2-goal-observable":
+                                observation = np.hstack((observation[:3], observation[4:7]))
+                            elif task == "button-press-v2-goal-observable":
+                                observation = np.hstack((observation[:3], observation[3], observation[4:7]))
+                            elif task == "button-press-topdown-v2-goal-observable":
+                                observation = np.hstack((observation[:3], observation[3], observation[4:7]))
+                            elif task == "reach-v2-goal-observable":
+                                observation = np.hstack((observation[:3], observation[3], observation[-3:]))
+                            elif task == "plate-slide-v2-goal-observable":
+                                observation = np.hstack(
+                                    (observation[:3], observation[3], observation[4:7], observation[-3:]))
+                            elif task == "push-v2-goal-observable":
+                                observation = np.hstack(
+                                    (observation[:3], observation[3], observation[4:7], observation[-3:]))
+                            elif task == "door-open-v2-goal-observable":
+                                #observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+                                observation = np.hstack(
+                                    (observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+                            elif task == "assembly-v2-goal-observable":
+                                observation = np.hstack(
+                                    (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
+                            elif task == "basketball-v2-goal-observable":
+                                observation = np.hstack(
+                                    (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
 
-                    # Prepare observation
+                        # Prepare observation
 
-                    observation = [observation]
-                    observation1 = tf.convert_to_tensor(observation, dtype=tf.float32)
+                        observation = [observation]
+                        observation1 = tf.convert_to_tensor(observation, dtype=tf.float32)
 
-                    if kuka_env:
-                        observation1 = tf.reshape(observation1, [1, agent.dim_o])
-                    else:
-                        observation1 = observation1
 
                         # Get action from the agent
-                    action = agent.action(observation1)
-
-                    # For the pressing button topdown task:
-                    action_append_gripper = np.append(action, [1])
-
-                    # Act
-                    observation, reward, environment_done, info = env.step(action_append_gripper)
-
-                    # if metaworld_env:
-                    if info['success'] == 0:
-                        environment_done = False
+                        action = agent.action(observation1)
+                        action_scaled = action * action_factor
 
 
-                    else:
-                        success_counter += 1
-
-                        success_this_episode = 1
-                        environment_done = True
 
 
-                    # Compute done
-                    done_evaluation = environment_done or repetition_is_over or t_ev == 498 or doneButton  # or feedback_joystick.ask_for_done()
 
-                    if done_evaluation:
-                        if environment_done == True:
-                            print('Evaluation was successful :D')
-                            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                        # For the pressing button topdown task:
+                        action_append_gripper = np.append(action_scaled, [1])
+
+
+                        # Act
+                        observation, reward, environment_done, info = env.step(action_scaled)
+
+                        # if metaworld_env:
+                        if info['success'] == 0:
+                            environment_done = False
+
+
                         else:
-                            print('Evaluation was a fail :(')
-                            print("%%%%%%%%%%%%%%%%%%%%%%%%")
+                            success_counter += 1
+
+                            success_this_episode = 1
+                            environment_done = True
+
+
+                        # Compute done
+                        done_evaluation = environment_done or repetition_is_over or t_ev == 498 or doneButton  # or feedback_joystick.ask_for_done()
+
+                        if done_evaluation:
+                            if environment_done == True:
+                                print('Evaluation was successful :D')
+                                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                            else:
+                                print('Evaluation was a fail :(')
+                                print("%%%%%%%%%%%%%%%%%%%%%%%%")
 
 
 
 
 
-                        print("\n")
-                        print('%%% END OF EVALUATION EPISODE %%%')
-
-
-                        total_r += r
-                        cummulative_feedback = cummulative_feedback + h_counter
+                            print("\n")
+                            print('%%% END OF EVALUATION EPISODE %%%')
 
 
 
+                            if i_ev == 0:
 
+                                total_episodes.append(episode_counter)
+                                total_time_steps.append(t_total)
+                                #total_success_per_episode.append(success_this_episode)
+                                total_cummulative_feedback.append(cummulative_feedback)
+                                total_pct_feedback.append(h_counter / (t + 1e-6))
+                                show_e.append(e)
+                                show_buffer_size.append(buffer_size_max)
+                                show_human_model.append(agent.human_model_included)
+                                show_tau.append(tau)
 
-                        # print('Percentage of given feedback:', '%.3f' % ((h_counter / (t + 1e-6)) * 100))
-                        # print('Successful episodes/total episodes: ', success_counter / episode_counter*100, '%')
-                        # print('Timesteps of this episode: ', t)
-                        # print('Timesteps of this repetition: ', t_total)
-
-                        total_reward.append(r)
-                        total_feedback.append(h_counter/(t + 1e-6))
-                        total_success.append(success_counter)
-                        total_success_div_episode.append(success_counter / episode_counter)
-                        total_episodes.append(episode_counter)
-                        total_time_steps.append(t_total)
-                        total_t.append(t)
-                        total_secs = time.time() - init_time
-                        total_time_seconds.append(total_secs)
-                        total_time_minutes.append(total_secs / 60)
-                        total_cummulative_feedback.append(cummulative_feedback)
-                        show_e.append(e)
-                        show_buffer_size.append(buffer_size_max)
-                        show_human_model.append(agent.human_model_included)
-                        show_tau.append(tau)
-                        total_task.append(task_short)
-                        total_success_per_episode.append(success_this_episode)
-
+                            total_success_per_episode[i_ev].append(success_this_episode)
 
 
 
 
 
 
-                        if (save_results):
-
-
-                            # Export data for plot
-                            numpy_data = np.array([total_episodes, total_time_steps, total_reward, total_feedback, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_success_per_episode, total_t])
-                            df = pd.DataFrame(data=numpy_data, index=["Episodes", "Accumulated time steps", "Episode reward", "Episode feedback", "total seconds", "total minutes", "cummulative feedback", "e", "buffer size", "human model", "tau", "total_success", "total_success_div_episode", "success_this_episode", "timesteps_this_episode"])
-
-                            df = pd.DataFrame({'Episode': total_episodes,
-                                               'Timesteps': total_time_steps,
-                                               'Success': total_success_per_episode,
-                                               'Feedback': total_cummulative_feedback,
-                                               'Percentage_feedback': total_feedback,
-                                               'e': show_e,
-                                               'Buffer_size': show_buffer_size,
-                                               'Human_model': show_human_model,
-                                               'Tau': show_tau})
+                            # total_episodes.append(episode_counter)
+                            # total_time_steps.append(t_total)
+                            # total_success_per_episode.append(success_this_episode)
+                            # total_cummulative_feedback.append(cummulative_feedback)
+                            # total_pct_feedback.append(h_counter / (t + 1e-6))
+                            # show_e.append(e)
+                            # show_buffer_size.append(buffer_size_max)
+                            # show_human_model.append(agent.human_model_included)
+                            # show_tau.append(tau)
 
 
 
 
-                            path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
-                                               '_e-' + str(e) + \
-                                               '_B-' + str(buffer_size_max) + \
-                                               '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short  +'_rep-rand-init-long-' + str(results_counter).zfill(2) + \
-                                               '.csv'
-
-
-                            if overwriteFiles == False:
-                                while os.path.isfile(path_results):
-                                    results_counter += 1
-                                    path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
-                                               '_e-' + str(e) + \
-                                               '_B-' + str(buffer_size_max) + \
-                                               '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short +'_rep-rand-init-long-' + str(results_counter).zfill(2) + \
-                                               '.csv'
-
-
-                            df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
-                                               '_e-' + str(e) + \
-                                               '_B-' + str(buffer_size_max) + \
-                                               '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+ '_task-' + task_short + '_rep-rand-init-long-' + str(results_counter).zfill(2) + \
-                                               '.csv', index=False)
 
 
 
-                        break
+                            if (save_results):
+
+                                df = pd.DataFrame({'Episode': total_episodes,
+                                                   'Timesteps': total_time_steps,
+                                                   'Success': total_success_per_episode[i_ev],
+                                                   'Feedback': total_cummulative_feedback,
+                                                   'Percentage_feedback': total_pct_feedback,
+                                                   'e': show_e,
+                                                   'Buffer_size': show_buffer_size,
+                                                   'Human_model': show_human_model,
+                                                   'Tau': show_tau})
+
+
+
+
+                                path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
+                                                   '_e-' + str(e) + \
+                                                   '_B-' + str(buffer_size_max) + \
+                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) +'_task-' + task_short  +'_rep-randm2-' + str(results_counter).zfill(2) + \
+                                                   '.csv'
+
+
+                                if overwriteFiles == False:
+                                    while os.path.isfile(path_results):
+                                        results_counter += 1
+                                        path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
+                                                   '_e-' + str(e) + \
+                                                   '_B-' + str(buffer_size_max) + \
+                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short +'_rep-randm2-' + str(results_counter).zfill(2) + \
+                                                   '.csv'
+
+                                if i_episode == 0:
+                                    results_counter_list.append(results_counter)
+                                #print("counterr",results_counter_list)
+                                #print('iev', i_ev)
+
+                                print("Success rep ",results_counter_list[i_ev], ': ',total_success_per_episode[i_ev])
+                                df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
+                                                   '_e-' + str(e) + \
+                                                   '_B-' + str(buffer_size_max) + \
+                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm2-' + str(results_counter_list[i_ev]).zfill(2) + \
+                                                   '.csv', index=False)
+
+
+
+                            break
 
                 break
+
 

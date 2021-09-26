@@ -24,7 +24,15 @@ from metaworld.policies.sawyer_button_press_v2_policy import SawyerButtonPressV2
 from metaworld.policies.sawyer_reach_v2_policy import SawyerReachV2Policy
 from metaworld.policies.sawyer_plate_slide_v2_policy import SawyerPlateSlideV2Policy
 from metaworld.policies.sawyer_button_press_topdown_v2_policy import SawyerButtonPressTopdownV2Policy
+from metaworld.policies.sawyer_push_v2_policy import SawyerPushV2Policy
+from metaworld.policies.sawyer_door_open_v2_policy import SawyerDoorOpenV2Policy
+from metaworld.policies.sawyer_assembly_v2_policy import SawyerAssemblyV2Policy
 
+from metaworld.policies.sawyer_basketball_v2_policy import SawyerBasketballV2Policy
+
+
+
+from metaworld.policies.sawyer_peg_insertion_side_v2_policy import SawyerPegInsertionSideV2Policy
 
 
 """
@@ -189,6 +197,21 @@ elif metaworld_env:
     elif task == "button-press-topdown-v2-goal-observable":
         policy_oracle = SawyerButtonPressTopdownV2Policy()
         task_short = "button_topdown"
+    elif task == "push-v2-goal-observable":
+        policy_oracle = SawyerPushV2Policy()
+        task_short = "push"
+    elif task == "peg_insertion_side-v2-goal-observable":
+        policy_oracle = SawyerPegInsertionSideV2Policy()
+        task_short = "peg"
+    elif task == "door-open-v2-goal-observable":
+        policy_oracle = SawyerDoorOpenV2Policy()
+        task_short = "door"
+    elif task == "assembly-v2-goal-observable":
+        policy_oracle = SawyerAssemblyV2Policy()
+        task_short = "assembly"
+    elif task == "basketball-v2-goal-observable":
+        policy_oracle = SawyerBasketballV2Policy()
+        task_short = "basketball"
 
 # Create saving directory if it does no exist
 if save_results:

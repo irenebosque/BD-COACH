@@ -380,14 +380,14 @@ class DCOACH:
                         #
 
 
-                        # for i in range(len(h_predicted_batch)):
-                        #     for j in range(len(h_predicted_batch[i])):
-                        #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
-                        #             h_predicted_batch[i][j] = -1
-                        #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
-                        #             h_predicted_batch[i][j] = 1
-                        #         else:
-                        #             h_predicted_batch[i][j] = 0
+                        for i in range(len(h_predicted_batch)):
+                            for j in range(len(h_predicted_batch[i])):
+                                if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                                    h_predicted_batch[i][j] = -1
+                                elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                                    h_predicted_batch[i][j] = 1
+                                else:
+                                    h_predicted_batch[i][j] = 0
 
 
 
@@ -455,14 +455,14 @@ class DCOACH:
                     h_predicted_batch = h_predicted_batch.tolist()
 
 
-                    # for i in range(len(h_predicted_batch)):
-                    #     for j in range(len(h_predicted_batch[i])):
-                    #         if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
-                    #             h_predicted_batch[i][j] = -1
-                    #         elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
-                    #             h_predicted_batch[i][j] = 1
-                    #         else:
-                    #             h_predicted_batch[i][j] = 0
+                    for i in range(len(h_predicted_batch)):
+                        for j in range(len(h_predicted_batch[i])):
+                            if h_predicted_batch[i][j] > -1 and h_predicted_batch[i][j] < -0.1:
+                                h_predicted_batch[i][j] = -1
+                            elif h_predicted_batch[i][j] > 0.1 and h_predicted_batch[i][j] < 1:
+                                h_predicted_batch[i][j] = 1
+                            else:
+                                h_predicted_batch[i][j] = 0
 
 
 
