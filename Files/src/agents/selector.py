@@ -21,7 +21,8 @@ def agent_selector(agent_type, config_agent):
                       human_model_included=config_agent.getboolean('human_model_included'),
                       e = config_agent['e'],
                       action_limit = config_agent['action_limit'],
-                      buffer_max_size = config_agent.getint('buffer_max_size')
+                      buffer_max_size = config_agent.getint('buffer_max_size'),
+                      h_threshold = config_agent['h_threshold']
                       )
 
     elif agent_type == 'HG_DAgger':

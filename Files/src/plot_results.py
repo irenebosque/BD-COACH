@@ -52,7 +52,7 @@ path = './results/'
 #tests = [test_HM_0_01_B_15000_rand_hockey, test_HM_0_01_B_500_rand_hockey, test_HM_0_1_B_500_rand_hockey, test_NOHM_0_01_B_15000_rand_hockey, test_NOHM_0_01_B_500_rand_hockey, test_NOHM_0_1_B_500_rand_hockey]
 
 test_HM_0_01_B_15000_rand_door2 = 'DCOACH_HM-True_e-0.01_B-450001_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-door_rep-randm-{}.csv'
-test_HM_0_01_B_15000_rand_door3 = 'DCOACH_HM-True_e-0.01_B-450001_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-door_rep-randm2-{}.csv'
+test_HM_0_01_B_15000_rand_door3 = 'DCOACH_HM-True_e-0.01_B-50000_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-door_rep-randm2-{}.csv'
 
 test_NOHM_0_1_B_500_rand_basketball = 'DCOACH_HM-False_e-0.1_B-500_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-basketball_rep-randm2-{}.csv'
 test_HM_0_01_B_500000_rand_basketball = 'DCOACH_HM-True_e-0.01_B-500000_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-basketball_rep-randm2-{}.csv'
@@ -61,7 +61,7 @@ test_HM_0_01_B_500000_rand_basketball = 'DCOACH_HM-True_e-0.01_B-500000_tau-4e-0
 
 #tests = [ test_NOHM_0_1_B_500_rand_button, test_HM_0_01_B_15000_button, test_NOHM_0_01_B_15000_rand_button , test_NOHM_0_01_B_500_rand_button, test_HM_0_01_B_500_rand_button, test_HM_0_01_B_15000_rand_button, test_HM_0_01_B_45000_rand_button, test_HM_0_1_B_500_rand_button , test_HM_0_1_B_15000_rand_button]
 #tests = [test_HM_0_1_B_500_button, test_HM_0_01_B_500_button, test_HM_0_01_B_15000_button, test_NOHM_0_01_B_500_button, test_NOHM_0_1_B_500_button , test_NOHM_0_01_B_15000_button ]
-tests = [test_NOHM_0_1_B_500_rand_basketball, test_HM_0_01_B_500000_rand_basketball]
+tests = [test_HM_0_01_B_15000_rand_door3]
 
 
 
@@ -266,6 +266,8 @@ for test in tests:
         colorPlot = '#ff7900'  # red
     if human_model == "no" and e == 0.1 and buffer_size == 15000:
         colorPlot = '#ff4800'  # brown
+
+    colorPlot = '#ff4800'  # brown
 
 
 

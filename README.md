@@ -165,3 +165,8 @@ The last 3 elements are the goal position
 ```
 pos_goal [-0.0017014   0.88267895  0.        ]
 ```
+
+
+gripper -1 = it makes the effort to keep the gripper open 
+gripper = 1 = it makes the effort to keep the gripper closed
+gripper = 0, no effort applied to it

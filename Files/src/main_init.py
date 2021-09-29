@@ -29,6 +29,7 @@ from metaworld.policies.sawyer_door_open_v2_policy import SawyerDoorOpenV2Policy
 from metaworld.policies.sawyer_assembly_v2_policy import SawyerAssemblyV2Policy
 
 from metaworld.policies.sawyer_basketball_v2_policy import SawyerBasketballV2Policy
+from metaworld.policies.sawyer_soccer_v2_policy import SawyerSoccerV2Policy
 
 
 
@@ -71,6 +72,7 @@ save_transition_model = config_transition_model.getboolean('save_transition_mode
 max_num_of_episodes = config_general.getint('max_num_of_episodes')
 max_time_steps_episode = config_general.getint('max_time_steps_episode')
 max_time_steps_per_repetition = float(config_general['max_time_steps_per_repetition'])
+cut_feedback = float(config_general['cut_feedback'])
 number_of_repetitions = config_general.getint('number_of_repetitions')
 render_delay = float(config_general['render_delay'])
 tau = float(config_general['tau'])
@@ -80,6 +82,7 @@ action_factor = float(config_general['action_factor'])
 task = config_general['task']
 human_teacher = config_general.getboolean('human_teacher')
 oracle_teacher = config_general.getboolean('oracle_teacher')
+evaluations_per_training = config_general.getint('evaluations_per_training')
 
 dim_a=config_agent.getint('dim_a')
 metaworld_env = config_general.getboolean('metaworld_env')
@@ -87,7 +90,7 @@ mountaincar_env = config_general.getboolean('mountaincar_env')
 cartpole_env = config_general.getboolean('cartpole_env')
 kuka_env = config_general.getboolean('kuka_env')
 pendulum_env = config_general.getboolean('pendulum_env')
-h_threshold = float(config_general['h_threshold'])
+
 
 # Create Neural Network
 neural_network = NeuralNetwork(transition_model_learning_rate=float(config_transition_model['learning_rate']),
@@ -188,15 +191,19 @@ elif metaworld_env:
     elif task == "button-press-v2-goal-observable":
         policy_oracle = SawyerButtonPressV2Policy()
         task_short = "button"
+        task_with_gripper = False
     elif task == "reach-v2-goal-observable":
         policy_oracle = SawyerReachV2Policy()
         task_short = "reach"
+        task_with_gripper = False
     elif task == "plate-slide-v2-goal-observable":
         policy_oracle = SawyerPlateSlideV2Policy()
         task_short = "hockey"
+        task_with_gripper = False
     elif task == "button-press-topdown-v2-goal-observable":
         policy_oracle = SawyerButtonPressTopdownV2Policy()
         task_short = "button_topdown"
+        task_with_gripper = False
     elif task == "push-v2-goal-observable":
         policy_oracle = SawyerPushV2Policy()
         task_short = "push"
@@ -206,12 +213,19 @@ elif metaworld_env:
     elif task == "door-open-v2-goal-observable":
         policy_oracle = SawyerDoorOpenV2Policy()
         task_short = "door"
+        task_with_gripper = False
     elif task == "assembly-v2-goal-observable":
         policy_oracle = SawyerAssemblyV2Policy()
         task_short = "assembly"
+        task_with_gripper = True
     elif task == "basketball-v2-goal-observable":
         policy_oracle = SawyerBasketballV2Policy()
         task_short = "basketball"
+        task_with_gripper = True
+    elif task == "soccer-v2-goal-observable":
+        policy_oracle = SawyerSoccerV2Policy()
+        task_short = "soccer"
+        task_with_gripper = False
 
 # Create saving directory if it does no exist
 if save_results:

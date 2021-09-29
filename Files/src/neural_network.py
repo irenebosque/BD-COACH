@@ -1,6 +1,9 @@
 import tensorflow as tf
 import os
 import numpy
+import tensorlayer as tl
+from keras import backend as K
+
 
 
 class NeuralNetwork:
@@ -157,6 +160,33 @@ class NeuralNetwork:
     #     model_Human = tf.keras.Model(inputs=[state_input, action_input], outputs=[self.h_prediction], name="Human model")
     #     #model_Human.summary()
     #     return model_Human
+    #
+    # @tf.function
+    # def my_relu(self, x,  min=-1, max=1):
+    #     for i in range(len(x)):
+    #         for j in range(len(x[i])):
+    #             if x[i][j] == -1.:
+    #                 x[i][j] = -1.
+    #             elif x[i][j] > 0.1 and x[i][j] < 1:
+    #                 x[i][j] = 1
+    #             else:
+    #                 h_predicted_batch[i][j] = 0
+    #     return x
+    #
+    #
+    #     if x > max:
+    #         return max
+    #     elif x < min:
+    #         return min
+    #     else:
+    #         return x
+
+
+    def custom_activation(self, x):
+        #print("tl.act.hard_tanh(x*2) ", tl.act.hard_tanh(x*2) )
+        #print("K.tanh(x) ", K.tanh(x*4))
+        #return (tl.act.hard_tanh(x) )
+        return (tl.act.hard_tanh(x))
 
     def Human_model(self):
 
@@ -172,9 +202,19 @@ class NeuralNetwork:
         fc_2 = tf.keras.layers.Dense(128, activation="tanh", name='fc_2')(fc_1)
 
 
-        x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(fc_2)
+        #x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(fc_2)
 
-        self.h_prediction = x
+
+        #net = tf.keras.layers.Dense(self.dim_a, activation=lambda x: tl.act.hard_tanh(x), name = 'htanh')(fc_2)
+
+        #net = tf.keras.layers.Lambda(self.my_relu)(net)
+
+        net = tf.keras.layers.Dense(self.dim_a, activation=self.custom_activation, name='custom')(fc_2)
+
+
+
+
+        self.h_prediction = net
 
         # Model creation
         model_Human = tf.keras.Model(inputs=[state_input, action_input], outputs=[self.h_prediction], name="Human model")
