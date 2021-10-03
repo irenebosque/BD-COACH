@@ -8,6 +8,7 @@ import random
 from tabulate import tabulate
 import rospy
 import matplotlib.pyplot as plt
+from datetime import date
 
 
 
@@ -45,22 +46,49 @@ def oracle_gimme_feedback(action_teacher, action, h):
     difference = np.array(difference)
 
     randomNumber = random.random()
-    if t_total < cut_feedback:
+    # if t_total < cut_feedback:
+    #
+    #     P_h = alpha * math.exp(-1 * tau * t_total)
+    #
+    # else:
+    #     P_h = 0.0
 
-        P_h = alpha * math.exp(-1 * tau * t_total)
-    else:
-        P_h = 0.0
+    P_h = alpha * math.exp(-1 * tau * t_total)
 
+    #hR = np.array([0, 0, 0]) #Rodrigo
     if randomNumber < P_h:
+
+
+       # hR = np.sign(difference)#Rodrigo
+
         h = [0] * dim_a
         for i, name in enumerate(h):
 
             if abs(difference[i]) > theta:
                 h[i] = np.sign(difference[i])
-    return h
 
+
+
+
+    # print("\n")
+    # print("difference: ", difference)
+    # print("Mi h: ", h)
+    # print("hR: ", hR)
+
+
+    return h #TODO
+
+def scale_observation(x, low, high):
+
+    y = (((1 - (-1))/(high - low)) * (x - low)) - 1
+
+    y = np.clip(y, -1, 1)
+    return y
 
 def process_observation(observation):
+
+
+
     # print("observation_original", observation_original)
     # What is the useful part of the observation
     if task == "drawer-open-v2-goal-observable":
@@ -85,8 +113,45 @@ def process_observation(observation):
         observation = np.hstack(
             (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
     elif task == "soccer-v2-goal-observable":
-        observation = np.hstack(
-            (observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+        #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+        observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
+
+
+
+    low_env_boundary_ee  = low_env_boundary[:3]
+    high_env_boundary_ee = high_env_boundary[:3]
+    low_env_boundary_goal  = low_env_boundary[-3:]
+    high_env_boundary_goal = high_env_boundary[-3:]
+    low_env_boundary_table = [-0.65, 0.25, 0.03]
+    high_env_boundary_table = [0.65, 0.95, 0.03]
+
+    observation[0] = scale_observation(observation[0], low_env_boundary_ee[0], high_env_boundary_ee[0])
+    observation[1] = scale_observation(observation[1], low_env_boundary_ee[0], high_env_boundary_ee[1])
+    observation[2] = scale_observation(observation[2], low_env_boundary_ee[2], high_env_boundary_ee[2])
+
+
+    observation[3] = scale_observation(observation[3], low_env_boundary_table[0], high_env_boundary_table[0])
+    observation[4] = scale_observation(observation[4], low_env_boundary_table[1], high_env_boundary_table[1])
+    observation[5] = observation[5]/ low_env_boundary_table[2]
+
+    observation[-3] = scale_observation(observation[-3], low_env_boundary_goal[0], high_env_boundary_goal[0])
+    observation[-2] = scale_observation(observation[-2], low_env_boundary_goal[1], high_env_boundary_goal[1])
+    observation[-1] = 0.
+
+
+    # low_env_boundary_ee_obj  = [-0.65, 0.25, 0.03]
+    # high_env_boundary_ee_obj = [-0.65, 0.25, 0.03]
+    # low_env_boundary_obj_goal = [-0.65, 0.25, 0.03]
+    # high_env_boundary_obj_goal = [0.65, 0.95, 0.03]
+    #
+    # observation[0] = observation[0] / 1.175
+    # observation[1] = observation[1] / 0.7
+    # observation[2] = observation[2] / (1.025-0.03)
+    #
+    #
+    # observation[3] = observation[3] / 0.75
+    # observation[4] = observation[4] / 0.65
+    # observation[5] = observation[5] / 0.03
 
 
     # Prepare observation
@@ -137,6 +202,9 @@ weigths_counter = 0
 
 task_env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[task]
 env = task_env()
+low_env_boundary = env.observation_space.low
+
+high_env_boundary = env.observation_space.high
 
 repetition_is_over = False
 
@@ -161,6 +229,8 @@ for i_repetition in range(number_of_repetitions):
     total_success_per_episode = [[]] * evaluations_per_training
     total_success_per_episode[0].append(0)
     print("total_success_per_episode", total_success_per_episode)
+    total_success_per_episode = [[0], [0], [0], [0], [0]]
+
 
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0
     human_done, random_agent, evaluation_started = False, False, False
@@ -190,6 +260,7 @@ for i_repetition in range(number_of_repetitions):
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
         env = task_env()
+
         observation = env.reset()
 
 
@@ -201,7 +272,31 @@ for i_repetition in range(number_of_repetitions):
 
 
         if repetition_is_over == True:
+            today = date.today()
+            d4 = today.strftime("%b-%d-%Y")
+            policy_model_weights = [agent.policy_model.get_weights()]
+            policy_model_weights = np.array(policy_model_weights)
+            human_model_weights = [agent.Human_model.get_weights()]
+            human_model_weights = np.array(human_model_weights)
+
+            np.save(
+                './weights/HM_weights' + 'HM-' + str(agent.human_model_included) + \
+                '_e-' + str(e) + \
+                '_B-' + str(buffer_size_max) + \
+                '_tau-' + str(tau) + '_lr-' + str(lr) + '_HMlr-' + str(HM_lr) + '_agent_batch_lr-' + str(
+                    agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + d4 + '.npy',
+                human_model_weights)
+            np.save(
+                './weights/Policy_weights' + 'HM-' + str(agent.human_model_included) + \
+                '_e-' + str(e) + \
+                '_B-' + str(buffer_size_max) + \
+                '_tau-' + str(tau) + '_lr-' + str(lr) + '_HMlr-' + str(
+                    HM_lr) + '_agent_batch_lr-' + str(
+                    agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + d4 + '.npy',
+                policy_model_weights)
+
             repetition_is_over = False
+
             break
 
         if i_episode == 0:
@@ -233,7 +328,10 @@ for i_repetition in range(number_of_repetitions):
 
 
 
+
             #env.render(mode='human')
+            #time.sleep(0.2)
+
 
             h = None
 
@@ -276,6 +374,8 @@ for i_repetition in range(number_of_repetitions):
             if task_with_gripper == False:
 
                 action_to_env = np.append(action, [1])
+
+
 
 
 
@@ -368,6 +468,7 @@ for i_repetition in range(number_of_repetitions):
 
                         # Get action from the agent
                         action = agent.action(observation_processed)
+
                         # if action[-1] > 0.6:
                         #     action[-1] = 0.6
                         action_to_env = action
@@ -447,7 +548,7 @@ for i_repetition in range(number_of_repetitions):
                                 path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                                    '_e-' + str(e) + \
                                                    '_B-' + str(buffer_size_max) + \
-                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) +'_task-' + task_short  +'_rep-randm-' + str(results_counter).zfill(2) + \
+                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) +'_task-' + task_short  +'_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + str(results_counter).zfill(2) + \
                                                    '.csv'
 
 
@@ -457,7 +558,7 @@ for i_repetition in range(number_of_repetitions):
                                         path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                                    '_e-' + str(e) + \
                                                    '_B-' + str(buffer_size_max) + \
-                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short +'_rep-randm-' + str(results_counter).zfill(2) + \
+                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short +'_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + str(results_counter).zfill(2) + \
                                                    '.csv'
 
                                 if i_episode == 0:
@@ -469,8 +570,10 @@ for i_repetition in range(number_of_repetitions):
                                 df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
                                                    '_e-' + str(e) + \
                                                    '_B-' + str(buffer_size_max) + \
-                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-' + str(results_counter_list[i_ev]).zfill(2) + \
+                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + str(results_counter_list[i_ev]).zfill(2) + \
                                                    '.csv', index=False)
+
+
 
                                 env.close()
 

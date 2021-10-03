@@ -30,6 +30,8 @@ def postProcess(test_name, path):
 
         df = pd.read_csv(path + test_name.format(str(i).zfill(2)))
         last_timestep = df.iloc[-1]['Timesteps']
+        print("len(list_max_timestep): ", len(list_max_timestep))
+        print("sum(list_max_timestep): ", sum(list_max_timestep))
         list_max_timestep.append(last_timestep)
     average_max_timestep = sum(list_max_timestep) / len(list_max_timestep)
     average_max_timestep = int(average_max_timestep)

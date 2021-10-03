@@ -186,7 +186,7 @@ class NeuralNetwork:
         #print("tl.act.hard_tanh(x*2) ", tl.act.hard_tanh(x*2) )
         #print("K.tanh(x) ", K.tanh(x*4))
         #return (tl.act.hard_tanh(x) )
-        return (tl.act.hard_tanh(x))
+        return (K.tanh(x))
 
     def Human_model(self):
 
@@ -198,8 +198,8 @@ class NeuralNetwork:
         concat_0 = tf.concat([state_input , action_input], axis=1, name='concat_0')
         # Fully connected layers
 
-        fc_1 = tf.keras.layers.Dense(256, activation="tanh", name='fc_1')(concat_0)
-        fc_2 = tf.keras.layers.Dense(128, activation="tanh", name='fc_2')(fc_1)
+        fc_1 = tf.keras.layers.Dense(512, activation="tanh", name='fc_1')(concat_0)
+        fc_2 = tf.keras.layers.Dense(512, activation="tanh", name='fc_2')(fc_1)
 
 
         #x = tf.keras.layers.Dense(self.dim_a, activation="tanh")(fc_2)
@@ -209,12 +209,12 @@ class NeuralNetwork:
 
         #net = tf.keras.layers.Lambda(self.my_relu)(net)
 
-        net = tf.keras.layers.Dense(self.dim_a, activation=self.custom_activation, name='custom')(fc_2)
+        #net = tf.keras.layers.Dense(self.dim_a, activation=self.custom_activation, name='custom')(fc_2)
+        fc_3 = tf.keras.layers.Dense(self.dim_a, activation="tanh", name='fc_3')(fc_2)
 
 
 
-
-        self.h_prediction = net
+        self.h_prediction = fc_3
 
         # Model creation
         model_Human = tf.keras.Model(inputs=[state_input, action_input], outputs=[self.h_prediction], name="Human model")

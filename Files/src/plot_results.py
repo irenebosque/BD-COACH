@@ -56,13 +56,29 @@ test_HM_0_01_B_15000_rand_door3 = 'DCOACH_HM-True_e-0.01_B-50000_tau-4e-06_lr-0.
 
 test_NOHM_0_1_B_500_rand_basketball = 'DCOACH_HM-False_e-0.1_B-500_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-basketball_rep-randm2-{}.csv'
 test_HM_0_01_B_500000_rand_basketball = 'DCOACH_HM-True_e-0.01_B-500000_tau-4e-06_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-basketball_rep-randm2-{}.csv'
+test_HM_0_1_B_500000_rand_soccer = 'DCOACH_HM-True_e-0.1_B-500000_tau-3e-06_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-{}.csv'
+test_NOHM_0_1_B_500_rand_soccer = 'DCOACH_HM-False_e-0.1_B-500_tau-3e-06_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-{}.csv'
+test_NOHM_0_1_B_500_rand_soccer_long = 'DCOACH_HM-False_e-0.1_B-500_tau-5e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_4m-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_long = 'DCOACH_HM-True_e-0.1_B-500000_tau-5e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_4m-{}.csv'
+test_NOHM_0_1_B_500_rand_soccer_short = 'DCOACH_HM-False_e-0.1_B-500_tau-5e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_v2-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short = 'DCOACH_HM-True_e-0.1_B-500000_tau-5e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_v2-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short_obs = 'DCOACH_HM-True_e-0.1_B-500000_tau-5e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_obs-{}.csv'
+test_NOHM_0_1_B_500_rand_soccer_short = 'DCOACH_HM-False_e-0.1_B-500_tau-5e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_v2-{}.csv'
 
-#tests = [test_NOHM_0_1_B_15000_rand_door, test_HM_0_1_B_15000_rand_door, test_NOHM_0_01_B_15000_rand_door, test_HM_0_01_B_15000_rand_door]
 
-#tests = [ test_NOHM_0_1_B_500_rand_button, test_HM_0_01_B_15000_button, test_NOHM_0_01_B_15000_rand_button , test_NOHM_0_01_B_500_rand_button, test_HM_0_01_B_500_rand_button, test_HM_0_01_B_15000_rand_button, test_HM_0_01_B_45000_rand_button, test_HM_0_1_B_500_rand_button , test_HM_0_1_B_15000_rand_button]
-#tests = [test_HM_0_1_B_500_button, test_HM_0_01_B_500_button, test_HM_0_01_B_15000_button, test_NOHM_0_01_B_500_button, test_NOHM_0_1_B_500_button , test_NOHM_0_01_B_15000_button ]
-tests = [test_HM_0_01_B_15000_rand_door3]
 
+
+test_NOHM_0_1_B_500_rand_soccer_short_org_obs = 'DCOACH_HM-False_e-0.1_B-500_tau-1e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_01 = 'DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.01_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001 = 'DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short_v3 = 'DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_v3-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short_org_obs = 'DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-{}.csv'
+test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet = 'DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-big-net-{}.csv'
+
+
+test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet_B20 = 'DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20-{}.csv'
+tests = [test_NOHM_0_1_B_500_rand_soccer_short_org_obs, test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_01,test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001, test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet, test_HM_0_1_B_500000_rand_soccer_short_v3, test_HM_0_1_B_500000_rand_soccer_short_org_obs, test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet_relu_100000t, test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet_B20_100000t]
+tests = [ test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet, test_HM_0_1_B_500000_rand_soccer_short_org_obs_HMlr_0_001_bignet_B20]
 
 
 
@@ -70,10 +86,11 @@ tests = [test_HM_0_01_B_15000_rand_door3]
 cm = 1/2.54
 
 fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))
-ax2 = axs[0].twiny()
-
-ax3 = axs[1].twiny()
-ax4= axs[1].twinx()
+fig, axs= plt.subplots(1, figsize=(17*cm, 17*cm))
+#ax2 = axs[0].twiny()
+ax2 = axs.twiny()
+# ax3 = axs[1].twiny()
+# ax4= axs[1].twinx()
 
 mujoco_timestep = 0.0125
 
@@ -108,6 +125,14 @@ for test in tests:
         task = "push"
     if "basketball" in test:
         task = "basketball"
+    if "soccer" in test:
+        task = "soccer"
+
+    if "org" in test:
+        org = "yes"
+    else:
+        org = "no"
+
 
 
 
@@ -267,7 +292,36 @@ for test in tests:
     if human_model == "no" and e == 0.1 and buffer_size == 15000:
         colorPlot = '#ff4800'  # brown
 
-    colorPlot = '#ff4800'  # brown
+    if human_model == "no" and "0_2m" in test:
+        colorPlot = 'black'  # orange
+        area = "0.2m"
+    if human_model == "yes" and "0_2m" in test:
+        colorPlot = '#54E346'  # red
+        area = "0.2m"
+    if human_model == "no" and "0_4m" in test:
+        colorPlot = '#ff4800'  # orange
+        area = "0.4m"
+    if human_model == "yes" and "0_4m" in test:
+        colorPlot = '#2f604b'  # red
+        area = "0.4m"
+    if human_model == "yes" and "0_2m" in test and "v3" in test:
+        colorPlot = '#FA26A0'  # red
+        area = "0.2m"
+
+    if "0.001" in test:
+        colorPlot = 'blue'  # red
+        area = "0.2m"
+    if "big-net" in test and "0.001" in test:
+        colorPlot = 'orange'  # red
+        area = "0.2m"
+    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs" in test:
+        colorPlot = 'red'  # red
+        area = "0.2m"
+
+    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
+        colorPlot = 'purple'  # red
+        area = "0.2m"
+
 
 
 
@@ -286,15 +340,18 @@ for test in tests:
 
 
 
-    axs[0].plot(simulated_time, success_mean, linewidth=0.1, zorder=0, color=colorPlot)
-    axs[0].plot(simulated_time, fit_success, linewidth=2.0, zorder=1, color=colorPlot, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
-    axs[0].plot(simulated_time2, fit_success2)
-    axs[0].set_ylabel('% of success')
-    axs[0].set_xlabel('min')
+    #axs.plot(simulated_time, success_mean, linewidth=0.1, zorder=0, color=colorPlot)
+    #axs[0].plot(simulated_time, fit_success, linewidth=2.0, zorder=1, color=colorPlot, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
+    axs.plot(simulated_time2, fit_success2, linewidth=1.5, zorder=1, color=colorPlot,
+                label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(
+                    buffer_size) + ', e: ' + str(e) + ', Initial random length: ' + area+ ', Original obs: ' + org)
+
+    axs.set_ylabel('% of success')
+    axs.set_xlabel('min')
 
     title = "Evaluation of task: " + task
-    axs[0].set_title(title)
-    axs[0].legend(loc='lower right')
+    axs.set_title(title)
+    #axs[0].legend(loc='lower right')
 
 
 
@@ -306,46 +363,48 @@ for test in tests:
 
     ax2.plot(timesteps_list, p(simulated_time), color=colorPlot, alpha=0)
     plt.xticks(rotation=5)
-
-
-
-    # Lower plot:
-
-    axs[1].plot(simulated_time, pct_feedback_mean, linewidth=2.0, color=colorPlot, zorder=0, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
-    axs[1].set_ylabel('% of feedback per episode')
-    ax4.set_ylabel('Amount of feedback')
-    axs[1].set_xlabel('min')
-    title = "Evaluation of task: " + task
-    axs[1].set_title(title)
-
-    ax3.xaxis.set_ticks_position('bottom')
-    ax3.xaxis.set_label_position('bottom')
-    ax3.spines['bottom'].set_position(('outward', 40))
-    ax3.set_xlabel('time steps')
-
-
-
-
-
-
-    ax3.plot(timesteps_list, pct_feedback_mean, color=colorPlot, alpha=0)
-    ax4.plot(simulated_time, feedback_mean, color=colorPlot)
-    axs[1].legend(loc='lower right')
-    plt.xticks(rotation=5)
-
     ax2.set_ylim([0, 1])
-    ax3.set_ylim([0, 1])
+
+
+    # # Lower plot:
+    #
+    # axs[1].plot(simulated_time, pct_feedback_mean, linewidth=2.0, color=colorPlot, zorder=0, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) + ', Initial random length: ' + area)
+    # ax3.plot(timesteps_list, pct_feedback_mean, color=colorPlot, alpha=0)
+    # ax4.plot(simulated_time, feedback_mean, color=colorPlot)
+    # axs[1].grid(linestyle='--')
+    # axs[1].set_ylabel('% of feedback per episode')
+    # ax4.set_ylabel('Amount of feedback')
+    # axs[1].set_xlabel('min')
+    # title = "Training feedback for task: " + task
+    # axs[1].set_title(title)
+    #
+    # ax3.xaxis.set_ticks_position('bottom')
+    # ax3.xaxis.set_label_position('bottom')
+    # ax3.spines['bottom'].set_position(('outward', 40))
+    # ax3.set_xlabel('time steps')
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    # axs[1].legend(loc='lower right')
+    # plt.xticks(rotation=5)
+    #
+    #
+    # ax3.set_ylim([0, 1])
 
 
 
 
 
 
-axs[0].grid(linestyle='--')
-axs[1].grid(linestyle='--')
+axs.grid(linestyle='--')
 
 
-#fig.subplots_adjust(hspace=0.2, top=0.95, bottom=0.075) # Space between the subplots
-fig.subplots_adjust(hspace=0.4, bottom=0.15,  top=0.96, right=0.6) # Space between the subplots
+
+
+#fig.subplots_adjust(hspace=0.4, bottom=0.15,  top=0.96, right=0.6) # Space between the subplots
 
 plt.show()
