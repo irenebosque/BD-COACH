@@ -272,28 +272,28 @@ for i_repetition in range(number_of_repetitions):
 
 
         if repetition_is_over == True:
-            today = date.today()
-            d4 = today.strftime("%b-%d-%Y")
-            policy_model_weights = [agent.policy_model.get_weights()]
-            policy_model_weights = np.array(policy_model_weights)
-            human_model_weights = [agent.Human_model.get_weights()]
-            human_model_weights = np.array(human_model_weights)
-
-            np.save(
-                './weights/HM_weights' + 'HM-' + str(agent.human_model_included) + \
-                '_e-' + str(e) + \
-                '_B-' + str(buffer_size_max) + \
-                '_tau-' + str(tau) + '_lr-' + str(lr) + '_HMlr-' + str(HM_lr) + '_agent_batch_lr-' + str(
-                    agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + d4 + '.npy',
-                human_model_weights)
-            np.save(
-                './weights/Policy_weights' + 'HM-' + str(agent.human_model_included) + \
-                '_e-' + str(e) + \
-                '_B-' + str(buffer_size_max) + \
-                '_tau-' + str(tau) + '_lr-' + str(lr) + '_HMlr-' + str(
-                    HM_lr) + '_agent_batch_lr-' + str(
-                    agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + d4 + '.npy',
-                policy_model_weights)
+            # today = date.today()
+            # d4 = today.strftime("%b-%d-%Y")
+            # policy_model_weights = [agent.policy_model.get_weights()]
+            # policy_model_weights = np.array(policy_model_weights)
+            # human_model_weights = [agent.Human_model.get_weights()]
+            # human_model_weights = np.array(human_model_weights)
+            #
+            # np.save(
+            #     './weights/HM_weights' + 'HM-' + str(agent.human_model_included) + \
+            #     '_e-' + str(e) + \
+            #     '_B-' + str(buffer_size_max) + \
+            #     '_tau-' + str(tau) + '_lr-' + str(lr) + '_HMlr-' + str(HM_lr) + '_agent_batch_lr-' + str(
+            #         agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + d4 + '.npy',
+            #     human_model_weights)
+            # np.save(
+            #     './weights/Policy_weights' + 'HM-' + str(agent.human_model_included) + \
+            #     '_e-' + str(e) + \
+            #     '_B-' + str(buffer_size_max) + \
+            #     '_tau-' + str(tau) + '_lr-' + str(lr) + '_HMlr-' + str(
+            #         HM_lr) + '_agent_batch_lr-' + str(
+            #         agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + d4 + '.npy',
+            #     policy_model_weights)
 
             repetition_is_over = False
 
