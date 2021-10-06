@@ -50,6 +50,7 @@ class DCOACH:
                 self.Human_model = neural_network.Human_model()
 
     def discretize_feedback(self, h_predicted_batch):
+
         h_predicted_batch = h_predicted_batch.numpy()
         h_predicted_batch = h_predicted_batch.tolist()
 
@@ -61,6 +62,9 @@ class DCOACH:
                     h_predicted_batch[i][j] = 1
                 else:
                     h_predicted_batch[i][j] = 0
+
+
+
         return h_predicted_batch
 
 
@@ -189,6 +193,7 @@ class DCOACH:
 
             # 5. Get bath of h predictions from Human model
             h_predicted_batch = self.Human_model([observations_reshaped_tensor, actions_batch])
+
             h_predicted_batch = self.discretize_feedback(h_predicted_batch)
 
             # 6. Get batch of a_target from batch of predicted h (error = h * e --> a_target = a + error)
@@ -334,6 +339,8 @@ class DCOACH:
     def TRAIN_Human_Model_NOT_included(self, action, t, done, i_episode, h, observation):
 
         if np.any(h):  # if any element is not 0
+
+
 
 
             # 2. Generate a_target

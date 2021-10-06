@@ -30,8 +30,8 @@ def postProcess(test_name, path):
 
         df = pd.read_csv(path + test_name.format(str(i).zfill(2)))
         last_timestep = df.iloc[-1]['Timesteps']
-        print("len(list_max_timestep): ", len(list_max_timestep))
-        print("sum(list_max_timestep): ", sum(list_max_timestep))
+        # print("len(list_max_timestep): ", len(list_max_timestep))
+        # print("sum(list_max_timestep): ", sum(list_max_timestep))
         list_max_timestep.append(last_timestep)
     average_max_timestep = sum(list_max_timestep) / len(list_max_timestep)
     average_max_timestep = int(average_max_timestep)
@@ -55,6 +55,7 @@ def postProcess(test_name, path):
         buffer_size  = df.at[0,'Buffer_size'].tolist()
         human_model  = df.at[0,'Human_model'].tolist()
         tau          = df.at[0,'Tau'].tolist()
+        abs_pos      = df.at[0, 'Absolute_pos'].tolist()
 
 
 
@@ -74,6 +75,11 @@ def postProcess(test_name, path):
             human_model = 'yes'
         else:
             human_model = 'no'
+
+        if abs_pos == True:
+            abs_pos = 'yes'
+        else:
+            abs_pos = 'no'
 
 
         timesteps_list.append(timesteps)
@@ -119,5 +125,5 @@ def postProcess(test_name, path):
 
 
 
-    return timesteps_list_ok, success_list_ok, feedback_list_ok, pct_feedback_list_ok, tau, e, human_model, buffer_size
+    return timesteps_list_ok, success_list_ok, feedback_list_ok, pct_feedback_list_ok, tau, e, human_model, buffer_size, abs_pos
 

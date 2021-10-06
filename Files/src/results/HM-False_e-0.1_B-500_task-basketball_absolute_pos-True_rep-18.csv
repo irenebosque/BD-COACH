@@ -1,0 +1,3 @@
+Episode,Timesteps,Success,Feedback,Percentage_feedback,e,Buffer_size,Human_model,Tau,Human_model_lr,Policy_lr,Policy_batch_lr,Absolute_pos,Buffer_sampling_size
+0,0,0,0,0.9,0.1,500,False,1e-07,0.001,0.001,0.001,True,20
+1,501,0,0,0.891999998216,0.1,500,False,1e-07,0.001,0.001,0.001,True,20

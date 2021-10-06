@@ -185,8 +185,8 @@ class NeuralNetwork:
     def custom_activation(self, x):
         #print("tl.act.hard_tanh(x*2) ", tl.act.hard_tanh(x*2) )
         #print("K.tanh(x) ", K.tanh(x*4))
-        #return (tl.act.hard_tanh(x) )
-        return (K.tanh(x))
+        return (tl.act.hard_tanh(x*2) )
+        #return (K.tanh(x))
 
     def Human_model(self):
 
@@ -209,7 +209,7 @@ class NeuralNetwork:
 
         #net = tf.keras.layers.Lambda(self.my_relu)(net)
 
-        #net = tf.keras.layers.Dense(self.dim_a, activation=self.custom_activation, name='custom')(fc_2)
+        #fc_3 = tf.keras.layers.Dense(self.dim_a, activation=self.custom_activation, name='custom')(fc_2)
         fc_3 = tf.keras.layers.Dense(self.dim_a, activation="tanh", name='fc_3')(fc_2)
 
 

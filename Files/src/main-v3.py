@@ -17,7 +17,7 @@ import math
 from main_init import neural_network, transition_model_type, agent, agent_type, exp_num,count_down, \
                         max_num_of_episodes, render, max_time_steps_episode, save_results, eval_save_path, \
     render_delay, save_policy, save_transition_model, tau, alpha, theta, task, max_time_steps_per_repetition, \
-number_of_repetitions, evaluation, save_results, env, task_short, dim_a, mountaincar_env, pendulum_env, metaworld_env, human_teacher, oracle_teacher, action_factor, kuka_env, cartpole_env, task_with_gripper, cut_feedback, evaluations_per_training
+number_of_repetitions, evaluation, save_results, env, task_short, dim_a, mountaincar_env, pendulum_env, metaworld_env, human_teacher, oracle_teacher, action_factor, kuka_env, cartpole_env, task_with_gripper, cut_feedback, evaluations_per_training, absolute_positions
 
 
 print('evaluation: ', evaluation)
@@ -32,6 +32,7 @@ buffer_size_max = agent.buffer_max_size
 lr = agent.policy_model_learning_rate
 HM_lr = agent.human_model_learning_rate
 agent_with_hm_learning_rate = agent.agent_with_hm_learning_rate
+buffer_sampling_size = agent.buffer_sampling_size
 
 
 
@@ -89,7 +90,8 @@ def process_observation(observation):
 
 
 
-    # print("observation_original", observation_original)
+
+
     # What is the useful part of the observation
     if task == "drawer-open-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[4:7]))
@@ -98,7 +100,7 @@ def process_observation(observation):
     elif task == "button-press-topdown-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[3], observation[4:7]))
     elif task == "reach-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[-3:]))
+        observation = np.hstack((observation[:3], observation[-3:] ))
     elif task == "plate-slide-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
     elif task == "push-v2-goal-observable":
@@ -111,50 +113,48 @@ def process_observation(observation):
             (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
     elif task == "basketball-v2-goal-observable":
         observation = np.hstack(
-            (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
+            (observation[:3], observation[3], observation[4:7],observation[21],observation[-3:]))
     elif task == "soccer-v2-goal-observable":
         #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
-        observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
-
+        #observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
+        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
+    elif task == "shelf-place-v2-goal-observable":
+        observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
+        observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
+    elif task == "pick-place-v2-goal-observable":
+        observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
+        observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
 
 
     low_env_boundary_ee  = low_env_boundary[:3]
     high_env_boundary_ee = high_env_boundary[:3]
-    low_env_boundary_goal  = low_env_boundary[-3:]
-    high_env_boundary_goal = high_env_boundary[-3:]
+
+    low_env_boundary_gripper = low_env_boundary[3]
+    high_env_boundary_gripper = high_env_boundary[3]
+
     low_env_boundary_table = [-0.65, 0.25, 0.03]
     high_env_boundary_table = [0.65, 0.95, 0.03]
 
+    low_env_boundary_goal = low_env_boundary[-3:]
+    high_env_boundary_goal = high_env_boundary[-3:]
+
     observation[0] = scale_observation(observation[0], low_env_boundary_ee[0], high_env_boundary_ee[0])
-    observation[1] = scale_observation(observation[1], low_env_boundary_ee[0], high_env_boundary_ee[1])
+    observation[1] = scale_observation(observation[1], low_env_boundary_ee[1], high_env_boundary_ee[1])
     observation[2] = scale_observation(observation[2], low_env_boundary_ee[2], high_env_boundary_ee[2])
+
+
+    #observation[3] = scale_observation(observation[3], low_env_boundary_gripper, high_env_boundary_gripper)
 
 
     observation[3] = scale_observation(observation[3], low_env_boundary_table[0], high_env_boundary_table[0])
     observation[4] = scale_observation(observation[4], low_env_boundary_table[1], high_env_boundary_table[1])
-    observation[5] = observation[5]/ low_env_boundary_table[2]
+    #observation[5] = scale_observation(observation[5], 0.03, high_env_boundary_goal[2])
 
-    observation[-3] = scale_observation(observation[-3], low_env_boundary_goal[0], high_env_boundary_goal[0])
-    observation[-2] = scale_observation(observation[-2], low_env_boundary_goal[1], high_env_boundary_goal[1])
-    observation[-1] = 0.
-
-
-    # low_env_boundary_ee_obj  = [-0.65, 0.25, 0.03]
-    # high_env_boundary_ee_obj = [-0.65, 0.25, 0.03]
-    # low_env_boundary_obj_goal = [-0.65, 0.25, 0.03]
-    # high_env_boundary_obj_goal = [0.65, 0.95, 0.03]
-    #
-    # observation[0] = observation[0] / 1.175
-    # observation[1] = observation[1] / 0.7
-    # observation[2] = observation[2] / (1.025-0.03)
-    #
-    #
-    # observation[3] = observation[3] / 0.75
-    # observation[4] = observation[4] / 0.65
-    # observation[5] = observation[5] / 0.03
+    #observation[-3] = scale_observation(observation[-3], low_env_boundary_goal[0], high_env_boundary_goal[0])
+    observation[-2] = scale_observation(observation[-2], low_env_boundary_goal[0], high_env_boundary_goal[0])
+    observation[-1] = scale_observation(observation[-1], low_env_boundary_goal[1], high_env_boundary_goal[1])
 
 
-    # Prepare observation
 
 
     observation = [observation]
@@ -176,10 +176,32 @@ def is_env_done(info):
     return environment_done, success_this_episode
 
 
+def random_init_pos():
+    goal_low = (-0.1, 0.8, 0.0)
+    goal_high = (0.1, 0.9, 0.0)
 
-"""
-Main loop of the algorithm described in the paper 'Interactive Learning of Temporal Features for Control' 
-"""
+    random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
+
+    obj_low = (-0.1, 0.6, 0.03)
+    obj_high = (0.1, 0.7, 0.03)
+
+    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+
+
+    env._set_obj_xyz(np.array(random_init_pos_obj))
+    env._target_pos = np.array(random_init_pos_goal)
+
+    #env._set_obj_xyz(np.array([0, 0.55, 0.020]))
+    #env._target_pos = np.array(random_init_pos_goal)
+
+    # env._target_pos = env.sim.model.site_pos[env.model.site_name2id('goal')] + env.sim.model.body_pos[
+    #     env.model.body_name2id('shelf')]
+
+    for j in range(10):
+        env.data.set_mocap_pos('mocap', np.array([0, 0.5, 0.05]))
+        env.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
+        env.do_simulation([-1, 1], env.frame_skip)
 
 
 
@@ -224,12 +246,15 @@ for i_repetition in range(number_of_repetitions):
 
     # Initialize variables
     total_pct_feedback, total_time_steps, trajectories_database, total_reward, total_time_seconds, total_time_minutes, total_cummulative_feedback, show_e, show_buffer_size, show_human_model, show_tau, total_success, total_success_div_episode, total_episodes, total_task, total_policy_loss_agent, total_policy_loss_hm, total_t = [alpha], [0], [], [0], [0], [0], [0], [e], [buffer_size_max], [agent.human_model_included], [tau], [0], [0], [0], [task_short], [0], [0], [0]
-
+    show_human_model_lr, show_policy_lr, show_policy_batch_lr, show_absolute_pos, show_buffer_sampling_size = [HM_lr], [lr], [agent_with_hm_learning_rate], [absolute_positions], [buffer_sampling_size]
 
     total_success_per_episode = [[]] * evaluations_per_training
     total_success_per_episode[0].append(0)
     print("total_success_per_episode", total_success_per_episode)
+    total_success_per_episode = [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0]]
     total_success_per_episode = [[0], [0], [0], [0], [0]]
+
+
 
 
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0
@@ -259,9 +284,12 @@ for i_repetition in range(number_of_repetitions):
 
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
-        env = task_env()
+
 
         observation = env.reset()
+
+        random_init_pos()
+
 
 
         success_this_episode = 0
@@ -353,7 +381,8 @@ for i_repetition in range(number_of_repetitions):
 
             # Get action from oracle
             action_teacher = policy_oracle.get_action(observation_original)
-
+            #print("\n")
+            #print("action teacher", action_teacher)
             action_teacher = np.clip(action_teacher, -1, 1)
             if task_with_gripper == False:
                 action_teacher =  action_teacher[:-1].copy()
@@ -361,6 +390,7 @@ for i_repetition in range(number_of_repetitions):
 
             # Get action from the agent
             action = agent.action(observation_processed)
+            #print("action agent", action)
 
             # if action[-1] > 0.6:
             #     action[-1] = 0.6
@@ -385,6 +415,7 @@ for i_repetition in range(number_of_repetitions):
 
             # Get feedback h from the oracle teacher
             h = oracle_gimme_feedback(action_teacher, action, h)
+
 
 
 
@@ -441,7 +472,7 @@ for i_repetition in range(number_of_repetitions):
 
 
                 cummulative_feedback = cummulative_feedback + h_counter
-                #env.close()
+
                 break
 
             if done and (i_episode % 5 == 0):
@@ -454,12 +485,18 @@ for i_repetition in range(number_of_repetitions):
 
                     success_this_episode = 0
 
-                    env = task_env()
+
                     observation = env.reset()
+
+                    random_init_pos()
+
+
+
+                    #env._set_obj_xyz(np.array([-0.09, 0.8, 0.03]))
 
                     # Iterate over the episode
                     for t_ev in range(0, max_time_steps_episode):
-                        #env.render(mode='human')
+
 
 
 
@@ -483,6 +520,7 @@ for i_repetition in range(number_of_repetitions):
                         # Act
                         observation, reward, environment_done, info = env.step(action_to_env)
 
+
                         environment_done, success_this_episode = is_env_done(info)
 
 
@@ -490,6 +528,8 @@ for i_repetition in range(number_of_repetitions):
                         done_evaluation = environment_done or repetition_is_over or t_ev == (max_time_steps_episode-2) or doneButton  # or feedback_joystick.ask_for_done()
 
                         if done_evaluation:
+                            env.close()
+
                             if environment_done == True:
                                 print('Evaluation was successful :D')
                                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
@@ -517,6 +557,11 @@ for i_repetition in range(number_of_repetitions):
                                 show_buffer_size.append(buffer_size_max)
                                 show_human_model.append(agent.human_model_included)
                                 show_tau.append(tau)
+                                show_human_model_lr.append(HM_lr)
+                                show_policy_lr.append(lr)
+                                show_policy_batch_lr.append(agent_with_hm_learning_rate)
+                                show_absolute_pos.append(absolute_positions)
+                                show_buffer_sampling_size.append(buffer_sampling_size)
 
                             total_success_per_episode[i_ev].append(success_this_episode)
 
@@ -540,26 +585,35 @@ for i_repetition in range(number_of_repetitions):
                                                    'e': show_e,
                                                    'Buffer_size': show_buffer_size,
                                                    'Human_model': show_human_model,
-                                                   'Tau': show_tau})
+                                                   'Tau': show_tau,
+                                                   'Human_model_lr': show_human_model_lr,
+                                                   'Policy_lr': show_policy_lr,
+                                                   'Policy_batch_lr': show_policy_batch_lr,
+                                                   'Absolute_pos': show_absolute_pos,
+                                                   'Buffer_sampling_size': show_buffer_sampling_size})
 
 
 
 
-                                path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
+
+
+                                path_results = './results/HM-' + str(agent.human_model_included) + \
                                                    '_e-' + str(e) + \
-                                                   '_B-' + str(buffer_size_max) + \
-                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) +'_task-' + task_short  +'_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + str(results_counter).zfill(2) + \
-                                                   '.csv'
+                                                   '_B-' + str(buffer_size_max)  + \
+                                                   '_task-' + task_short  + \
+                                                   '_absolute_pos-' + str(absolute_positions) + \
+                                                   '_rep-v4-' + str(results_counter).zfill(2) + '.csv'
 
 
                                 if overwriteFiles == False:
                                     while os.path.isfile(path_results):
                                         results_counter += 1
-                                        path_results = './results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
+                                        path_results = './results/HM-' + str(agent.human_model_included) + \
                                                    '_e-' + str(e) + \
-                                                   '_B-' + str(buffer_size_max) + \
-                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short +'_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + str(results_counter).zfill(2) + \
-                                                   '.csv'
+                                                   '_B-' + str(buffer_size_max)  + \
+                                                   '_task-' + task_short  + \
+                                                   '_absolute_pos-' + str(absolute_positions) + \
+                                                   '_rep-v4-' + str(results_counter).zfill(2) + '.csv'
 
                                 if i_episode == 0:
                                     results_counter_list.append(results_counter)
@@ -567,11 +621,12 @@ for i_repetition in range(number_of_repetitions):
                                 #print('iev', i_ev)
 
                                 print("Success rep ",results_counter_list[i_ev], ': ',total_success_per_episode[i_ev])
-                                df.to_csv('./results/DCOACH_' + 'HM-' + str(agent.human_model_included) + \
+                                df.to_csv('./results/HM-' + str(agent.human_model_included) + \
                                                    '_e-' + str(e) + \
-                                                   '_B-' + str(buffer_size_max) + \
-                                                   '_tau-' + str(tau) +  '_lr-' + str(lr) +  '_HMlr-' + str(HM_lr)+   '_agent_batch_lr-' + str(agent_with_hm_learning_rate) + '_task-' + task_short + '_rep-randm-0_2m_org_obs-big-net-B-sampling20-' + str(results_counter_list[i_ev]).zfill(2) + \
-                                                   '.csv', index=False)
+                                                   '_B-' + str(buffer_size_max)  + \
+                                                   '_task-' + task_short  + \
+                                                   '_absolute_pos-' + str(absolute_positions) + \
+                                                   '_rep-v4-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
 
 
 

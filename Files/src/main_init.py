@@ -29,6 +29,8 @@ from metaworld.policies.sawyer_door_open_v2_policy import SawyerDoorOpenV2Policy
 from metaworld.policies.sawyer_assembly_v2_policy import SawyerAssemblyV2Policy
 
 from metaworld.policies.sawyer_basketball_v2_policy import SawyerBasketballV2Policy
+from metaworld.policies.sawyer_shelf_place_v2_policy import SawyerShelfPlaceV2Policy
+from metaworld.policies.sawyer_pick_place_v2_policy import SawyerPickPlaceV2Policy
 from metaworld.policies.sawyer_soccer_v2_policy import SawyerSoccerV2Policy
 
 
@@ -81,6 +83,7 @@ theta = float(config_general['theta'])
 action_factor = float(config_general['action_factor'])
 task = config_general['task']
 human_teacher = config_general.getboolean('human_teacher')
+absolute_positions = config_general.getboolean('absolute_positions')
 oracle_teacher = config_general.getboolean('oracle_teacher')
 evaluations_per_training = config_general.getint('evaluations_per_training')
 
@@ -222,10 +225,18 @@ elif metaworld_env:
         policy_oracle = SawyerBasketballV2Policy()
         task_short = "basketball"
         task_with_gripper = True
+    elif task == "shelf-place-v2-goal-observable":
+        policy_oracle = SawyerShelfPlaceV2Policy()
+        task_short = "shelf"
+        task_with_gripper = True
     elif task == "soccer-v2-goal-observable":
         policy_oracle = SawyerSoccerV2Policy()
         task_short = "soccer"
         task_with_gripper = False
+    elif task == "pick-place-v2-goal-observable":
+        policy_oracle = SawyerPickPlaceV2Policy()
+        task_short = "pick"
+        task_with_gripper = True
 
 # Create saving directory if it does no exist
 if save_results:

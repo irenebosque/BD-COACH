@@ -1,0 +1,6 @@
+Episode,Timesteps,Success,Feedback,Percentage_feedback,e,Buffer_size,Human_model,Tau,Human_model_lr,Policy_lr,Policy_batch_lr,Absolute_pos,Buffer_sampling_size
+0,0,0,0,0.9,0.1,500000,True,1e-07,0.001,0.001,0.001,True,20
+1,501,0,0,0.207999999584,0.1,500000,True,1e-07,0.001,0.001,0.001,True,20
+6,3001,0,133,0.061999999876,0.1,500000,True,1e-07,0.001,0.001,0.001,True,20
+11,5501,0,448,0.081999999836,0.1,500000,True,1e-07,0.001,0.001,0.001,True,20
+16,7205,0,791,0.46999999906,0.1,500000,True,1e-07,0.001,0.001,0.001,True,20
