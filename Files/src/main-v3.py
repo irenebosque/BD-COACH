@@ -41,8 +41,8 @@ buffer_sampling_size = agent.buffer_sampling_size
 def oracle_gimme_feedback(action_teacher, action, h):
 
 
-
     difference = action_teacher - action
+
 
     difference = np.array(difference)
 
@@ -70,13 +70,6 @@ def oracle_gimme_feedback(action_teacher, action, h):
 
 
 
-
-    # print("\n")
-    # print("difference: ", difference)
-    # print("Mi h: ", h)
-    # print("hR: ", hR)
-
-
     return h #TODO
 
 def scale_observation(x, low, high):
@@ -86,11 +79,27 @@ def scale_observation(x, low, high):
     y = np.clip(y, -1, 1)
     return y
 
+def scale_action_gripper(x, low, high):
+
+    y = (((1 - (-1))/(high - low)) * (x - low)) - 1
+
+    y = np.clip(y, low, high)
+    return y
+
+def scale_obs_gripper(x, low, high):
+
+
+
+    y = (0.6 +0.6*x)/2
+
+    y = np.clip(y, -1, 1)
+
+
+    return y
+
 def process_observation(observation):
 
-
-
-
+    print("obs puck: ",  observation[4:7])
 
     # What is the useful part of the observation
     if task == "drawer-open-v2-goal-observable":
@@ -102,18 +111,21 @@ def process_observation(observation):
     elif task == "reach-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[-3:] ))
     elif task == "plate-slide-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
+        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
     elif task == "push-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3:]))
+        #observation = np.hstack((observation[:3], observation[3],observation[4:7], observation[-3:]))
+        observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:]-observation[4:7]))
     elif task == "door-open-v2-goal-observable":
         # observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
-        observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+       # observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+        observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+
     elif task == "assembly-v2-goal-observable":
         observation = np.hstack(
             (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
     elif task == "basketball-v2-goal-observable":
         observation = np.hstack(
-            (observation[:3], observation[3], observation[4:7],observation[21],observation[-3:]))
+            (observation[:3], observation[3], observation[4:7],observation[-3:]))
     elif task == "soccer-v2-goal-observable":
         #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
         #observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
@@ -125,36 +137,41 @@ def process_observation(observation):
         observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
         observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
 
-
-    low_env_boundary_ee  = low_env_boundary[:3]
-    high_env_boundary_ee = high_env_boundary[:3]
-
-    low_env_boundary_gripper = low_env_boundary[3]
-    high_env_boundary_gripper = high_env_boundary[3]
-
-    low_env_boundary_table = [-0.65, 0.25, 0.03]
-    high_env_boundary_table = [0.65, 0.95, 0.03]
-
-    low_env_boundary_goal = low_env_boundary[-3:]
-    high_env_boundary_goal = high_env_boundary[-3:]
-
-    observation[0] = scale_observation(observation[0], low_env_boundary_ee[0], high_env_boundary_ee[0])
-    observation[1] = scale_observation(observation[1], low_env_boundary_ee[1], high_env_boundary_ee[1])
-    observation[2] = scale_observation(observation[2], low_env_boundary_ee[2], high_env_boundary_ee[2])
+    elif task == "sweep-v2-goal-observable":
+        observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2]))
 
 
-    #observation[3] = scale_observation(observation[3], low_env_boundary_gripper, high_env_boundary_gripper)
 
 
-    observation[3] = scale_observation(observation[3], low_env_boundary_table[0], high_env_boundary_table[0])
-    observation[4] = scale_observation(observation[4], low_env_boundary_table[1], high_env_boundary_table[1])
-    #observation[5] = scale_observation(observation[5], 0.03, high_env_boundary_goal[2])
-
-    #observation[-3] = scale_observation(observation[-3], low_env_boundary_goal[0], high_env_boundary_goal[0])
-    observation[-2] = scale_observation(observation[-2], low_env_boundary_goal[0], high_env_boundary_goal[0])
-    observation[-1] = scale_observation(observation[-1], low_env_boundary_goal[1], high_env_boundary_goal[1])
-
-
+    # low_env_boundary_ee  = low_env_boundary[:3]
+    # high_env_boundary_ee = high_env_boundary[:3]
+    #
+    # low_env_boundary_gripper = low_env_boundary[3]
+    # high_env_boundary_gripper = high_env_boundary[3]
+    #
+    # low_env_boundary_table = [-0.65, 0.25, 0.03]
+    # high_env_boundary_table = [0.65, 0.95, 0.3]
+    #
+    # low_env_boundary_goal = low_env_boundary[-3:]
+    # high_env_boundary_goal = high_env_boundary[-3:]
+    #
+    # observation[0] = scale_observation(observation[0], low_env_boundary_ee[0], high_env_boundary_ee[0])
+    # observation[1] = scale_observation(observation[1], low_env_boundary_ee[1], high_env_boundary_ee[1])
+    # observation[2] = scale_observation(observation[2], low_env_boundary_ee[2], high_env_boundary_ee[2])
+    #
+    #
+    # #observation[3] = scale_observation(observation[3], low_env_boundary_gripper, high_env_boundary_gripper)
+    #
+    #
+    # observation[3] = scale_observation(observation[3], low_env_boundary_table[0], high_env_boundary_table[0])
+    # observation[4] = scale_observation(observation[4], low_env_boundary_table[1], high_env_boundary_table[1])
+    # observation[5] = scale_observation(observation[5], low_env_boundary_table[2], high_env_boundary_table[2])
+    #
+    # #observation[-3] = scale_observation(observation[-3], low_env_boundary_goal[0], high_env_boundary_goal[0])
+    # observation[-2] = scale_observation(observation[-2], low_env_boundary_goal[0], high_env_boundary_goal[0])
+    # observation[-1] = scale_observation(observation[-1], low_env_boundary_goal[1], high_env_boundary_goal[1])
+    # #
+    #
 
 
     observation = [observation]
@@ -177,20 +194,43 @@ def is_env_done(info):
 
 
 def random_init_pos():
-    goal_low = (-0.1, 0.8, 0.0)
-    goal_high = (0.1, 0.9, 0.0)
+    # #soccer
+    # goal_low = (-0.1, 0.8, 0.0)
+    # goal_high = (0.1, 0.9, 0.0)
+    # obj_low = (-0.1, 0.6, 0.03)
+    # obj_high = (0.1, 0.7, 0.03)
+    #
+    # #Sweep
+    #
+    # obj_low = (-0.1, 0.6, 0.02)
+    # obj_high = (0.1, 0.7, 0.02)
+    # goal_low = (.49, .6, 0.00)
+    # goal_high = (0.51, .7, 0.02)
+    #
+    # # Basket
+    # obj_low = (-0.1, 0.6, 0.0299)
+    # obj_high = (-0.1, 0.6, 0.0301)
+
+    obj_low = (-0., 0.6)
+    obj_high = (0.2, 0.6)
+
+    goal_low = (-0.1, 0.85, 0.)
+    goal_high = (0.1, 0.9, 0.)
 
     random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
-
-    obj_low = (-0.1, 0.6, 0.03)
-    obj_high = (0.1, 0.7, 0.03)
-
-    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 2)
 
 
 
-    env._set_obj_xyz(np.array(random_init_pos_obj))
+    print("random_init_pos_obj", random_init_pos_obj)
+    print("random_init_pos_goal", random_init_pos_goal)
+
+    #env._set_obj_xyz(np.array([-0.2, 0.6]))
+
     env._target_pos = np.array(random_init_pos_goal)
+
+
+    env.sim.model.body_pos[env.model.body_name2id('puck_goal')] = env._target_pos
 
     #env._set_obj_xyz(np.array([0, 0.55, 0.020]))
     #env._target_pos = np.array(random_init_pos_goal)
@@ -225,8 +265,10 @@ weigths_counter = 0
 task_env = ALL_V2_ENVIRONMENTS_GOAL_OBSERVABLE[task]
 env = task_env()
 low_env_boundary = env.observation_space.low
+print("low_env_boundary ", low_env_boundary )
 
 high_env_boundary = env.observation_space.high
+print("high_env_boundary", high_env_boundary)
 
 repetition_is_over = False
 
@@ -253,8 +295,6 @@ for i_repetition in range(number_of_repetitions):
     print("total_success_per_episode", total_success_per_episode)
     total_success_per_episode = [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0]]
     total_success_per_episode = [[0], [0], [0], [0], [0]]
-
-
 
 
     t_total, h_counter, last_t_counter, omg_c, eval_counter, total_r, cummulative_feedback, episode_counter = 1, 0, 0, 0, 0, 0, 0, 0
@@ -358,8 +398,7 @@ for i_repetition in range(number_of_repetitions):
 
 
             #env.render(mode='human')
-            #time.sleep(0.2)
-
+            # time.sleep(0.05)
 
             h = None
 
@@ -382,7 +421,7 @@ for i_repetition in range(number_of_repetitions):
             # Get action from oracle
             action_teacher = policy_oracle.get_action(observation_original)
             #print("\n")
-            #print("action teacher", action_teacher)
+            #print("action teacher: ", action_teacher)
             action_teacher = np.clip(action_teacher, -1, 1)
             if task_with_gripper == False:
                 action_teacher =  action_teacher[:-1].copy()
@@ -390,12 +429,18 @@ for i_repetition in range(number_of_repetitions):
 
             # Get action from the agent
             action = agent.action(observation_processed)
-            #print("action agent", action)
-
-            # if action[-1] > 0.6:
-            #     action[-1] = 0.6
-
             action_to_net = action
+           # action[-1] = scale_obs_gripper(action[-1], 0, 0.6)
+            #action[-1] = scale_obs_gripper(action[-1], 0, 0.6)
+            #action[-1] = scale_action_gripper(action[-1], 0, 0.6)
+
+            #action[-1] = np.clip(action[-1], 0, 0.6)
+
+
+
+
+
+
             action_to_env = action
 
 
@@ -403,7 +448,7 @@ for i_repetition in range(number_of_repetitions):
 
             if task_with_gripper == False:
 
-                action_to_env = np.append(action, [1])
+                action_to_env = np.append(action, [-1])
 
 
 
@@ -497,22 +542,25 @@ for i_repetition in range(number_of_repetitions):
                     # Iterate over the episode
                     for t_ev in range(0, max_time_steps_episode):
 
-
-
+                        #env.render(mode='human')
 
 
                         observation_processed = process_observation(observation)
 
                         # Get action from the agent
                         action = agent.action(observation_processed)
+                        action_to_net = action
+                        #action[-1] = scale_action_gripper(action[-1], 0, 0.6)
+                        #action[-1] = np.clip(action[-1], 0, 0.6)
 
                         # if action[-1] > 0.6:
                         #     action[-1] = 0.6
+                        #action[-1] = scale_obs_gripper(action[-1], 0, 0.6)
                         action_to_env = action
 
                         if task_with_gripper == False:
 
-                            action_to_env = np.append(action, [1])
+                            action_to_env = np.append(action, [-1])
 
 
 
@@ -528,7 +576,7 @@ for i_repetition in range(number_of_repetitions):
                         done_evaluation = environment_done or repetition_is_over or t_ev == (max_time_steps_episode-2) or doneButton  # or feedback_joystick.ask_for_done()
 
                         if done_evaluation:
-                            env.close()
+                            #env.close()
 
                             if environment_done == True:
                                 print('Evaluation was successful :D')
@@ -602,7 +650,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v4-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-v5-' + str(results_counter).zfill(2) + '.csv'
 
 
                                 if overwriteFiles == False:
@@ -613,7 +661,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v4-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-v5-' + str(results_counter).zfill(2) + '.csv'
 
                                 if i_episode == 0:
                                     results_counter_list.append(results_counter)
@@ -626,11 +674,11 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v4-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
+                                                   '_rep-v5-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
 
 
 
-                                env.close()
+                                #env.close()
 
 
 

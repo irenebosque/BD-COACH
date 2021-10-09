@@ -32,7 +32,7 @@ from metaworld.policies.sawyer_basketball_v2_policy import SawyerBasketballV2Pol
 from metaworld.policies.sawyer_shelf_place_v2_policy import SawyerShelfPlaceV2Policy
 from metaworld.policies.sawyer_pick_place_v2_policy import SawyerPickPlaceV2Policy
 from metaworld.policies.sawyer_soccer_v2_policy import SawyerSoccerV2Policy
-
+from metaworld.policies.sawyer_sweep_v2_policy import SawyerSweepV2Policy
 
 
 from metaworld.policies.sawyer_peg_insertion_side_v2_policy import SawyerPegInsertionSideV2Policy
@@ -210,6 +210,7 @@ elif metaworld_env:
     elif task == "push-v2-goal-observable":
         policy_oracle = SawyerPushV2Policy()
         task_short = "push"
+        task_with_gripper = True
     elif task == "peg_insertion_side-v2-goal-observable":
         policy_oracle = SawyerPegInsertionSideV2Policy()
         task_short = "peg"
@@ -236,6 +237,11 @@ elif metaworld_env:
     elif task == "pick-place-v2-goal-observable":
         policy_oracle = SawyerPickPlaceV2Policy()
         task_short = "pick"
+        task_with_gripper = True
+
+    elif task == "sweep-v2-goal-observable":
+        policy_oracle = SawyerSweepV2Policy()
+        task_short = "sweep"
         task_with_gripper = True
 
 # Create saving directory if it does no exist
