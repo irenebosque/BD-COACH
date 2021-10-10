@@ -160,22 +160,27 @@ tests = [test_NOHM_e_0_1_B_500_soccer_abs, test_HM_e_0_01_B_500000_soccer_abs, t
 
 test_NOHM_e_0_1_B_500_soccer_abs_shorter = 'HM-False_e-0.1_B-500_task-soccer_absolute_pos-True_rep-v4-{}.csv' #same as previous without hm but 50000 t
 tests = [test_NOHM_e_0_1_B_500_soccer_abs_shorter, test_HM_e_0_01_B_500000_soccer_abs_v4]
-
-test_NOHM_e_0_1_B_500_sweep_abs_shorter = 'HM-False_e-0.1_B-500_task-sweep_absolute_pos-True_rep-v5-{}.csv'
-test_HM_e_0_1_B_500_sweep_abs_shorter = 'HM-True_e-0.01_B-500000_task-sweep_absolute_pos-True_rep-v5-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_sweep_abs_shorter, test_HM_e_0_1_B_500_sweep_abs_shorter]
-
+#
+# test_NOHM_e_0_1_B_500_sweep_abs_shorter = 'HM-False_e-0.1_B-500_task-sweep_absolute_pos-True_rep-v5-{}.csv'
+# test_HM_e_0_1_B_500_sweep_abs_shorter = 'HM-True_e-0.01_B-500000_task-sweep_absolute_pos-True_rep-v5-{}.csv'
+# tests = [test_NOHM_e_0_1_B_500_sweep_abs_shorter, test_HM_e_0_1_B_500_sweep_abs_shorter]
+#
 test_NOHM_e_0_1_B_500_basket_abs_shorter = 'HM-False_e-0.1_B-500_task-basketball_absolute_pos-True_rep-v5-{}.csv'
 test_HM_e_0_1_B_500_basket_abs_shorter = 'HM-True_e-0.01_B-500000_task-basketball_absolute_pos-True_rep-v5-{}.csv'
 tests = [test_NOHM_e_0_1_B_500_basket_abs_shorter, test_HM_e_0_1_B_500_basket_abs_shorter]
 
-test_NOHM_e_0_1_B_500_door_abs_shorter = 'HM-False_e-0.1_B-500_task-door_absolute_pos-True_rep-v5-{}.csv'
-test_HM_e_0_1_B_500_door_abs_shorter = 'HM-True_e-0.01_B-500000_task-door_absolute_pos-True_rep-v5-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_door_abs_shorter, test_HM_e_0_1_B_500_door_abs_shorter]
+# test_NOHM_e_0_1_B_500_door_abs_shorter = 'HM-False_e-0.1_B-500_task-door_absolute_pos-True_rep-v5-{}.csv'
+# test_HM_e_0_1_B_500_door_abs_shorter = 'HM-True_e-0.01_B-500000_task-door_absolute_pos-True_rep-v5-{}.csv'
+# tests = [test_NOHM_e_0_1_B_500_door_abs_shorter, test_HM_e_0_1_B_500_door_abs_shorter]
+#
+# test_NOHM_e_0_1_B_500_hockey_abs_shorter = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-True_rep-v5-{}.csv'
+# test_HM_e_0_1_B_500_hockey_abs_shorter = 'HM-True_e-0.01_B-500000_task-hockey_absolute_pos-True_rep-v5-{}.csv'
+# tests = [test_NOHM_e_0_1_B_500_hockey_abs_shorter, test_HM_e_0_1_B_500_hockey_abs_shorter]
 
-test_NOHM_e_0_1_B_500_hockey_abs_shorter = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-True_rep-v5-{}.csv'
-test_HM_e_0_1_B_500_hockey_abs_shorter = 'HM-True_e-0.01_B-500000_task-hockey_absolute_pos-True_rep-v5-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_hockey_abs_shorter, test_HM_e_0_1_B_500_hockey_abs_shorter]
+
+# test_NOHM_e_0_1_B_500_drawer_abs_shorter = 'HM-False_e-0.1_B-500_task-drawer_absolute_pos-True_rep-v5-{}.csv'
+# test_HM_e_0_1_B_500_drawer_abs_shorter = 'HM-True_e-0.01_B-500000_task-drawer_absolute_pos-True_rep-v5-{}.csv'
+# tests = [test_NOHM_e_0_1_B_500_drawer_abs_shorter, test_HM_e_0_1_B_500_drawer_abs_shorter]
 
 cm = 1/2.54
 
@@ -223,6 +228,8 @@ for test in tests:
         task = "soccer"
     if "sweep" in test:
         task = "sweep"
+    if "drawer" in test:
+        task = "drawer"
 
     if "org" in test:
         org = "yes"

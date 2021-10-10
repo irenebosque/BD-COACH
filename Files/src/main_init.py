@@ -191,6 +191,7 @@ elif metaworld_env:
     if task == "drawer-open-v2-goal-observable":
         policy_oracle = SawyerDrawerOpenV2Policy()
         task_short = "drawer"
+        task_with_gripper = False
     elif task == "button-press-v2-goal-observable":
         policy_oracle = SawyerButtonPressV2Policy()
         task_short = "button"

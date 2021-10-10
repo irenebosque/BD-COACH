@@ -99,11 +99,11 @@ def scale_obs_gripper(x, low, high):
 
 def process_observation(observation):
 
-    print("obs puck: ",  observation[4:7])
+
 
     # What is the useful part of the observation
     if task == "drawer-open-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[4:7]))
+        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
     elif task == "button-press-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[3], observation[4:7]))
     elif task == "button-press-topdown-v2-goal-observable":
@@ -211,26 +211,28 @@ def random_init_pos():
     # obj_low = (-0.1, 0.6, 0.0299)
     # obj_high = (-0.1, 0.6, 0.0301)
 
-    obj_low = (-0., 0.6)
-    obj_high = (0.2, 0.6)
+    obj_low = (-0.1)
+    obj_high = (0.1)
 
     goal_low = (-0.1, 0.85, 0.)
     goal_high = (0.1, 0.9, 0.)
 
-    random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
-    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 2)
+    #random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
+    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 1)
 
 
 
-    print("random_init_pos_obj", random_init_pos_obj)
-    print("random_init_pos_goal", random_init_pos_goal)
+    #print("random_init_pos_obj", random_init_pos_obj)
+    #print("random_init_pos_goal", random_init_pos_goal)
 
-    #env._set_obj_xyz(np.array([-0.2, 0.6]))
+    env._set_obj_xyz(random_init_pos_obj)
+    env.sim.model.body_pos[env.model.body_name2id('drawer')] = env.obj_init_pos
+    #env._target_pos = env.obj_init_pos + np.array([.0, -.16 - env.maxDist, .09])
 
-    env._target_pos = np.array(random_init_pos_goal)
+    #env._target_pos = np.array(random_init_pos_goal)
 
 
-    env.sim.model.body_pos[env.model.body_name2id('puck_goal')] = env._target_pos
+    #env.sim.model.body_pos[env.model.body_name2id('puck_goal')] = env._target_pos
 
     #env._set_obj_xyz(np.array([0, 0.55, 0.020]))
     #env._target_pos = np.array(random_init_pos_goal)
@@ -238,10 +240,10 @@ def random_init_pos():
     # env._target_pos = env.sim.model.site_pos[env.model.site_name2id('goal')] + env.sim.model.body_pos[
     #     env.model.body_name2id('shelf')]
 
-    for j in range(10):
-        env.data.set_mocap_pos('mocap', np.array([0, 0.5, 0.05]))
-        env.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
-        env.do_simulation([-1, 1], env.frame_skip)
+    # for j in range(10):
+    #     env.data.set_mocap_pos('mocap', np.array([0, 0.5, 0.05]))
+    #     env.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
+    #     env.do_simulation([-1, 1], env.frame_skip)
 
 
 
@@ -325,10 +327,10 @@ for i_repetition in range(number_of_repetitions):
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
 
-
+        env = task_env()
         observation = env.reset()
 
-        random_init_pos()
+        #random_init_pos()
 
 
 
@@ -530,10 +532,10 @@ for i_repetition in range(number_of_repetitions):
 
                     success_this_episode = 0
 
-
+                    env = task_env()
                     observation = env.reset()
 
-                    random_init_pos()
+                    #random_init_pos()
 
 
 
