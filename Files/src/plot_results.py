@@ -182,6 +182,18 @@ tests = [test_NOHM_e_0_1_B_500_basket_abs_shorter, test_HM_e_0_1_B_500_basket_ab
 # test_HM_e_0_1_B_500_drawer_abs_shorter = 'HM-True_e-0.01_B-500000_task-drawer_absolute_pos-True_rep-v5-{}.csv'
 # tests = [test_NOHM_e_0_1_B_500_drawer_abs_shorter, test_HM_e_0_1_B_500_drawer_abs_shorter]
 
+test_NOHM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-v5-{}.csv'
+test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v5-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
+
+test_NOHM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-v6-{}.csv'
+test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v6-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
+
+test_NOHM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-v7-{}.csv'
+test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v7-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
+
 cm = 1/2.54
 
 fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))

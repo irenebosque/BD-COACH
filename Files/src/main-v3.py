@@ -42,6 +42,7 @@ def oracle_gimme_feedback(action_teacher, action, h):
 
 
     difference = action_teacher - action
+    #print("difference: ", difference)
 
 
     difference = np.array(difference)
@@ -68,6 +69,7 @@ def oracle_gimme_feedback(action_teacher, action, h):
             if abs(difference[i]) > theta:
                 h[i] = np.sign(difference[i])
 
+    #print("h: ", h)
 
 
     return h #TODO
@@ -86,13 +88,13 @@ def scale_action_gripper(x, low, high):
     y = np.clip(y, low, high)
     return y
 
-def scale_obs_gripper(x, low, high):
+def scale_action_teacher_gripper(x):
+    y = (-0.6 + 2*x) / 0.6
 
 
+    #y = (0.6 +0.6*x)/2
 
-    y = (0.6 +0.6*x)/2
-
-    y = np.clip(y, -1, 1)
+    #y = np.clip(y, 0, 0.6)
 
 
     return y
@@ -107,14 +109,14 @@ def process_observation(observation):
     elif task == "button-press-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[3], observation[4:7]))
     elif task == "button-press-topdown-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[4:7]))
+        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
     elif task == "reach-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[-3:] ))
     elif task == "plate-slide-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
     elif task == "push-v2-goal-observable":
         #observation = np.hstack((observation[:3], observation[3],observation[4:7], observation[-3:]))
-        observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:]-observation[4:7]))
+        observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3], observation[-2]))
     elif task == "door-open-v2-goal-observable":
         # observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
        # observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
@@ -124,8 +126,9 @@ def process_observation(observation):
         observation = np.hstack(
             (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
     elif task == "basketball-v2-goal-observable":
-        observation = np.hstack(
-            (observation[:3], observation[3], observation[4:7],observation[-3:]))
+        # observation = np.hstack(
+        #     (observation[:3], observation[3], observation[4:7],observation[-3:]))
+        observation = np.hstack((observation[:3], observation[3], observation[4:7] , observation[-3], observation[-2]))
     elif task == "soccer-v2-goal-observable":
         #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
         #observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
@@ -139,6 +142,9 @@ def process_observation(observation):
 
     elif task == "sweep-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2]))
+
+    elif task == "button-press-topdown-wall-v2-goal-observable":
+        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
 
 
 
@@ -211,22 +217,30 @@ def random_init_pos():
     # obj_low = (-0.1, 0.6, 0.0299)
     # obj_high = (-0.1, 0.6, 0.0301)
 
-    obj_low = (-0.1)
-    obj_high = (0.1)
+    obj_low = (-0.1, 0.8, 0.115)  # -0.1 irene
+    obj_high = (0.1, 0.9, 0.115)  # 0.1 irene
+
 
     goal_low = (-0.1, 0.85, 0.)
     goal_high = (0.1, 0.9, 0.)
 
     #random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
-    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 1)
-
+    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+    #print("random_init_pos_obj", random_init_pos_obj)
+    #self.obj_init_pos = goal_pos
 
 
     #print("random_init_pos_obj", random_init_pos_obj)
     #print("random_init_pos_goal", random_init_pos_goal)
 
-    env._set_obj_xyz(random_init_pos_obj)
-    env.sim.model.body_pos[env.model.body_name2id('drawer')] = env.obj_init_pos
+    #env._set_obj_xyz(random_init_pos_obj)
+    env.sim.model.body_pos[env.model.body_name2id('box')] = random_init_pos_obj
+    #print("env.obj_init_pos", env.obj_init_pos)
+    env._target_pos = env._get_site_pos('hole')
+    # env._obj_to_target_init = abs(
+    #     env._target_pos[2] - env._get_site_pos('buttonStart')[2]
+    # )
+
     #env._target_pos = env.obj_init_pos + np.array([.0, -.16 - env.maxDist, .09])
 
     #env._target_pos = np.array(random_init_pos_goal)
@@ -327,10 +341,10 @@ for i_repetition in range(number_of_repetitions):
     # Start training loop
     for i_episode in range(0, max_num_of_episodes):
 
-        env = task_env()
+        #env = task_env()
         observation = env.reset()
 
-        #random_init_pos()
+        random_init_pos()
 
 
 
@@ -422,9 +436,11 @@ for i_repetition in range(number_of_repetitions):
 
             # Get action from oracle
             action_teacher = policy_oracle.get_action(observation_original)
-            #print("\n")
-            #print("action teacher: ", action_teacher)
-            action_teacher = np.clip(action_teacher, -1, 1)
+            #action_teacher[-1]  = scale_action_teacher_gripper(action_teacher[-1])
+            #action_teacher = np.clip(action_teacher, 0, 0.6)
+
+           # print("action teacher: ", action_teacher)
+
             if task_with_gripper == False:
                 action_teacher =  action_teacher[:-1].copy()
 
@@ -432,29 +448,21 @@ for i_repetition in range(number_of_repetitions):
             # Get action from the agent
             action = agent.action(observation_processed)
             action_to_net = action
-           # action[-1] = scale_obs_gripper(action[-1], 0, 0.6)
-            #action[-1] = scale_obs_gripper(action[-1], 0, 0.6)
-            #action[-1] = scale_action_gripper(action[-1], 0, 0.6)
-
-            #action[-1] = np.clip(action[-1], 0, 0.6)
-
-
-
-
-
-
+            #print("action before ", action)
+            #action[-1] = scale_obs_gripper(action[-1])
+            #print("action after ", action)
             action_to_env = action
+            #action_to_env[-1] = np.clip(action_to_env[-1], 0, 0.6)
+          #  print("action env ",action_to_env)
 
 
 
 
             if task_with_gripper == False:
 
-                action_to_env = np.append(action, [-1])
+                action_to_env = np.append(action, [1])
 
-
-
-
+           # action_to_env[-1] = np.clip(action_to_env[-1], -1, 0.6)
 
             # Act
             observation, reward, environment_done, info = env.step(action_to_env)
@@ -532,10 +540,10 @@ for i_repetition in range(number_of_repetitions):
 
                     success_this_episode = 0
 
-                    env = task_env()
+                    #env = task_env()
                     observation = env.reset()
 
-                    #random_init_pos()
+                    random_init_pos()
 
 
 
@@ -552,18 +560,17 @@ for i_repetition in range(number_of_repetitions):
                         # Get action from the agent
                         action = agent.action(observation_processed)
                         action_to_net = action
-                        #action[-1] = scale_action_gripper(action[-1], 0, 0.6)
-                        #action[-1] = np.clip(action[-1], 0, 0.6)
 
-                        # if action[-1] > 0.6:
-                        #     action[-1] = 0.6
-                        #action[-1] = scale_obs_gripper(action[-1], 0, 0.6)
-                        action_to_env = action
+
 
                         if task_with_gripper == False:
 
-                            action_to_env = np.append(action, [-1])
+                            action_to_env = np.append(action, [1])
 
+                        #action[-1] = scale_obs_gripper(action[-1])
+                        action_to_env = action
+                       # action_to_env[-1] = np.clip(action_to_env[-1], -1, 0.6)
+                        #print("action env ", action_to_env)
 
 
 
@@ -652,7 +659,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v5-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-v7-' + str(results_counter).zfill(2) + '.csv'
 
 
                                 if overwriteFiles == False:
@@ -663,7 +670,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v5-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-v7-' + str(results_counter).zfill(2) + '.csv'
 
                                 if i_episode == 0:
                                     results_counter_list.append(results_counter)
@@ -676,7 +683,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v5-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
+                                                   '_rep-v7-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
 
 
 

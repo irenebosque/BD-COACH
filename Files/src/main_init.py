@@ -33,6 +33,7 @@ from metaworld.policies.sawyer_shelf_place_v2_policy import SawyerShelfPlaceV2Po
 from metaworld.policies.sawyer_pick_place_v2_policy import SawyerPickPlaceV2Policy
 from metaworld.policies.sawyer_soccer_v2_policy import SawyerSoccerV2Policy
 from metaworld.policies.sawyer_sweep_v2_policy import SawyerSweepV2Policy
+from metaworld.policies.sawyer_button_press_topdown_wall_v2_policy import SawyerButtonPressTopdownWallV2Policy
 
 
 from metaworld.policies.sawyer_peg_insertion_side_v2_policy import SawyerPegInsertionSideV2Policy
@@ -244,6 +245,10 @@ elif metaworld_env:
         policy_oracle = SawyerSweepV2Policy()
         task_short = "sweep"
         task_with_gripper = True
+    elif task == "button-press-topdown-wall-v2-goal-observable":
+        policy_oracle = SawyerButtonPressTopdownWallV2Policy()
+        task_short = "button_wall"
+        task_with_gripper = False
 
 # Create saving directory if it does no exist
 if save_results:
