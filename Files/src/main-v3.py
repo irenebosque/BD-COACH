@@ -109,7 +109,9 @@ def process_observation(observation):
     elif task == "button-press-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[3], observation[4:7]))
     elif task == "button-press-topdown-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
+        #observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
+        observation = np.hstack(
+            (observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
     elif task == "reach-v2-goal-observable":
         observation = np.hstack((observation[:3], observation[-3:] ))
     elif task == "plate-slide-v2-goal-observable":
@@ -659,7 +661,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v7-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-alpha07v2-' + str(results_counter).zfill(2) + '.csv'
 
 
                                 if overwriteFiles == False:
@@ -670,7 +672,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v7-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-alpha07v2-' + str(results_counter).zfill(2) + '.csv'
 
                                 if i_episode == 0:
                                     results_counter_list.append(results_counter)
@@ -683,7 +685,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-v7-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
+                                                   '_rep-alpha07v2-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
 
 
 

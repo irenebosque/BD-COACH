@@ -194,14 +194,36 @@ test_NOHM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-False_e-0.1_B-500_task-bu
 test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v7-{}.csv'
 tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
 
+test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha06 = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-alpha06-{}.csv'
+test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha06 = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-alpha06-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha06, test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha06]
+
+
+
+test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha07 = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-alpha07-{}.csv'
+test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha07 = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-alpha07-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha07, test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha07]
+
+
+test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2 = 'HM-True_e-0.01_B-50000_task-button_topdown_absolute_pos-True_rep-alpha07v2-{}.csv'
+test_NOHM_e_0_1_B_500_button_topdown_abs_alpha07v2 = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-alpha07v2-{}.csv'
+test_HM_e_0_01_B_50000_button_topdown_rel_alpha07v2 = 'HM-True_e-0.01_B-50000_task-button_topdown_absolute_pos-False_rep-alpha07v2-{}.csv'
+test_NOHM_e_0_1_B_500_button_topdown_rel_alpha07v2 = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-False_rep-alpha07v2-{}.csv'
+test_HM_e_0_01_B_500_button_topdown_rel_alpha07v2 = 'HM-True_e-0.01_B-500_task-button_topdown_absolute_pos-False_rep-alpha07v2-{}.csv'
+test_NOHM_e_0_1_B_50000_button_topdown_rel_alpha07v2 = 'HM-False_e-0.1_B-50000_task-button_topdown_absolute_pos-False_rep-alpha07v2-{}.csv'
+
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_alpha07v2, test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2, test_NOHM_e_0_1_B_500_button_topdown_rel_alpha07v2,test_HM_e_0_01_B_50000_button_topdown_rel_alpha07v2, test_NOHM_e_0_1_B_50000_button_topdown_rel_alpha07v2, test_HM_e_0_01_B_500_button_topdown_rel_alpha07v2]
 cm = 1/2.54
 
-fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))
-#fig, axs= plt.subplots(1, figsize=(17*cm, 17*cm))
-#ax2 = axs[0].twiny()
-ax2 = axs[0].twiny()
-ax3 = axs[1].twiny()
-ax4= axs[1].twinx()
+fig, axs= plt.subplots(1, figsize=(17*cm, 17*cm))
+
+ax0 = axs
+#ax0 = axs[0]
+ax2 = ax0.twiny()
+
+# ax1 = axs[1]
+# ax3 = ax1.twiny()
+# ax4 = ax1.twinx()
 
 mujoco_timestep = 0.0125
 
@@ -255,6 +277,12 @@ for test in tests:
     timesteps_processed_list, success_processed_list, feedback_processed_list, pct_feedback_processed_list, \
     tau, e, human_model, buffer_size, abs_pos = postProcess(test, path)
 
+    if human_model == 'yes':
+        method = 'RCIdL'
+    if human_model == 'no':
+        method = 'D-COACH'
+
+
 
     a = np.array(success_processed_list)
     success_mean = np.mean(a, axis =0)
@@ -275,7 +303,7 @@ for test in tests:
 
 
 
-    z = np.polyfit(simulated_time, success_mean, 5)
+    z = np.polyfit(simulated_time, success_mean, 20)
 
 
     p = np.poly1d(z)
@@ -478,19 +506,23 @@ for test in tests:
 
 
 
-    axs[0].plot(simulated_time, success_mean, linewidth=1.5, zorder=0, label='HM: ' + human_model  + ', Buffer: ' + str( buffer_size) + ', e: ' + str(e) +  ', Absolute pos: ' + abs_pos)
-    #axs[0].plot(simulated_time, fit_success, linewidth=2.0, zorder=1, color=colorPlot, label='H: ' + human_model + ', Random init: ' + random + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e))
+    ax0.plot(simulated_time, fit_success, linewidth=2.0, zorder=1, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(
+                 e) + ', Absolute pos: ' + abs_pos)
+    ax2.plot(timesteps_list, success_mean, alpha=0)
+    #ax0.plot(simulated_time, success_mean, linewidth=0.5, zorder=0)
+
     # axs[0].plot(simulated_time2, fit_success2, linewidth=1.5, zorder=1,
     #             label='H: ' + human_model  + ', Buffer size: ' + str(
     #                 buffer_size) + ', e: ' + str(e) +  ', Original obs: ' + org)
 
-    axs[0].set_ylabel('% of success')
-    axs[0].set_xlabel('min')
+    ax0.set_ylabel('% of success')
+    ax0.set_xlabel('min')
 
     title = "Evaluation of task: " + task
-    axs[0].set_title(title)
-    axs[0].legend(loc='lower right')
-    axs[0].set_ylim([0, 1.1])
+    ax0.set_title(title)
+    ax0.legend(loc='lower right')
+    ax0.set_ylim([0, 1.1])
+    ax0.set_xlim([0, 15.5])
 
 
 
@@ -505,45 +537,42 @@ for test in tests:
     ax2.set_ylim([0, 1.1])
 
 
-    # Lower plot:
+    # # Lower plot:
+    #
+    # ax1.plot(simulated_time, pct_feedback_mean, linewidth=2.0, zorder=0, label='H: ' + human_model  + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) )
+    # ax3.plot(timesteps_list, pct_feedback_mean, alpha=0)
+    # ax4.plot(simulated_time, feedback_mean)
+    # ax1.grid(linestyle='--')
+    # ax1.set_ylabel('% of feedback per episode')
+    # ax4.set_ylabel('Amount of feedback')
+    # ax1.set_xlabel('min')
+    # title = "Training feedback for task: " + task
+    # ax1.set_title(title)
+    #
+    # ax3.xaxis.set_ticks_position('bottom')
+    # ax3.xaxis.set_label_position('bottom')
+    # ax3.spines['bottom'].set_position(('outward', 40))
+    # ax3.set_xlabel('time steps')
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    # ax1.legend(loc='lower right')
+    # ax3.set_ylim([0, 1])
 
-    axs[1].plot(simulated_time, pct_feedback_mean, linewidth=2.0, zorder=0, label='H: ' + human_model  + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) )
-    ax3.plot(timesteps_list, pct_feedback_mean, alpha=0)
-    ax4.plot(simulated_time, feedback_mean)
-    axs[1].grid(linestyle='--')
-    axs[1].set_ylabel('% of feedback per episode')
-    ax4.set_ylabel('Amount of feedback')
-    axs[1].set_xlabel('min')
-    title = "Training feedback for task: " + task
-    axs[1].set_title(title)
-
-    ax3.xaxis.set_ticks_position('bottom')
-    ax3.xaxis.set_label_position('bottom')
-    ax3.spines['bottom'].set_position(('outward', 40))
-    ax3.set_xlabel('time steps')
-
-
-
-
-
-
-
-    axs[1].legend(loc='lower right')
-    plt.xticks(rotation=5)
-
-
-    ax3.set_ylim([0, 1])
-
+plt.xticks(rotation=5)
 
 
 
 
-
-axs[0].grid(linestyle='--')
-
+ax0.grid(linestyle='--')
 
 
 
-#fig.subplots_adjust(hspace=0.4, bottom=0.15,  top=0.96, right=0.6) # Space between the subplots
+
+#fig.subplots_adjust(top=1.5) # Space between the subplots
 
 plt.show()
