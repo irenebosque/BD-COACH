@@ -1,6 +1,7 @@
 from post_process_ok3 import postProcess
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 # PUSH
 
@@ -173,9 +174,9 @@ tests = [test_NOHM_e_0_1_B_500_basket_abs_shorter, test_HM_e_0_1_B_500_basket_ab
 # test_HM_e_0_1_B_500_door_abs_shorter = 'HM-True_e-0.01_B-500000_task-door_absolute_pos-True_rep-v5-{}.csv'
 # tests = [test_NOHM_e_0_1_B_500_door_abs_shorter, test_HM_e_0_1_B_500_door_abs_shorter]
 #
-# test_NOHM_e_0_1_B_500_hockey_abs_shorter = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-True_rep-v5-{}.csv'
-# test_HM_e_0_1_B_500_hockey_abs_shorter = 'HM-True_e-0.01_B-500000_task-hockey_absolute_pos-True_rep-v5-{}.csv'
-# tests = [test_NOHM_e_0_1_B_500_hockey_abs_shorter, test_HM_e_0_1_B_500_hockey_abs_shorter]
+test_NOHM_e_0_1_B_500_hockey_abs_shorter = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-True_rep-v5-{}.csv'
+test_HM_e_0_1_B_500_hockey_abs_shorter = 'HM-True_e-0.01_B-500000_task-hockey_absolute_pos-True_rep-v5-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_hockey_abs_shorter, test_HM_e_0_1_B_500_hockey_abs_shorter]
 
 
 # test_NOHM_e_0_1_B_500_drawer_abs_shorter = 'HM-False_e-0.1_B-500_task-drawer_absolute_pos-True_rep-v5-{}.csv'
@@ -213,17 +214,28 @@ test_HM_e_0_01_B_500_button_topdown_rel_alpha07v2 = 'HM-True_e-0.01_B-500_task-b
 test_NOHM_e_0_1_B_50000_button_topdown_rel_alpha07v2 = 'HM-False_e-0.1_B-50000_task-button_topdown_absolute_pos-False_rep-alpha07v2-{}.csv'
 
 tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_alpha07v2, test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2, test_NOHM_e_0_1_B_500_button_topdown_rel_alpha07v2,test_HM_e_0_01_B_50000_button_topdown_rel_alpha07v2, test_NOHM_e_0_1_B_50000_button_topdown_rel_alpha07v2, test_HM_e_0_01_B_500_button_topdown_rel_alpha07v2]
+
+test_HM_e_0_01_B_50000_hockey_abs_alpha07v2 = 'HM-True_e-0.01_B-50000_task-hockey_absolute_pos-True_rep-alpha07v2-{}.csv'
+test_NOHM_e_0_1_B_500_hockey_abs_alpha07v2 = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-True_rep-alpha07v2-{}.csv'
+test_HM_e_0_01_B_50000_hockey_rel_alpha07v2 = 'HM-True_e-0.01_B-50000_task-hockey_absolute_pos-False_rep-alpha07v2-{}.csv'
+test_NOHM_e_0_1_B_500_hockey_rel_alpha07v2 = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-False_rep-alpha07v2-{}.csv'
+test_HM_e_0_01_B_500_hockey_rel_alpha07v2 = 'HM-True_e-0.01_B-500_task-hockey_absolute_pos-False_rep-alpha07v2-{}.csv'
+test_NOHM_e_0_1_B_50000_hockey_rel_alpha07v2 = 'HM-False_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha07v2-{}.csv'
+
+tests = [test_NOHM_e_0_1_B_500_hockey_abs_alpha07v2, test_HM_e_0_01_B_50000_hockey_abs_alpha07v2, test_NOHM_e_0_1_B_500_hockey_rel_alpha07v2,test_HM_e_0_01_B_50000_hockey_rel_alpha07v2, test_NOHM_e_0_1_B_50000_hockey_rel_alpha07v2, test_HM_e_0_01_B_500_hockey_rel_alpha07v2]
+
+tests = [test_NOHM_e_0_1_B_500_hockey_abs_alpha07v2, test_HM_e_0_01_B_50000_hockey_abs_alpha07v2, test_NOHM_e_0_1_B_500_button_topdown_abs_alpha07v2, test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2]
 cm = 1/2.54
 
-fig, axs= plt.subplots(1, figsize=(17*cm, 17*cm))
+fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))
 
-ax0 = axs
-#ax0 = axs[0]
+#ax0 = axs
+ax0 = axs[0]
 ax2 = ax0.twiny()
 
-# ax1 = axs[1]
-# ax3 = ax1.twiny()
-# ax4 = ax1.twinx()
+ax1 = axs[1]
+ax3 = ax1.twiny()
+ax4 = ax1.twinx()
 
 mujoco_timestep = 0.0125
 
@@ -313,7 +325,7 @@ for test in tests:
 
 
     #print('success_mean', success_mean)
-    fit_success2 = moving_average(success_mean, 5000)
+    fit_success2 = moving_average(success_mean, 2000)
     fit_success2_len = len(fit_success2)
     #print("fit_success2_len", fit_success2_len)
     step = simulated_time[-1]/fit_success2_len
@@ -506,9 +518,8 @@ for test in tests:
 
 
 
-    ax0.plot(simulated_time, fit_success, linewidth=2.0, zorder=1, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(
-                 e) + ', Absolute pos: ' + abs_pos)
-    ax2.plot(timesteps_list, success_mean, alpha=0)
+    ax0.plot(simulated_time2, fit_success2, linewidth=2.0, zorder=1)#, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
+    #ax2.plot(timesteps_list, success_mean, linewidth=1.0 )# alpha=0)
     #ax0.plot(simulated_time, success_mean, linewidth=0.5, zorder=0)
 
     # axs[0].plot(simulated_time2, fit_success2, linewidth=1.5, zorder=1,
@@ -522,7 +533,7 @@ for test in tests:
     ax0.set_title(title)
     ax0.legend(loc='lower right')
     ax0.set_ylim([0, 1.1])
-    ax0.set_xlim([0, 15.5])
+    ax0.set_xlim([-1, 15.5])
 
 
 
@@ -537,32 +548,43 @@ for test in tests:
     ax2.set_ylim([0, 1.1])
 
 
-    # # Lower plot:
-    #
-    # ax1.plot(simulated_time, pct_feedback_mean, linewidth=2.0, zorder=0, label='H: ' + human_model  + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) )
-    # ax3.plot(timesteps_list, pct_feedback_mean, alpha=0)
-    # ax4.plot(simulated_time, feedback_mean)
-    # ax1.grid(linestyle='--')
-    # ax1.set_ylabel('% of feedback per episode')
-    # ax4.set_ylabel('Amount of feedback')
-    # ax1.set_xlabel('min')
-    # title = "Training feedback for task: " + task
-    # ax1.set_title(title)
-    #
-    # ax3.xaxis.set_ticks_position('bottom')
-    # ax3.xaxis.set_label_position('bottom')
-    # ax3.spines['bottom'].set_position(('outward', 40))
-    # ax3.set_xlabel('time steps')
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    # ax1.legend(loc='lower right')
-    # ax3.set_ylim([0, 1])
+    # Lower plot:
+    a_list = list(range(0, 75001))
+    P_h=[]
+    alpha_a = 0.7
+    tau_t = 0.00001
 
+    for i in a_list:
+        P_h.append(alpha_a * math.exp(-1 * tau_t * i))
+
+
+    ax1.plot(simulated_time, pct_feedback_mean, linewidth=2.0, zorder=0, label='H: ' + human_model  + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) + 'task: ' + task)
+    ax3.plot(timesteps_list, pct_feedback_mean, alpha=0)
+    ax3.plot(a_list, P_h, color='black', label = 'alpha: ' + str(alpha_a) + ' tau: ' + str(tau_t))
+    ax4.plot(simulated_time, feedback_mean)
+    ax1.grid(linestyle='--')
+    ax1.set_ylabel('% of feedback per episode')
+    ax4.set_ylabel('Amount of feedback')
+    ax1.set_xlabel('min')
+    title = "Training feedback for task: " + task
+    ax1.set_title(title)
+
+    ax3.xaxis.set_ticks_position('bottom')
+    ax3.xaxis.set_label_position('bottom')
+    ax3.spines['bottom'].set_position(('outward', 40))
+    ax3.set_xlabel('time steps')
+
+
+
+
+
+
+
+
+    ax1.legend(loc='lower right')
+
+    ax3.set_ylim([0, 1])
+ax3.legend(loc='lower left')
 plt.xticks(rotation=5)
 
 

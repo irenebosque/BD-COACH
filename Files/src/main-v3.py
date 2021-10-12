@@ -103,50 +103,51 @@ def process_observation(observation):
 
 
 
-    # What is the useful part of the observation
+
     if task == "drawer-open-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
-    elif task == "button-press-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[4:7]))
+        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2])) # ABSOLUTE POS
+        #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) #RELATIVE POS
+
     elif task == "button-press-topdown-v2-goal-observable":
-        #observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
-        observation = np.hstack(
-            (observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
-    elif task == "reach-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[-3:] ))
+        #observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2])) # ABSOLUTE POS
+        observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+
     elif task == "plate-slide-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
-    elif task == "push-v2-goal-observable":
-        #observation = np.hstack((observation[:3], observation[3],observation[4:7], observation[-3:]))
-        observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3], observation[-2]))
-    elif task == "door-open-v2-goal-observable":
-        # observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
-       # observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
-        observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+        #observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2])) # ABSOLUTE POS
+        observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
 
-    elif task == "assembly-v2-goal-observable":
-        observation = np.hstack(
-            (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
-    elif task == "basketball-v2-goal-observable":
-        # observation = np.hstack(
-        #     (observation[:3], observation[3], observation[4:7],observation[-3:]))
-        observation = np.hstack((observation[:3], observation[3], observation[4:7] , observation[-3], observation[-2]))
-    elif task == "soccer-v2-goal-observable":
-        #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
-        #observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
-        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
-    elif task == "shelf-place-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
-        observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
-    elif task == "pick-place-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
-        observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
 
-    elif task == "sweep-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2]))
-
-    elif task == "button-press-topdown-wall-v2-goal-observable":
-        observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
+    # elif task == "push-v2-goal-observable":
+    #     #observation = np.hstack((observation[:3], observation[3],observation[4:7], observation[-3:]))
+    #     observation = np.hstack((observation[:3], observation[3], observation[4:7], observation[-3], observation[-2]))
+    # elif task == "door-open-v2-goal-observable":
+    #     # observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+    #    # observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+    #     observation = np.hstack((observation[:3], observation[4:7], observation[-3:]))
+    #
+    # elif task == "assembly-v2-goal-observable":
+    #     observation = np.hstack(
+    #         (observation[4:7] - observation[:3], observation[-3:] - observation[4:7], observation[3]))
+    # elif task == "basketball-v2-goal-observable":
+    #     # observation = np.hstack(
+    #     #     (observation[:3], observation[3], observation[4:7],observation[-3:]))
+    #     observation = np.hstack((observation[:3], observation[3], observation[4:7] , observation[-3], observation[-2]))
+    # elif task == "soccer-v2-goal-observable":
+    #     #observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7]))
+    #     #observation = np.hstack(( observation[:3],  observation[4:7], observation[-3:]))
+    #     observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
+    # elif task == "shelf-place-v2-goal-observable":
+    #     observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
+    #     observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
+    # elif task == "pick-place-v2-goal-observable":
+    #     observation = np.hstack((observation[:3], observation[3], observation[4:7],observation[-3:]))
+    #     observation = np.hstack((observation[4:7] - observation[:3], observation[3], observation[-3:] - observation[4:7]))
+    #
+    # elif task == "sweep-v2-goal-observable":
+    #     observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2]))
+    #
+    # elif task == "button-press-topdown-wall-v2-goal-observable":
+    #     observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2]))
 
 
 
@@ -202,64 +203,24 @@ def is_env_done(info):
 
 
 def random_init_pos():
-    # #soccer
-    # goal_low = (-0.1, 0.8, 0.0)
-    # goal_high = (0.1, 0.9, 0.0)
-    # obj_low = (-0.1, 0.6, 0.03)
-    # obj_high = (0.1, 0.7, 0.03)
-    #
-    # #Sweep
-    #
-    # obj_low = (-0.1, 0.6, 0.02)
-    # obj_high = (0.1, 0.7, 0.02)
-    # goal_low = (.49, .6, 0.00)
-    # goal_high = (0.51, .7, 0.02)
-    #
-    # # Basket
-    # obj_low = (-0.1, 0.6, 0.0299)
-    # obj_high = (-0.1, 0.6, 0.0301)
-
-    obj_low = (-0.1, 0.8, 0.115)  # -0.1 irene
-    obj_high = (0.1, 0.9, 0.115)  # 0.1 irene
 
 
+
+
+    # # Button
+    # obj_low = (-0.1, 0.8, 0.115)  # -0.1 irene
+    # obj_high = (0.1, 0.9, 0.115)  # 0.1 irene
+    # random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+    # env.sim.model.body_pos[env.model.body_name2id('box')] = random_init_pos_obj
+    # env._target_pos = env._get_site_pos('hole')
+
+    # Hockey
     goal_low = (-0.1, 0.85, 0.)
     goal_high = (0.1, 0.9, 0.)
+    random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
+    env._target_pos = np.array(random_init_pos_goal)
+    env.sim.model.body_pos[env.model.body_name2id('puck_goal')] = env._target_pos
 
-    #random_init_pos_goal = np.random.uniform(goal_low, goal_high, 3)
-    random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
-    #print("random_init_pos_obj", random_init_pos_obj)
-    #self.obj_init_pos = goal_pos
-
-
-    #print("random_init_pos_obj", random_init_pos_obj)
-    #print("random_init_pos_goal", random_init_pos_goal)
-
-    #env._set_obj_xyz(random_init_pos_obj)
-    env.sim.model.body_pos[env.model.body_name2id('box')] = random_init_pos_obj
-    #print("env.obj_init_pos", env.obj_init_pos)
-    env._target_pos = env._get_site_pos('hole')
-    # env._obj_to_target_init = abs(
-    #     env._target_pos[2] - env._get_site_pos('buttonStart')[2]
-    # )
-
-    #env._target_pos = env.obj_init_pos + np.array([.0, -.16 - env.maxDist, .09])
-
-    #env._target_pos = np.array(random_init_pos_goal)
-
-
-    #env.sim.model.body_pos[env.model.body_name2id('puck_goal')] = env._target_pos
-
-    #env._set_obj_xyz(np.array([0, 0.55, 0.020]))
-    #env._target_pos = np.array(random_init_pos_goal)
-
-    # env._target_pos = env.sim.model.site_pos[env.model.site_name2id('goal')] + env.sim.model.body_pos[
-    #     env.model.body_name2id('shelf')]
-
-    # for j in range(10):
-    #     env.data.set_mocap_pos('mocap', np.array([0, 0.5, 0.05]))
-    #     env.data.set_mocap_quat('mocap', np.array([1, 0, 1, 0]))
-    #     env.do_simulation([-1, 1], env.frame_skip)
 
 
 
