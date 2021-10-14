@@ -175,8 +175,8 @@ tests = [test_NOHM_e_0_1_B_500_basket_abs_shorter, test_HM_e_0_1_B_500_basket_ab
 # tests = [test_NOHM_e_0_1_B_500_door_abs_shorter, test_HM_e_0_1_B_500_door_abs_shorter]
 #
 test_NOHM_e_0_1_B_500_hockey_abs_shorter = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-True_rep-v5-{}.csv'
-test_HM_e_0_1_B_500_hockey_abs_shorter = 'HM-True_e-0.01_B-500000_task-hockey_absolute_pos-True_rep-v5-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_hockey_abs_shorter, test_HM_e_0_1_B_500_hockey_abs_shorter]
+test_HM_e_0_1_B_50000_hockey_abs_shorter = 'HM-True_e-0.01_B-500000_task-hockey_absolute_pos-True_rep-v5-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_hockey_abs_shorter, test_HM_e_0_1_B_50000_hockey_abs_shorter]
 
 
 # test_NOHM_e_0_1_B_500_drawer_abs_shorter = 'HM-False_e-0.1_B-500_task-drawer_absolute_pos-True_rep-v5-{}.csv'
@@ -188,22 +188,22 @@ test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-b
 tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
 
 test_NOHM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-v6-{}.csv'
-test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v6-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
+test_HM_e_0_1_B_50000_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v6-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_50000_button_topdown_abs_shorter]
 
 test_NOHM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-v7-{}.csv'
-test_HM_e_0_1_B_500_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v7-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_500_button_topdown_abs_shorter]
+test_HM_e_0_1_B_50000_button_topdown_abs_shorter = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-v7-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter, test_HM_e_0_1_B_50000_button_topdown_abs_shorter]
 
 test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha06 = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-alpha06-{}.csv'
-test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha06 = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-alpha06-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha06, test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha06]
+test_HM_e_0_1_B_50000_button_topdown_abs_shorter_alpha06 = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-alpha06-{}.csv'
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha06, test_HM_e_0_1_B_50000_button_topdown_abs_shorter_alpha06]
 
 
 
-test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha07 = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-alpha07-{}.csv'
+test_HM_e_0_1_B_50000_button_topdown_abs_shorter_alpha07 = 'HM-True_e-0.01_B-500000_task-button_topdown_absolute_pos-True_rep-alpha07-{}.csv'
 test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha07 = 'HM-False_e-0.1_B-500_task-button_topdown_absolute_pos-True_rep-alpha07-{}.csv'
-tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha07, test_HM_e_0_1_B_500_button_topdown_abs_shorter_alpha07]
+tests = [test_NOHM_e_0_1_B_500_button_topdown_abs_shorter_alpha07, test_HM_e_0_1_B_50000_button_topdown_abs_shorter_alpha07]
 
 
 test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2 = 'HM-True_e-0.01_B-50000_task-button_topdown_absolute_pos-True_rep-alpha07v2-{}.csv'
@@ -225,6 +225,60 @@ test_NOHM_e_0_1_B_50000_hockey_rel_alpha07v2 = 'HM-False_e-0.1_B-50000_task-hock
 tests = [test_NOHM_e_0_1_B_500_hockey_abs_alpha07v2, test_HM_e_0_01_B_50000_hockey_abs_alpha07v2, test_NOHM_e_0_1_B_500_hockey_rel_alpha07v2,test_HM_e_0_01_B_50000_hockey_rel_alpha07v2, test_NOHM_e_0_1_B_50000_hockey_rel_alpha07v2, test_HM_e_0_01_B_500_hockey_rel_alpha07v2]
 
 tests = [test_NOHM_e_0_1_B_500_hockey_abs_alpha07v2, test_HM_e_0_01_B_50000_hockey_abs_alpha07v2, test_NOHM_e_0_1_B_500_button_topdown_abs_alpha07v2, test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2]
+
+# 12-10-2021
+test_HM_e_0_01_B_50000_button_rel_alpha07adjust = 'HM-True_e-0.01_B-50000_task-button_topdown_absolute_pos-False_rep-alpha07adjust-{}.csv'
+test_HM_e_0_1_B_50000_button_rel_alpha07adjust = 'HM-True_e-0.1_B-50000_task-button_topdown_absolute_pos-False_rep-alpha07adjust-{}.csv'
+test_HM_e_1_B_50000_button_rel_alpha07adjust = 'HM-True_e-1.0_B-50000_task-button_topdown_absolute_pos-False_rep-alpha07adjust-{}.csv'
+
+tests = [test_HM_e_0_01_B_50000_button_rel_alpha07adjust, test_HM_e_0_1_B_50000_button_rel_alpha07adjust]
+
+tests = [test_HM_e_0_01_B_50000_hockey_abs_alpha07v2, test_HM_e_0_1_B_50000_hockey_abs_shorter ]
+
+
+
+test_HM_e_01_B_50000_hockey_abs_alpha09 = 'HM-True_e-0.01_B-50000_task-hockey_absolute_pos-True_rep-alpha09-{}.csv'
+tests = [test_HM_e_0_01_B_50000_hockey_abs_alpha07v2, test_HM_e_0_1_B_50000_hockey_abs_shorter, test_HM_e_01_B_50000_hockey_abs_alpha09]
+
+test_HM_e_01_B_50000_button_topdown_rel_alpha09 = 'HM-True_e-0.01_B-50000_task-button_topdown_absolute_pos-True_rep-alpha09-{}.csv'
+tests = [test_HM_e_0_01_B_50000_button_topdown_abs_alpha07v2, test_HM_e_0_1_B_50000_button_topdown_abs_shorter, test_HM_e_01_B_50000_button_topdown_rel_alpha09]
+
+test_HM_e_0_01_B_50000_hockey_rel_alpha09final = 'HM-True_e-0.01_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_01_B_500_hockey_rel_alpha09final = 'HM-True_e-0.01_B-500_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_500_hockey_rel_alpha09final = 'HM-True_e-0.1_B-500_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_01_B_50000_hockey_rel_alpha09final = 'HM-False_e-0.01_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_01_B_500_hockey_rel_alpha09final = 'HM-False_e-0.01_B-500_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_500_hockey_rel_alpha09final = 'HM-False_e-0.1_B-500_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_7500_hockey_rel_alpha09final = 'HM-False_e-0.1_B-7500_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+tests = [test_NOHM_e_0_01_B_50000_hockey_rel_alpha09final, test_NOHM_e_0_01_B_500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_500_hockey_rel_alpha09final, test_HM_e_0_01_B_50000_hockey_rel_alpha09final, test_HM_e_0_01_B_500_hockey_rel_alpha09final, test_HM_e_0_1_B_50000_hockey_rel_alpha09final, test_HM_e_0_1_B_500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_7500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final]
+tests = [ test_NOHM_e_0_1_B_500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_7500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final,test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final]
+
+# Hockey same e
+test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+
+tests = [test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_HM_e_0_1_B_3000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_50000_hockey_rel_alpha09final]
+
+# # Hockey same buffer
+# test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+#
+# tests = [test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_01_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_1_B_15000_hockey_rel_alpha09final]
+
+
 cm = 1/2.54
 
 fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))
@@ -300,7 +354,7 @@ for test in tests:
     success_mean = np.mean(a, axis =0)
     success_std = np.std(a, axis=0)
 
-    print('success_mean', success_mean)
+    #print('success_mean', success_mean)
 
     a = np.array(feedback_processed_list)
     feedback_mean = np.mean(a, axis=0)
@@ -314,198 +368,17 @@ for test in tests:
     simulated_time = timesteps_list * mujoco_timestep /60
 
 
-
-    z = np.polyfit(simulated_time, success_mean, 20)
-
-
-    p = np.poly1d(z)
-    #print("---------")
-    #print("p: ", z)
-    fit_success = p(simulated_time)
+    # # Polyfit
+    # z = np.polyfit(simulated_time, success_mean, 20)
+    # p = np.poly1d(z)
+    # fit_success = p(simulated_time)
 
 
-    #print('success_mean', success_mean)
+    # Moving average
     fit_success2 = moving_average(success_mean, 2000)
     fit_success2_len = len(fit_success2)
-    #print("fit_success2_len", fit_success2_len)
     step = simulated_time[-1]/fit_success2_len
-    # print("step", step)
-    # print("simulated_time[0]", simulated_time[0])
-    # print("simulated_time[-1]", simulated_time[-1])
-
     simulated_time2 = np.arange(simulated_time[0],simulated_time[-1],step)
-    #print("simulated_time2_len", len(simulated_time2))
-
-
-
-    # ,
-    # Remove last part of the plots that look a bit weird due to the overfitting of the polynomial.
-    # remove_timesteps = 500
-    # success_mean = success_mean[:len(success_mean) - remove_timesteps]
-    # timesteps_list = timesteps_list[:len(timesteps_list) - remove_timesteps]
-    # feedback_mean = feedback_mean[:len(feedback_mean) - remove_timesteps]
-    # pct_feedback_mean = pct_feedback_mean[:len(pct_feedback_mean) - remove_timesteps]
-    # simulated_time = simulated_time[:len(simulated_time) - remove_timesteps]
-    # fit_success = fit_success[:len(fit_success) - remove_timesteps]
-
-
-
-
-
-    # if human_model == "yes" and e == 0.01:
-    #     colorPlot = '#150E56'  # blue
-    # if human_model == "yes" and e == 0.1:
-    #     colorPlot = '#2978B5'  # green
-    # if human_model == "yes" and e == 1:
-    #     colorPlot = '#8AB6D6'  # violet
-    #
-    # if human_model == "no" and e == 0.01:
-    #     colorPlot = '#BE0000'  # orange
-    # if human_model == "no" and e == 0.1:
-    #     colorPlot = '#FF6B6B'  # red
-    # if human_model == "no" and e == 1:
-    #     colorPlot = '#FDD2BF'  # brown
-
-
-    # if human_model == "yes" and e == 0.01 and buffer_size == 500:
-    #     colorPlot = '#150E56'  # blue
-    # if human_model == "yes" and e == 0.1 and buffer_size == 500:
-    #     colorPlot = '#2978B5'  # green
-    # if human_model == "yes" and e == 1 and buffer_size == 500:
-    #     colorPlot = '#8AB6D6'  # violet
-    #
-    # if human_model == "no" and e == 0.01 and buffer_size == 500:
-    #     colorPlot = '#BE0000'  # orange
-    # if human_model == "no" and e == 0.1 and buffer_size == 500:
-    #     colorPlot = '#FF6B6B'  # red
-    # if human_model == "no" and e == 1 and buffer_size == 500:
-    #     colorPlot = '#FDD2BF'  # brown
-
-    # if human_model == "no" and e == 0.1 and buffer_size == 500:
-    #     colorPlot = '#72956c'  # blue
-    # if human_model == "no" and e == 0.1 and buffer_size == 5000:
-    #     colorPlot = '#517b5c'  # green
-    # if human_model == "no" and e == 0.1 and buffer_size == 15000:
-    #     colorPlot = '#2f604b'  # violet
-    #
-    # if human_model == "yes" and e == 0.1 and buffer_size == 500:
-    #     colorPlot = '#ffb600'  # orange
-    # if human_model == "yes" and e == 0.1 and buffer_size == 5000:
-    #     colorPlot = '#ff7900'  # red
-    # if human_model == "yes" and e == 0.1 and buffer_size == 15000:
-    #     colorPlot = '#ff4800'  # brown
-
-    if human_model == "yes" and e == 0.1 and buffer_size == 500:
-        colorPlot = '#150E56'  # blue
-    if human_model == "yes" and e == 0.1 and buffer_size == 5000:
-        colorPlot = '#2978B5'  # green
-    if human_model == "yes" and e == 0.1 and buffer_size == 15000:
-        colorPlot = '#8AB6D6'  # violet
-
-    if human_model == "no" and e == 0.1 and buffer_size == 500:
-        colorPlot = '#BE0000'  # orange
-    if human_model == "no" and e == 0.1 and buffer_size == 5000:
-        colorPlot = '#FF6B6B'  # red
-    if human_model == "no" and e == 0.1 and buffer_size == 15000:
-        colorPlot = '#FDD2BF'  # brown
-
-
-
-    # e = 0.01, Different buffer sizes
-    if human_model == "yes" and e == 0.01 and buffer_size == 500:
-        colorPlot = '#150E56'  # blue
-    if human_model == "yes" and e == 0.01 and buffer_size == 5000:
-        colorPlot = '#2978B5'  # green
-    if human_model == "yes" and e == 0.01 and buffer_size == 15000:
-        colorPlot = '#8AB6D6'  # violet
-    if human_model == "yes" and e == 0.01 and buffer_size == 500000:
-        colorPlot = '#0077b6'  # violet
-
-    if human_model == "no" and e == 0.01 and buffer_size == 500:
-        colorPlot = '#BE0000'  # orange
-    if human_model == "no" and e == 0.01 and buffer_size == 5000:
-        colorPlot = '#FF6B6B'  # red
-    if human_model == "no" and e == 0.01 and buffer_size == 15000:
-        colorPlot = '#FDD2BF'  # brown
-
-
-
-
-    # e = 0.1, Different buffer sizes
-
-    if human_model == "yes" and e == 0.1 and buffer_size == 500:
-        colorPlot = '#72956c'  # blue
-    if human_model == "yes" and e == 0.1 and buffer_size == 5000:
-        colorPlot = '#517b5c'  # green
-    if human_model == "yes" and e == 0.1 and buffer_size == 15000:
-        colorPlot = '#2f604b'  # violet
-
-    if human_model == "no" and e == 0.1 and buffer_size == 500:
-        colorPlot = '#ffb600'  # orange
-    if human_model == "no" and e == 0.1 and buffer_size == 5000:
-        colorPlot = '#ff7900'  # red
-    if human_model == "no" and e == 0.1 and buffer_size == 15000:
-        colorPlot = '#ff4800'  # brown
-
-    if human_model == "no" and "0_2m" in test:
-        colorPlot = 'black'  # orange
-        area = "0.2m"
-    if human_model == "yes" and "0_2m" in test:
-        colorPlot = '#54E346'  # red
-        area = "0.2m"
-    if human_model == "no" and "0_4m" in test:
-        colorPlot = '#ff4800'  # orange
-        area = "0.4m"
-    if human_model == "yes" and "0_4m" in test:
-        colorPlot = '#2f604b'  # red
-        area = "0.4m"
-    if human_model == "yes" and "0_2m" in test and "v3" in test:
-        colorPlot = '#FA26A0'  # red
-        area = "0.2m"
-
-    if "0.001" in test:
-        colorPlot = 'blue'  # red
-        area = "0.2m"
-    if "big-net" in test and "0.001" in test:
-        colorPlot = 'orange'  # red
-        area = "0.2m"
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.005_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs" in test:
-        colorPlot = 'red'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'purple'  # red
-        area = "0.2m"
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.005_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling30" in test:
-        colorPlot = 'springgreen'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.001_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'salmon'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.005_HMlr-0.001_agent_batch_lr-0.01_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'royalblue'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.003_HMlr-0.001_agent_batch_lr-0.001_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'peru'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.001_HMlr-0.001_agent_batch_lr-0.001_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'slategray'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-False_e-0.1_B-500_tau-1e-07_lr-0.001_HMlr-0.001_agent_batch_lr-0.001_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'crimson'  # red
-        area = "0.2m"
-
-    if "DCOACH_HM-True_e-0.1_B-500000_tau-1e-07_lr-0.001_HMlr-0.0005_agent_batch_lr-0.001_task-soccer_rep-randm-0_2m_org_obs-big-net-B-sampling20" in test:
-        colorPlot = 'blue'  # red
-        area = "0.2m"
-
-
-
 
 
 
@@ -515,12 +388,10 @@ for test in tests:
     e = '{:,g}'.format(e)
     buffer_size = '{:,g}'.format(buffer_size)
 
-
-
-
-    ax0.plot(simulated_time2, fit_success2, linewidth=2.0, zorder=1)#, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
-    #ax2.plot(timesteps_list, success_mean, linewidth=1.0 )# alpha=0)
-    #ax0.plot(simulated_time, success_mean, linewidth=0.5, zorder=0)
+    ax0.plot(simulated_time2, fit_success2, linewidth=2.0,
+             zorder=1, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
+    #ax2.plot(timesteps_list, success_mean, linewidth=0.5)# alpha=0)
+    # ax0.plot(simulated_time, success_mean, linewidth=0.5, zorder=0)
 
     # axs[0].plot(simulated_time2, fit_success2, linewidth=1.5, zorder=1,
     #             label='H: ' + human_model  + ', Buffer size: ' + str(
@@ -533,9 +404,7 @@ for test in tests:
     ax0.set_title(title)
     ax0.legend(loc='lower right')
     ax0.set_ylim([0, 1.1])
-    ax0.set_xlim([-1, 15.5])
-
-
+    #ax0.set_xlim([-1, 15.5])
 
     ax2.xaxis.set_ticks_position('bottom')
     ax2.xaxis.set_label_position('bottom')
@@ -543,24 +412,41 @@ for test in tests:
     ax2.spines['bottom'].set_position(('outward', 40))
     plt.rc('legend', fontsize=8)  # legend fontsize
 
-    ax2.plot(timesteps_list, p(simulated_time), alpha=0)
+    #ax2.plot(timesteps_list, p(simulated_time), alpha=0)
     plt.xticks(rotation=5)
     ax2.set_ylim([0, 1.1])
 
-
     # Lower plot:
     a_list = list(range(0, 75001))
-    P_h=[]
-    alpha_a = 0.7
-    tau_t = 0.00001
+    P_h1 = []
+    alpha_a1 = 0.7
+    tau_t1 = 0.00001
 
     for i in a_list:
-        P_h.append(alpha_a * math.exp(-1 * tau_t * i))
+        P_h1.append(alpha_a1 * math.exp(-1 * tau_t1 * i))
+
+    P_h2 = []
+    alpha_a2 = 0.9
+    tau_t2 = 0.00001
+
+    for i in a_list:
+        P_h2.append(alpha_a2 * math.exp(-1 * tau_t2 * i))
+
+    P_h3 = []
+    alpha_a3 = 0.9
+    tau_t3 = 0.000015
+
+    for i in a_list:
 
 
-    ax1.plot(simulated_time, pct_feedback_mean, linewidth=2.0, zorder=0, label='H: ' + human_model  + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) + 'task: ' + task)
+        P_h3.append(alpha_a3 * math.exp(-1 * tau_t3 * i))
+
+    ax1.plot(simulated_time, pct_feedback_mean, linewidth=2.0, zorder=0,
+             label='H: ' + human_model + ', Buffer size: ' + str(buffer_size) + ', e: ' + str(e) + 'task: ' + task)
     ax3.plot(timesteps_list, pct_feedback_mean, alpha=0)
-    ax3.plot(a_list, P_h, color='black', label = 'alpha: ' + str(alpha_a) + ' tau: ' + str(tau_t))
+    ax3.plot(a_list, P_h1, color='black', label='alpha: ' + str(alpha_a1) + ' tau: ' + str(tau_t1))
+    ax3.plot(a_list, P_h2, color='red', label='alpha: ' + str(alpha_a2) + ' tau: ' + str(tau_t2))
+    ax3.plot(a_list, P_h3, color='blue', label='alpha: ' + str(alpha_a3) + ' tau: ' + str(tau_t3))
     ax4.plot(simulated_time, feedback_mean)
     ax1.grid(linestyle='--')
     ax1.set_ylabel('% of feedback per episode')
@@ -574,27 +460,14 @@ for test in tests:
     ax3.spines['bottom'].set_position(('outward', 40))
     ax3.set_xlabel('time steps')
 
-
-
-
-
-
-
-
     ax1.legend(loc='lower right')
 
     ax3.set_ylim([0, 1])
 ax3.legend(loc='lower left')
 plt.xticks(rotation=5)
 
-
-
-
 ax0.grid(linestyle='--')
 
-
-
-
-#fig.subplots_adjust(top=1.5) # Space between the subplots
+# fig.subplots_adjust(top=1.5) # Space between the subplots
 
 plt.show()

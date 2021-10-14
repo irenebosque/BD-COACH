@@ -9,13 +9,15 @@ from main_init import max_time_steps_per_repetition
 def postProcess(test_name, path):
 
     repetition_counter = 0
-
+    print("\n")
+    print('Test: ', test_name)
     test_name_rep_counter = test_name.replace("{}", "??")
 
     for name in glob.glob(path + test_name_rep_counter):
         repetition_counter += 1
-        print('name: ', name)
-    print('repetition_counter', repetition_counter)
+
+    print('# Reps: ', repetition_counter/5)
+    print('# Counter files: ', repetition_counter)
 
 
 
@@ -35,7 +37,7 @@ def postProcess(test_name, path):
         list_max_timestep.append(last_timestep)
     average_max_timestep = sum(list_max_timestep) / len(list_max_timestep)
     average_max_timestep = int(average_max_timestep)
-    print(average_max_timestep)
+    #print(average_max_timestep)
 
 
 
