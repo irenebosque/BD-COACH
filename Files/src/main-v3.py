@@ -209,7 +209,7 @@ def is_env_done(info):
 
 
 def random_init_pos():
-    if task == "button-topdown-v2-goal-observable":
+    if task == "button-press-topdown-v2-goal-observable":
         # Button
         obj_low = (-0.1, 0.8, 0.115)  # -0.1 irene
         obj_high = (0.1, 0.9, 0.115)  # 0.1 irene

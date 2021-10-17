@@ -2,6 +2,7 @@ from post_process_ok3 import postProcess
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+from scipy import signal
 
 # PUSH
 
@@ -268,17 +269,85 @@ test_HM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-50000_task-hock
 
 tests = [test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_HM_e_0_1_B_3000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_50000_hockey_rel_alpha09final]
 
-# # Hockey same buffer
-# test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# Hockey same buffer
+test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+
+tests = [test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_01_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_1_B_15000_hockey_rel_alpha09final]
+
+
+
+# # Hockey abs pos best of both methods:
 # test_NOHM_e_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_HM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_HM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_HM_e_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_1_B_15000_hockey_abs_alpha09final = 'HM-False_e-1.0_B-15000_task-hockey_absolute_pos-True_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_30000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_30000_hockey_abs_alpha09final = 'HM-True_e-0.1_B-30000_task-hockey_absolute_pos-True_rep-alpha09final-{}.csv'
+# tests = [test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_abs_alpha09final, test_HM_e_0_1_B_30000_hockey_rel_alpha09final,  test_HM_e_0_1_B_30000_hockey_abs_alpha09final ]
+
+# #
+# Drawer same e
+test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+
+tests = [test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_30000_drawer_rel_alpha09final, test_HM_e_0_1_B_3000_drawer_rel_alpha09final, test_HM_e_0_1_B_15000_drawer_rel_alpha09final, test_HM_e_0_1_B_30000_drawer_rel_alpha09final]
+
+# #
+# #button_topdown same e
+# test_NOHM_e_0_1_B_3000_button_topdown_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_15000_button_topdown_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_30000_button_topdown_rel_alpha09final = 'HM-False_e-0.1_B-30000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_3000_button_topdown_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_15000_button_topdown_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_30000_button_topdown_rel_alpha09final = 'HM-True_e-0.1_B-30000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
 #
-# tests = [test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_01_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_1_B_15000_hockey_rel_alpha09final]
+# tests = [test_NOHM_e_0_1_B_3000_button_topdown_rel_alpha09final, test_NOHM_e_0_1_B_15000_button_topdown_rel_alpha09final, test_NOHM_e_0_1_B_30000_button_topdown_rel_alpha09final, test_HM_e_0_1_B_3000_button_topdown_rel_alpha09final,test_HM_e_0_1_B_15000_button_topdown_rel_alpha09final, test_HM_e_0_1_B_30000_button_topdown_rel_alpha09final]
+#
+
+# # button_topdown same buffer
+# test_NOHM_e_0_01_B_15000_button_topdown_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_15000_button_topdown_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_1_B_15000_button_topdown_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_01_B_15000_button_topdown_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_15000_button_topdown_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_1_B_15000_button_topdown_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+#
+# tests = [test_NOHM_e_0_01_B_15000_button_topdown_rel_alpha09final, test_NOHM_e_0_1_B_15000_button_topdown_rel_alpha09final, test_NOHM_e_1_B_15000_button_topdown_rel_alpha09final, test_HM_e_0_01_B_15000_button_topdown_rel_alpha09final, test_HM_e_0_1_B_15000_button_topdown_rel_alpha09final, test_HM_e_1_B_15000_button_topdown_rel_alpha09final]
+#
+# # Button abs pos
+# test_NOHM_e_0_1_B_3000_button_topdown_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-button_topdown_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_3000_button_topdown_abs_alpha09final = 'HM-False_e-0.1_B-3000_task-button_topdown_absolute_pos-True_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_30000_button_topdown_abs_alpha09final = 'HM-True_e-0.1_B-30000_task-button_topdown_absolute_pos-True_rep-alpha09final-{}.csv'
+# tests = [test_NOHM_e_0_1_B_3000_button_topdown_rel_alpha09final, test_NOHM_e_0_1_B_3000_button_topdown_abs_alpha09final, test_HM_e_0_1_B_30000_button_topdown_rel_alpha09final, test_HM_e_0_1_B_30000_button_topdown_abs_alpha09final]
+
+# # Drawer same buffer
+# test_NOHM_e_0_01_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_01_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+#
+# tests = [test_NOHM_e_0_01_B_15000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final, test_NOHM_e_1_B_15000_drawer_rel_alpha09final, test_HM_e_0_01_B_15000_drawer_rel_alpha09final, test_HM_e_0_1_B_15000_drawer_rel_alpha09final, test_HM_e_1_B_15000_drawer_rel_alpha09final]
 
 
+## Drawer best conditions
+test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_3000_drawer_abs_alpha09final = 'HM-False_e-0.1_B-3000_task-drawer_absolute_pos-True_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_30000_drawer_abs_alpha09final = 'HM-True_e-0.1_B-30000_task-drawer_absolute_pos-True_rep-alpha09final-{}.csv'
+
+tests = [test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_3000_drawer_abs_alpha09final, test_HM_e_0_1_B_30000_drawer_rel_alpha09final, test_HM_e_0_1_B_30000_drawer_abs_alpha09final]
+
+#trial delete
+tests = [test_HM_e_0_1_B_30000_drawer_abs_alpha09final]
 cm = 1/2.54
 
 fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))
@@ -294,8 +363,25 @@ ax4 = ax1.twinx()
 mujoco_timestep = 0.0125
 
 def moving_average(x, w):
-    return np.convolve(x, np.ones(w), 'valid') / w
+    return np.convolve(x, np.ones(w)/ w, 'same')
 
+    #
+    # # create a normalized Hanning window
+    # windowSize = 500
+    # window = np.hanning(windowSize)
+    # window = window / window.sum()
+    #
+    #
+    # return np.convolve(window, x, mode='valid')
+
+    #
+    # # b, a = signal.butter(3, 0.05, 'lowpass')
+    # # filteredLowPass = signal.filtfilt(b, a, x)
+    # # return filteredLowPass
+    #
+    # b, a = signal.butter(8, 0.05)
+    # filtered = signal.filtfilt(b, a, x, method="gust")
+    # return filtered
 
 
 
@@ -368,14 +454,14 @@ for test in tests:
     simulated_time = timesteps_list * mujoco_timestep /60
 
 
-    # # Polyfit
-    # z = np.polyfit(simulated_time, success_mean, 20)
-    # p = np.poly1d(z)
-    # fit_success = p(simulated_time)
+    # Polyfit
+    z = np.polyfit(simulated_time, success_mean, 20)
+    p = np.poly1d(z)
+    fit_success = p(simulated_time)
 
 
     # Moving average
-    fit_success2 = moving_average(success_mean, 2000)
+    fit_success2 = moving_average(success_mean, 1000)
     fit_success2_len = len(fit_success2)
     step = simulated_time[-1]/fit_success2_len
     simulated_time2 = np.arange(simulated_time[0],simulated_time[-1],step)
@@ -388,10 +474,13 @@ for test in tests:
     e = '{:,g}'.format(e)
     buffer_size = '{:,g}'.format(buffer_size)
 
-    ax0.plot(simulated_time2, fit_success2, linewidth=2.0,
-             zorder=1, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
+    ax0.plot(simulated_time, success_mean, linewidth=1, zorder=0)
+
+    #ax0.plot(simulated_time2, fit_success2, linewidth=2.0,
+             #zorder=1, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
     #ax2.plot(timesteps_list, success_mean, linewidth=0.5)# alpha=0)
     # ax0.plot(simulated_time, success_mean, linewidth=0.5, zorder=0)
+    #ax0.plot(simulated_time, fit_success2, linewidth=2, zorder=0)
 
     # axs[0].plot(simulated_time2, fit_success2, linewidth=1.5, zorder=1,
     #             label='H: ' + human_model  + ', Buffer size: ' + str(
