@@ -259,15 +259,15 @@ test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-hoc
 tests = [test_NOHM_e_0_01_B_50000_hockey_rel_alpha09final, test_NOHM_e_0_01_B_500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_500_hockey_rel_alpha09final, test_HM_e_0_01_B_50000_hockey_rel_alpha09final, test_HM_e_0_01_B_500_hockey_rel_alpha09final, test_HM_e_0_1_B_50000_hockey_rel_alpha09final, test_HM_e_0_1_B_500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_7500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final]
 tests = [ test_NOHM_e_0_1_B_500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_7500_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final,test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final]
 
-# Hockey same e
-test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-test_HM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-test_HM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-test_HM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
-
-tests = [test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_HM_e_0_1_B_3000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_50000_hockey_rel_alpha09final]
+# # Hockey same e
+# test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-False_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_3000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_15000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_50000_hockey_rel_alpha09final = 'HM-True_e-0.1_B-50000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
+#
+# tests = [test_NOHM_e_0_1_B_3000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_50000_hockey_rel_alpha09final, test_HM_e_0_1_B_3000_hockey_rel_alpha09final, test_HM_e_0_1_B_15000_hockey_rel_alpha09final, test_HM_e_0_1_B_50000_hockey_rel_alpha09final]
 
 # Hockey same buffer
 test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-hockey_absolute_pos-False_rep-alpha09final-{}.csv'
@@ -288,16 +288,16 @@ tests = [test_NOHM_e_0_01_B_15000_hockey_rel_alpha09final, test_NOHM_e_0_1_B_150
 # test_HM_e_0_1_B_30000_hockey_abs_alpha09final = 'HM-True_e-0.1_B-30000_task-hockey_absolute_pos-True_rep-alpha09final-{}.csv'
 # tests = [test_NOHM_e_1_B_15000_hockey_rel_alpha09final, test_NOHM_e_1_B_15000_hockey_abs_alpha09final, test_HM_e_0_1_B_30000_hockey_rel_alpha09final,  test_HM_e_0_1_B_30000_hockey_abs_alpha09final ]
 
-# #
-# Drawer same e
-test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-test_NOHM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-test_HM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-test_HM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-test_HM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-
-tests = [test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_30000_drawer_rel_alpha09final, test_HM_e_0_1_B_3000_drawer_rel_alpha09final, test_HM_e_0_1_B_15000_drawer_rel_alpha09final, test_HM_e_0_1_B_30000_drawer_rel_alpha09final]
+# # #
+# # Drawer same e
+# test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_NOHM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_3000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-3000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+# test_HM_e_0_1_B_30000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-30000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+#
+# tests = [test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_30000_drawer_rel_alpha09final, test_HM_e_0_1_B_3000_drawer_rel_alpha09final, test_HM_e_0_1_B_15000_drawer_rel_alpha09final, test_HM_e_0_1_B_30000_drawer_rel_alpha09final]
 
 # #
 # #button_topdown same e
@@ -327,15 +327,15 @@ tests = [test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000
 # test_HM_e_0_1_B_30000_button_topdown_abs_alpha09final = 'HM-True_e-0.1_B-30000_task-button_topdown_absolute_pos-True_rep-alpha09final-{}.csv'
 # tests = [test_NOHM_e_0_1_B_3000_button_topdown_rel_alpha09final, test_NOHM_e_0_1_B_3000_button_topdown_abs_alpha09final, test_HM_e_0_1_B_30000_button_topdown_rel_alpha09final, test_HM_e_0_1_B_30000_button_topdown_abs_alpha09final]
 
-# # Drawer same buffer
-# test_NOHM_e_0_01_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_NOHM_e_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_HM_e_0_01_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_HM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-# test_HM_e_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
-#
-# tests = [test_NOHM_e_0_01_B_15000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final, test_NOHM_e_1_B_15000_drawer_rel_alpha09final, test_HM_e_0_01_B_15000_drawer_rel_alpha09final, test_HM_e_0_1_B_15000_drawer_rel_alpha09final, test_HM_e_1_B_15000_drawer_rel_alpha09final]
+# Drawer same buffer
+test_NOHM_e_0_01_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.01_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_NOHM_e_1_B_15000_drawer_rel_alpha09final = 'HM-False_e-1.0_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_01_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.01_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_0_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-0.1_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+test_HM_e_1_B_15000_drawer_rel_alpha09final = 'HM-True_e-1.0_B-15000_task-drawer_absolute_pos-False_rep-alpha09final-{}.csv'
+
+tests = [test_NOHM_e_0_01_B_15000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_15000_drawer_rel_alpha09final, test_NOHM_e_1_B_15000_drawer_rel_alpha09final, test_HM_e_0_01_B_15000_drawer_rel_alpha09final, test_HM_e_0_1_B_15000_drawer_rel_alpha09final, test_HM_e_1_B_15000_drawer_rel_alpha09final]
 
 
 ## Drawer best conditions
@@ -346,8 +346,9 @@ test_HM_e_0_1_B_30000_drawer_abs_alpha09final = 'HM-True_e-0.1_B-30000_task-draw
 
 tests = [test_NOHM_e_0_1_B_3000_drawer_rel_alpha09final, test_NOHM_e_0_1_B_3000_drawer_abs_alpha09final, test_HM_e_0_1_B_30000_drawer_rel_alpha09final, test_HM_e_0_1_B_30000_drawer_abs_alpha09final]
 
-#trial delete
-tests = [test_HM_e_0_1_B_30000_drawer_abs_alpha09final]
+
+
+
 cm = 1/2.54
 
 fig, axs= plt.subplots(2, figsize=(17*cm, 17*cm))
@@ -363,7 +364,17 @@ ax4 = ax1.twinx()
 mujoco_timestep = 0.0125
 
 def moving_average(x, w):
-    return np.convolve(x, np.ones(w)/ w, 'same')
+    # Define mask and store as an array
+    mask = np.ones((1, w)) / w
+    mask = mask[0, :]
+
+    convolved_data = np.convolve(x, mask, 'same')
+
+    y_padded = np.pad(x, (w // 2, w - 1 - w // 2), mode='edge')
+    y_smooth = np.convolve(y_padded, np.ones((w,)) / w, mode='valid')
+
+    np.convolve(x, np.ones(w) / w, 'valid')
+    return y_smooth
 
     #
     # # create a normalized Hanning window
@@ -454,10 +465,10 @@ for test in tests:
     simulated_time = timesteps_list * mujoco_timestep /60
 
 
-    # Polyfit
-    z = np.polyfit(simulated_time, success_mean, 20)
-    p = np.poly1d(z)
-    fit_success = p(simulated_time)
+    # # Polyfit
+    # z = np.polyfit(simulated_time, success_mean, 20)
+    # p = np.poly1d(z)
+    # fit_success = p(simulated_time)
 
 
     # Moving average
@@ -467,6 +478,42 @@ for test in tests:
     simulated_time2 = np.arange(simulated_time[0],simulated_time[-1],step)
 
 
+    # Remove points
+    first_part_success = success_mean[0:10:1]
+    first_part_success = list(first_part_success)
+
+
+    second_part_success = success_mean[10::50]
+    second_part_success = list(second_part_success)
+
+    first_part_success.extend(second_part_success)
+    success_mean_complete = first_part_success
+    #success_mean_complete = first_part_success + second_part_success
+
+
+    first_part_timesteps = timesteps_list[0:10:1]
+    first_part_timesteps = list(first_part_timesteps)
+
+    second_part_timesteps = timesteps_list[10::50]
+    second_part_timesteps = list(second_part_timesteps)
+
+    first_part_timesteps.extend(second_part_timesteps)
+    timesteps_complete = first_part_timesteps
+
+
+    # Moving average
+    fit_success2 = moving_average(success_mean_complete, 25)
+
+
+    fit_success2_len = len(fit_success2)
+    step = timesteps_complete[-1]/fit_success2_len
+    timesteps_every502 = np.arange(timesteps_complete[0],timesteps_complete[-1],step)
+
+
+
+
+
+
 
 
 
@@ -474,7 +521,13 @@ for test in tests:
     e = '{:,g}'.format(e)
     buffer_size = '{:,g}'.format(buffer_size)
 
-    ax0.plot(simulated_time, success_mean, linewidth=1, zorder=0)
+    #ax0.plot(simulated_time, success_mean, linewidth=1, zorder=0)
+    #ax0.plot(timesteps_every50, success_every50, linewidth=1, zorder=0)
+    ax0.plot(timesteps_every502, fit_success2, linewidth=2, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
+    #ax0.plot(timesteps_complete, success_mean_complete, linewidth=1, zorder=0)
+
+
+    ax0.fill_between(timesteps_list, success_mean - success_std, success_mean + success_std, alpha=0.05)
 
     #ax0.plot(simulated_time2, fit_success2, linewidth=2.0,
              #zorder=1, label= method + ', Buffer: ' + str(buffer_size) + ', e: ' + str(e) + ', Absolute pos: ' + abs_pos)
@@ -493,6 +546,7 @@ for test in tests:
     ax0.set_title(title)
     ax0.legend(loc='lower right')
     ax0.set_ylim([0, 1.1])
+    ax0.set_xlim([-1000, 74300])
     #ax0.set_xlim([-1, 15.5])
 
     ax2.xaxis.set_ticks_position('bottom')
@@ -556,6 +610,7 @@ ax3.legend(loc='lower left')
 plt.xticks(rotation=5)
 
 ax0.grid(linestyle='--')
+ax0.set_axisbelow(True)
 
 # fig.subplots_adjust(top=1.5) # Space between the subplots
 
