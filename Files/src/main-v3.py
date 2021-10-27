@@ -104,6 +104,7 @@ def process_observation(observation):
 
 
 
+
     if task == "drawer-open-v2-goal-observable":
         if absolute_positions == True:
             observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2])) # ABSOLUTE POS
@@ -112,13 +113,44 @@ def process_observation(observation):
 
     elif task == "button-press-topdown-v2-goal-observable":
         if absolute_positions == True:
-            observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2])) # ABSOLUTE POS
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
         elif absolute_positions == False:
             observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
 
     elif task == "plate-slide-v2-goal-observable":
         if absolute_positions == True:
             observation = np.hstack((observation[:3], observation[4:6], observation[-3], observation[-2])) # ABSOLUTE POS
+        elif absolute_positions == False:
+            observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+
+    elif task == "lever-pull-v2-goal-observable":
+        if absolute_positions == True:
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
+        elif absolute_positions == False:
+            observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+    elif task == "door-lock-v2-goal-observable":
+        if absolute_positions == True:
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
+        elif absolute_positions == False:
+            observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+    elif task == "door-unlock-v2-goal-observable":
+        if absolute_positions == True:
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
+        elif absolute_positions == False:
+            observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+    elif task == "window-open-v2-goal-observable":
+        if absolute_positions == True:
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
+        elif absolute_positions == False:
+            observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+    elif task == "window-close-v2-goal-observable":
+        if absolute_positions == True:
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
+        elif absolute_positions == False:
+            observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
+    elif task == "handle-press-side-v2-goal-observable":
+        if absolute_positions == True:
+            observation = np.hstack((observation[:3], observation[4:7], observation[-3], observation[-2])) # ABSOLUTE POS
         elif absolute_positions == False:
             observation = np.hstack((observation[4:7] - observation[:3], observation[-3:] - observation[4:7])) # RELATIVE POS
 
@@ -216,6 +248,9 @@ def random_init_pos():
         random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
         env.sim.model.body_pos[env.model.body_name2id('box')] = random_init_pos_obj
         env._target_pos = env._get_site_pos('hole')
+        env._obj_to_target_init = abs(
+            env._target_pos[2] - env._get_site_pos('buttonStart')[2]
+        )
 
     if task == "plate-slide-v2-goal-observable":
         # Hockey
@@ -234,6 +269,94 @@ def random_init_pos():
 
         env.sim.model.body_pos[env.model.body_name2id('drawer')] = random_init_pos_obj
         env._target_pos = random_init_pos_obj + np.array([.0, -.16 - env.maxDist, .09])
+
+    if task == "lever-pull-v2-goal-observable":
+        # Hockey
+        obj_low = (0, 0.7, 0.0)
+        obj_high = (0, 0.7, 0.0)
+
+        random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+        env.sim.model.body_pos[env.model.body_name2id('lever')] = random_init_pos_obj
+
+        env._lever_pos_init = random_init_pos_obj + np.array([.12, -env.LEVER_RADIUS, .25])
+        env._target_pos = random_init_pos_obj + np.array([.12, .0, .25 + env.LEVER_RADIUS])
+
+    if task == "door-lock-v2-goal-observable":
+        # Hockey
+        obj_low = (-0.1, 0.8, 0.15)
+        obj_high = (0.1, 0.85, 0.15)
+
+        random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+        env.sim.model.body_pos[env.model.body_name2id('door')] = random_init_pos_obj
+
+        #env.obj_init_pos = env.get_body_com('lock_link')
+        env._target_pos = random_init_pos_obj + np.array([.0, -.04, -.1])
+
+    if task == "door-unlock-v2-goal-observable":
+        # Hockey
+        obj_low = (-0.1, 0.8, 0.15)
+        obj_high = (0.1, 0.85, 0.15)
+
+        random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+        env.sim.model.body_pos[env.model.body_name2id('door')] = random_init_pos_obj
+
+        #env.obj_init_pos = env.get_body_com('lock_link')
+        env._target_pos = random_init_pos_obj + np.array([.1, -.04, .0])
+
+    if task == "window-open-v2-goal-observable":
+        obj_low = (-0.1, 0.7, 0.16)
+        obj_high = (0.1, 0.9, 0.16)
+
+        random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+        env.sim.model.body_pos[env.model.body_name2id('window')] = random_init_pos_obj
+
+
+
+
+        env._target_pos = random_init_pos_obj + np.array([.2, .0, .0])
+
+
+        env.window_handle_pos_init = env._get_pos_objects()
+        env.data.set_joint_qpos('window_slide', 0.0)
+
+    if task == "window-close-v2-goal-observable":
+        obj_low = (0., 0.75, 0.2)
+        obj_high = (0., 0.9, 0.2)
+
+        random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+        env.sim.model.body_pos[env.model.body_name2id('window')] = random_init_pos_obj
+
+
+        env._target_pos = random_init_pos_obj + np.array([.2, .0, .0])
+
+
+        env.window_handle_pos_init = env._get_pos_objects()
+        env.data.set_joint_qpos('window_slide', 0.2)
+
+    if task == "handle-press-side-v2-goal-observable":
+        # Hockey
+        obj_low = (-0.35, 0.65, -0.001)
+        obj_high = (-0.25, 0.75, +0.001)
+
+        random_init_pos_obj = np.random.uniform(obj_low, obj_high, 3)
+
+        # env.sim.model.body_pos[env.model.body_name2id('door')] = random_init_pos_obj
+        # env._target_pos = random_init_pos_obj + np.array([.1, -.04, .0])
+
+
+        env.sim.model.body_pos[env.model.body_name2id('box')] = random_init_pos_obj
+        env._set_obj_xyz(-0.001)
+        env._target_pos = env._get_site_pos('goalPress')
+        #self.maxDist = np.abs(self.data.site_xpos[self.model.site_name2id('handleStart')][-1] - self._target_pos[-1])
+
+        #self.target_reward = 1000*self.maxDist + 1000*2
+        env._handle_init_pos = env._get_pos_objects()
+
 
 
 
@@ -437,9 +560,9 @@ for i_repetition in range(number_of_repetitions):
 
             if task_with_gripper == False:
 
-                if task == "button-topdown-v2-goal-observable" or  task == "plate-slide-v2-goal-observable":
+                if task == "button-press-topdown-v2-goal-observable" or  task == "plate-slide-v2-goal-observable" or  task == "lever-pull-v2-goal-observable" or task == "door-unlock-v2-goal-observable" or task == "window-open-v2-goal-observable" or task == "window-close-v2-goal-observable" or task == "handle-press-side-v2-goal-observable":
                     action_to_env = np.append(action, [1])
-                elif task == "drawer-open-v2-goal-observable":
+                elif task == "drawer-open-v2-goal-observable" or task == "door-lock-v2-goal-observable":
                     action_to_env = np.append(action, [-1])
 
            # action_to_env[-1] = np.clip(action_to_env[-1], -1, 0.6)
@@ -531,7 +654,6 @@ for i_repetition in range(number_of_repetitions):
 
                     # Iterate over the episode
                     for t_ev in range(0, max_time_steps_episode):
-
                         #env.render(mode='human')
 
 
@@ -545,7 +667,7 @@ for i_repetition in range(number_of_repetitions):
 
                         if task_with_gripper == False:
 
-                            if task == "button-topdown-v2-goal-observable" or task == "plate-slide-v2-goal-observable":
+                            if task == "button-press-topdown-v2-goal-observable" or task == "plate-slide-v2-goal-observable":
                                 action_to_env = np.append(action, [1])
                             elif task == "drawer-open-v2-goal-observable":
                                 action_to_env = np.append(action, [-1])
@@ -644,7 +766,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-alpha09final-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-alpha09finalr2-' + str(results_counter).zfill(2) + '.csv'
 
 
                                 if overwriteFiles == False:
@@ -655,7 +777,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-alpha09final-' + str(results_counter).zfill(2) + '.csv'
+                                                   '_rep-alpha09finalr2-' + str(results_counter).zfill(2) + '.csv'
 
                                 if i_episode == 0:
                                     results_counter_list.append(results_counter)
@@ -668,7 +790,7 @@ for i_repetition in range(number_of_repetitions):
                                                    '_B-' + str(buffer_size_max)  + \
                                                    '_task-' + task_short  + \
                                                    '_absolute_pos-' + str(absolute_positions) + \
-                                                   '_rep-alpha09final-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
+                                                   '_rep-alpha09finalr2-' + str(results_counter_list[i_ev]).zfill(2) + '.csv', index=False)
 
 
 

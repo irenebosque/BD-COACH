@@ -79,9 +79,9 @@ def postProcess(test_name, path):
             human_model = 'no'
 
         if abs_pos == True:
-            abs_pos = 'yes'
+            pos = ', absolute positions'
         else:
-            abs_pos = 'no'
+            pos = ', relative positions'
 
 
         timesteps_list.append(timesteps)
@@ -127,5 +127,5 @@ def postProcess(test_name, path):
 
 
 
-    return timesteps_list_ok, success_list_ok, feedback_list_ok, pct_feedback_list_ok, tau, e, human_model, buffer_size, abs_pos
+    return timesteps_list_ok, success_list_ok, feedback_list_ok, pct_feedback_list_ok, tau, e, human_model, buffer_size, pos
 

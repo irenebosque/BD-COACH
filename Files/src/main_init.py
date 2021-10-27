@@ -26,6 +26,8 @@ from metaworld.policies.sawyer_plate_slide_v2_policy import SawyerPlateSlideV2Po
 from metaworld.policies.sawyer_button_press_topdown_v2_policy import SawyerButtonPressTopdownV2Policy
 from metaworld.policies.sawyer_push_v2_policy import SawyerPushV2Policy
 from metaworld.policies.sawyer_door_open_v2_policy import SawyerDoorOpenV2Policy
+from metaworld.policies.sawyer_lever_pull_v2_policy import SawyerLeverPullV2Policy
+
 from metaworld.policies.sawyer_assembly_v2_policy import SawyerAssemblyV2Policy
 
 from metaworld.policies.sawyer_basketball_v2_policy import SawyerBasketballV2Policy
@@ -38,7 +40,11 @@ from metaworld.policies.sawyer_button_press_topdown_wall_v2_policy import Sawyer
 
 from metaworld.policies.sawyer_peg_insertion_side_v2_policy import SawyerPegInsertionSideV2Policy
 
-
+from metaworld.policies.sawyer_door_lock_v2_policy import SawyerDoorLockV2Policy
+from metaworld.policies.sawyer_door_unlock_v2_policy import SawyerDoorUnlockV2Policy
+from metaworld.policies.sawyer_window_open_v2_policy import SawyerWindowOpenV2Policy
+from metaworld.policies.sawyer_window_close_v2_policy import SawyerWindowCloseV2Policy
+from metaworld.policies.sawyer_handle_press_side_v2_policy import SawyerHandlePressSideV2Policy
 """
 Script that initializes the variables used in the file main.py
 """
@@ -248,6 +254,30 @@ elif metaworld_env:
     elif task == "button-press-topdown-wall-v2-goal-observable":
         policy_oracle = SawyerButtonPressTopdownWallV2Policy()
         task_short = "button_wall"
+        task_with_gripper = False
+    elif task == "lever-pull-v2-goal-observable":
+        policy_oracle = SawyerLeverPullV2Policy()
+        task_short = "lever"
+        task_with_gripper = False
+    elif task == "door-lock-v2-goal-observable":
+        policy_oracle = SawyerDoorLockV2Policy()
+        task_short = "doorLock"
+        task_with_gripper = False
+    elif task == "door-unlock-v2-goal-observable":
+        policy_oracle = SawyerDoorUnlockV2Policy()
+        task_short = "doorUnlock"
+        task_with_gripper = False
+    elif task == "window-open-v2-goal-observable":
+        policy_oracle = SawyerWindowOpenV2Policy()
+        task_short = "windowOpen"
+        task_with_gripper = False
+    elif task == "window-close-v2-goal-observable":
+        policy_oracle = SawyerWindowCloseV2Policy()
+        task_short = "windowClose"
+        task_with_gripper = False
+    elif task == "handle-press-side-v2-goal-observable":
+        policy_oracle = SawyerHandlePressSideV2Policy()
+        task_short = "handlePressSide"
         task_with_gripper = False
 
 # Create saving directory if it does no exist
