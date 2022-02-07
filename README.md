@@ -1,4 +1,4 @@
-# DCOACH with Human Model
+# BD-COACH
 This repository contains the code for my master thesis “Towards Robust Corrective Interactive Deep Learning in Data Intensive Environments”
 
 
